@@ -2,4 +2,4 @@
 
 ## Next step
 
-- [ ] Add Matrix class to perform operation
+- [X] Add Matrix class to perform operation

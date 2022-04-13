@@ -24,10 +24,6 @@ class Layer_Dense {
         // Forward pass.
         void forward(std::vector<std::vector<double>> inputs);
 
-        // Useful function.
-        static std::vector<std::vector<double>> transposition(std::vector<std::vector<double>> matrix);
-        static std::vector<std::vector<double>> dot(std::vector<std::vector<double>> v1, std::vector<std::vector<double>> v2);
-
     private:
         std::vector<double> biases;
         std::vector<std::vector<double>> weight, output;
