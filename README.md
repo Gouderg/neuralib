@@ -3,7 +3,7 @@
 ## Next step
 
 - [X] Add Matrix class to perform operation
-- [ ] Add Broadcasting substraction
+- [X] Add Broadcasting substraction / addition
 
 - [ ] Add Neural Network class
     - [ ] Initialisation
@@ -12,3 +12,10 @@
     - [ ] Update
 - [ ] Add Accuracy Graphics class
 - [ ] Add Loss Graphics class
+
+## Library for 2D plotting
+
+- Koolplot
+- Gnuplot => Option choisi
+- Matlab
+- Python with matlabplotcpp.h

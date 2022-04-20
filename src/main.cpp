@@ -10,12 +10,10 @@ int main(int argc, char const *argv[]) {
                                            {-1, 0},
                                            {-1, 6}};
                                            
-    std::vector<std::vector<double>> m2 = {{3, -2},
-                                           {-2, -2},
-                                           {5, 3}};
+    std::vector<std::vector<double>> m2 = {{3, -2}};
     
 
-    m1 = Matrix::product(m1, 2);
+    m1 = Matrix::sub(m1, m2);
 
     // Vérification de matrice.
     for (auto elt : m1) {

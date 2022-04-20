@@ -1,5 +1,15 @@
-#pragma once
+/**
+ * @file matrix.hpp
+ * @author Victor ILLIEN (https://github.com/Gouderg)
+ * @brief Matrix class
+ * @version 0.1
+ * @date 2022-04-20
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
 
+#pragma once
 
 #include <iostream>
 #include <vector>
