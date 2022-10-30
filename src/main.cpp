@@ -1,27 +1,22 @@
-#include "../header/matrix.hpp"
+#include "../header/tensor.hpp"
 
 
-int main(int argc, char const *argv[]) {
-    srand(time(NULL));
+int main(int argc, char const *argv[]) {   
 
+    Tensor t1(3, 4);
+    std::cout << t1 << std::endl;    
 
+    Tensor t2(3, 4, 1);
+    std::cout << t2 << std::endl;    
 
-    std::vector<std::vector<double>> m1 = {{2, 1},
-                                           {-1, 0},
-                                           {-1, 6}};
-                                           
-    std::vector<std::vector<double>> m2 = {{3, -2}};
-    
+    Tensor t3(3, 4, 1);
+    std::cout << t3 << std::endl;    
 
-    m1 = Matrix::sub(m1, m2);
+    std::cout << t3 * t2 << std::endl;  
 
-    // Vérification de matrice.
-    for (auto elt : m1) {
-        for (auto a : elt) {
-            std::cout << a << " ";
-        }
-        std::cout << "\n";
-    }
+    t1 -= t3;
+    std::cout << t1 << std::endl;    
+
 
     return 0;
 }

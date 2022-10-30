@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS = -W -Wall -g
+CFLAGS = -W -Wall -g -O3
 LDFLAGS = 
 
 SRC = $(wildcard src/*.cpp)
