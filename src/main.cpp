@@ -14,8 +14,17 @@ int main(int argc, char const *argv[]) {
 
     std::cout << t3 * t2 << std::endl;  
 
-    t1 -= t3;
-    std::cout << t1 << std::endl;    
+    std::cout << t2.transposate() << std::endl;    
+
+    std::vector<double> v;
+    v = t2.flatten();
+    for (auto &elt : v) {
+        std::cout << elt << " ";
+    }
+
+    std::cout << std::endl;
+
+    std::cout << t1.dot(t1) << std::endl;    
 
 
     return 0;

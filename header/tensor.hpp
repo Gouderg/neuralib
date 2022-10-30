@@ -40,12 +40,22 @@ class Tensor {
         // Division.
         Tensor operator / (Tensor const &t2);
         void operator /= (Tensor const &t2);
+        void operator /= (double const &n);
+
         
         // Mulitiplication.
         Tensor operator * (Tensor const &t2);
         void operator *= (Tensor const &t2);
+        void operator *= (double const &n);
 
         // Dot.
+        double dot(Tensor const &t2);
+
+        // Transposate.
+        Tensor transposate();
+
+        // Flatten.
+        std::vector<double> flatten();
 
         // Operator.
         friend std::ostream& operator <<(std::ostream&, const Tensor&);

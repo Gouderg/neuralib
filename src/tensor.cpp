@@ -51,7 +51,7 @@ void Tensor::operator += (Tensor const &t2) {
 
     std::vector<std::vector<double>> t2_tensor = t2.getTensor();
 
-    if (this->tensor.size() != t2_tensor.size() || this->tensor[0].size() != t2_tensor[0].size()) { return ;}
+    if (this->tensor.size() != t2_tensor.size() || this->tensor[0].size() != t2_tensor[0].size()) { return ; }
 
     for (int i = 0; i < this->tensor.size(); i++) {
         for (int j = 0; j < this->tensor[i].size(); j++) {
@@ -82,7 +82,7 @@ void Tensor::operator -= (Tensor const &t2) {
 
     std::vector<std::vector<double>> t2_tensor = t2.getTensor();
 
-    if (this->tensor.size() != t2_tensor.size() || this->tensor[0].size() != t2_tensor[0].size()) { return ;}
+    if (this->tensor.size() != t2_tensor.size() || this->tensor[0].size() != t2_tensor[0].size()) { return ; }
 
     for (int i = 0; i < this->tensor.size(); i++) {
         for (int j = 0; j < this->tensor[i].size(); j++) {
@@ -113,13 +113,22 @@ void Tensor::operator /= (Tensor const &t2) {
 
     std::vector<std::vector<double>> t2_tensor = t2.getTensor();
 
-    if (this->tensor.size() != t2_tensor.size() || this->tensor[0].size() != t2_tensor[0].size()) { return ;}
+    if (this->tensor.size() != t2_tensor.size() || this->tensor[0].size() != t2_tensor[0].size()) { return ; }
 
     for (int i = 0; i < this->tensor.size(); i++) {
         for (int j = 0; j < this->tensor[i].size(); j++) {
             if (t2_tensor[i][j] != 0) {
                 this->tensor[i][j] /= t2_tensor[i][j];
             }
+        }
+    }
+}
+
+void Tensor::operator /= (double const &n) {
+    if (n == 0) { return ; }
+    for (int i = 0; i < this->tensor.size(); i++) {
+        for (int j = 0; j < this->tensor[i].size(); j++) {
+            this->tensor[i][j] /= n;
         }
     }
 }
@@ -146,7 +155,7 @@ void Tensor::operator *= (Tensor const &t2) {
 
     std::vector<std::vector<double>> t2_tensor = t2.getTensor();
 
-    if (this->tensor.size() != t2_tensor.size() || this->tensor[0].size() != t2_tensor[0].size()) { return ;}
+    if (this->tensor.size() != t2_tensor.size() || this->tensor[0].size() != t2_tensor[0].size()) { return ; }
 
     for (int i = 0; i < this->tensor.size(); i++) {
         for (int j = 0; j < this->tensor[i].size(); j++) {
@@ -155,6 +164,60 @@ void Tensor::operator *= (Tensor const &t2) {
     }
 }
 
+void Tensor::operator *= (double const &n) {
+    for (int i = 0; i < this->tensor.size(); i++) {
+        for (int j = 0; j < this->tensor[i].size(); j++) {
+            this->tensor[i][j] *= n;
+        }
+    }
+}
+
+// Dot.
+double Tensor::dot(Tensor const &t2) {
+
+    double output = 0;
+    std::vector<std::vector<double>> t2_tensor = t2.getTensor();
+
+    if (this->tensor.size() != t2_tensor.size() || this->tensor[0].size() != t2_tensor[0].size()) { return output; }
+
+    for (int i = 0; i < this->tensor.size(); i++) {
+        for (int j = 0; j < this->tensor[i].size(); j++) {
+            output += this->tensor[i][j] * t2_tensor[i][j];
+        }
+    }
+    
+    return output;
+}
+
+// Transposate.
+Tensor Tensor::transposate() {
+    Tensor output;
+
+    // Run through each column.
+    for (int j = 0; j < this->tensor[0].size(); j++) {
+        std::vector<double> line_output;
+        
+        // Run through each line.
+        for (int i = 0; i < this->tensor.size(); i++) {
+           line_output.push_back(this->tensor[i][j]);
+        }
+
+        output.addRow(line_output);
+    }
+    
+    return output;
+}
+
+// Flatten.
+std::vector<double> Tensor::flatten() {
+    std::vector<double> output;
+
+    for (auto elt : this->tensor) {
+        output.insert(output.end(), elt.begin(), elt.end());
+    }
+
+    return output;
+}
 
 // Cout.
 std::ostream& operator<<(std::ostream& out, const Tensor& tensor) {
