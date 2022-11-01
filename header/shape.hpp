@@ -1,4 +1,5 @@
-#pragma once
+#ifndef SHAPE
+#define SHAPE
 
 #include <iostream>
 #include <array>
@@ -25,3 +26,5 @@ class Shape {
     private:
         std::array<int, 2> shape;
 };
+
+#endif

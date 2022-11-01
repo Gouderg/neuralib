@@ -1,4 +1,5 @@
-#pragma once
+#ifndef TENSOR_H
+#define TENSOR_H
 
 #include <iostream>
 #include <vector>
@@ -72,3 +73,5 @@ class Tensor {
     private:
         std::vector<std::vector<double>> tensor;
 };
+
+#endif

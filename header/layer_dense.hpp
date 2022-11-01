@@ -1,4 +1,5 @@
-#pragma once
+#ifndef LAYER_DENSE_H
+#define LAYER_DENSE_H
 
 #include "../header/tensor.hpp"
 
@@ -17,3 +18,5 @@ class Layer_Dense {
     private:
         Tensor weights, biases, output;
 };
+
+#endif
