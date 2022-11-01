@@ -57,7 +57,7 @@ class Tensor {
         void operator *= (double const &n);
 
         // Dot.
-        Tensor dot(Tensor &t2);
+        Tensor dot(Tensor const &t2);
 
         // Transposate.
         Tensor transposate();

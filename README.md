@@ -2,16 +2,17 @@
 
 ## Next step
 
-- [X] Add Matrix class to perform operation
-- [X] Add Broadcasting substraction / addition
+- [X] Add Tensor class to perform operation
+- [X] Add Broadcasting addition
 
 - [ ] Add Neural Network class
-    - [ ] Initialisation
+    - [#] Initialisation
     - [ ] Forward Propagation
     - [ ] Back Propagation
     - [ ] Update
 - [ ] Add Accuracy Graphics class
 - [ ] Add Loss Graphics class
+- [#] Plot dataset
 
 ## Library for 2D plotting
 

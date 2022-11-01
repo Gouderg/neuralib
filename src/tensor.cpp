@@ -202,7 +202,7 @@ void Tensor::operator *= (double const &n) {
 }
 
 // Dot.
-Tensor Tensor::dot(Tensor &t2) {
+Tensor Tensor::dot(Tensor const &t2) {
 
     std::vector<std::vector<double>> t2_tensor = t2.getTensor();
 

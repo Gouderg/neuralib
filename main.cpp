@@ -2,6 +2,7 @@
 #include "header/dataset.hpp"
 #include "header/plot.hpp"
 #include "header/layer_dense.hpp"
+#include "header/activation_relu.hpp"
 
 int main(int argc, char const *argv[]) {   
     
@@ -22,9 +23,15 @@ int main(int argc, char const *argv[]) {
 
     // Create layer.
     Layer_Dense dense1(2, 3);
+
+    // Activation function.
+    Activation_ReLU activation1;
+
     dense1.forward(X);
 
-    std::cout << dense1.getOutput() << std::endl;
+    activation1.forward(dense1.getOutput());
+
+    std::cout << activation1.getOutput() << std::endl;
 
 
     
