@@ -3,6 +3,7 @@
 #include "header/plot.hpp"
 #include "header/layer_dense.hpp"
 #include "header/activation_relu.hpp"
+#include "header/activation_softmax.hpp"
 
 int main(int argc, char const *argv[]) {   
     
@@ -23,15 +24,22 @@ int main(int argc, char const *argv[]) {
 
     // Create layer.
     Layer_Dense dense1(2, 3);
+    Layer_Dense dense2(3, 3);
+
 
     // Activation function.
     Activation_ReLU activation1;
+    Activation_Softmax activation2;
 
     dense1.forward(X);
 
     activation1.forward(dense1.getOutput());
 
-    std::cout << activation1.getOutput() << std::endl;
+    dense2.forward(activation1.getOutput());
+
+    activation2.forward(dense2.getOutput());
+
+    std::cout << activation2.getOutput() << std::endl;
 
 
     
