@@ -8,6 +8,8 @@
 #include <functional>
 #include <ctime>
 
+#include "shape.hpp"
+
 const double MEAN = 0.0;
 const double DEVIATION = 0.01;
 
@@ -28,10 +30,14 @@ class Tensor {
         // Setter.
         void setTensor(const std::vector<std::vector<double>> tensor) { this->tensor = tensor; }
         void addRow(const std::vector<double> row) { this->tensor.push_back(row); }
+        void addValue(const int i, const int j, const double value) { this->tensor[i][j] = value; }
+
         
         // Addition.
         Tensor operator + (Tensor const &t2);
+        Tensor operator + (double const &n);
         void operator += (Tensor const &t2);
+
 
         // Substraction.
         Tensor operator - (Tensor const &t2);
@@ -49,7 +55,7 @@ class Tensor {
         void operator *= (double const &n);
 
         // Dot.
-        double dot(Tensor const &t2);
+        Tensor dot(Tensor const &t2);
 
         // Transposate.
         Tensor transposate();
@@ -57,8 +63,11 @@ class Tensor {
         // Flatten.
         std::vector<double> flatten();
 
-        // Operator.
+        // Cout.
         friend std::ostream& operator <<(std::ostream&, const Tensor&);
+
+        // Shape.
+        Shape shape() { return Shape(static_cast<int>(this->tensor.size()), static_cast<int>(this->tensor[0].size())); } 
 
     private:
         std::vector<std::vector<double>> tensor;

@@ -31,17 +31,28 @@ Tensor::Tensor(const int nb_col, const int nb_row, const int wichInit) {
 
 // Add.
 Tensor Tensor::operator + (Tensor const &t2) {
-    Tensor t3;
     std::vector<std::vector<double>> t2_tensor = t2.getTensor();
+    Tensor t3(this->tensor.size(), t2_tensor[0].size());
 
+
+    // Broadcasting addition.
+    if (t2_tensor.size() == 1 && this->tensor[0].size() == t2_tensor[0].size()) {
+        for (int i = 0; i < this->tensor.size(); i++) {
+            for (int j = 0; j < t2_tensor[0].size(); j++) {
+                t3.addValue(i, j, this->tensor[i][j] + t2_tensor[0][j]);
+            }
+        }
+        return t3;
+    }
+    
+
+    // Other case.
     if (this->tensor.size() != t2_tensor.size() || this->tensor[0].size() != t2_tensor[0].size()) { return *this; }
 
     for (int i = 0; i < this->tensor.size(); i++) {
-        std::vector<double> v1;
         for (int j = 0; j < this->tensor[i].size(); j++) {
-            v1.push_back(this->tensor[i][j] + t2_tensor[i][j]);
+            t3.addValue(i, j, this->tensor[i][j] + t2_tensor[i][j]);
         }
-        t3.addRow(v1);
     }
 
     return t3;
@@ -58,6 +69,18 @@ void Tensor::operator += (Tensor const &t2) {
             this->tensor[i][j] += t2_tensor[i][j];
         }
     }
+}
+
+Tensor Tensor::operator + (double const &n) {
+    Tensor t;
+    for (int i = 0; i < this->tensor.size(); i++) {
+        std::vector<double> v1;
+        for (int j = 0; j < this->tensor[i].size(); j++) {
+            v1.push_back(this->tensor[i][j] + n);
+        }
+        t.addRow(v1);
+    }
+    return t;
 }
 
 // Substraction.
@@ -173,16 +196,23 @@ void Tensor::operator *= (double const &n) {
 }
 
 // Dot.
-double Tensor::dot(Tensor const &t2) {
+Tensor Tensor::dot(Tensor const &t2) {
 
-    double output = 0;
     std::vector<std::vector<double>> t2_tensor = t2.getTensor();
 
-    if (this->tensor.size() != t2_tensor.size() || this->tensor[0].size() != t2_tensor[0].size()) { return output; }
+    // If the dimensions mismatch.
+    if (this->tensor.size() != t2_tensor[0].size() || this->tensor[0].size() != t2_tensor.size()) { return *this; }
+
+    Tensor output(this->tensor.size(), t2_tensor[0].size());
+    double val = 0;
 
     for (int i = 0; i < this->tensor.size(); i++) {
-        for (int j = 0; j < this->tensor[i].size(); j++) {
-            output += this->tensor[i][j] * t2_tensor[i][j];
+        for (int j = 0; j < t2_tensor[0].size();j++) {
+            val = 0;
+            for (int k = 0; k < this->tensor[0].size(); k++) {
+                val += this->tensor[i][k] * t2_tensor[k][j];
+            }
+            output.addValue(i, j, val);
         }
     }
     

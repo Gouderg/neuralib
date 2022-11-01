@@ -1,31 +1,15 @@
 #include "../header/tensor.hpp"
-
+#include "../header/dataset.hpp"
 
 int main(int argc, char const *argv[]) {   
 
-    Tensor t1(3, 4);
-    std::cout << t1 << std::endl;    
+    Tensor X, y;
 
-    Tensor t2(3, 4, 1);
-    std::cout << t2 << std::endl;    
+    std::tie(X, y) = Dataset::spiral_data(10, 4);
 
-    Tensor t3(3, 4, 1);
-    std::cout << t3 << std::endl;    
+    Tensor t1(3,4);
+    Tensor t2(3,4);
 
-    std::cout << t3 * t2 << std::endl;  
-
-    std::cout << t2.transposate() << std::endl;    
-
-    std::vector<double> v;
-    v = t2.flatten();
-    for (auto &elt : v) {
-        std::cout << elt << " ";
-    }
-
-    std::cout << std::endl;
-
-    std::cout << t1.dot(t1) << std::endl;    
-
-
+    std::cout << t1 + t2 << std::endl;
     return 0;
 }
