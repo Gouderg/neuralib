@@ -13,6 +13,9 @@ class Shape {
 
         // Getter.
         std::array<int, 2> getShape() const { return this->shape; }
+        int getX() const { return this->shape[1]; }
+        int getY() const { return this->shape[0]; }
+
 
         // Cout.
         friend std::ostream& operator <<(std::ostream& out, const Shape& shape) {

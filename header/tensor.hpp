@@ -27,8 +27,6 @@ class Tensor {
 
         // Getter.
         std::vector<std::vector<double>> getTensor() const { return this->tensor; }
-        int getSizeX() const { return this->tensor[0].size(); }
-        int getSizeY() const { return this->tensor.size(); }
         double getValue(const int i, const int j) const { return this->tensor[i][j]; }
 
         // Setter.
@@ -59,7 +57,7 @@ class Tensor {
         void operator *= (double const &n);
 
         // Dot.
-        Tensor dot(Tensor const &t2);
+        Tensor dot(Tensor &t2);
 
         // Transposate.
         Tensor transposate();

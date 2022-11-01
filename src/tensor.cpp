@@ -22,7 +22,7 @@ Tensor::Tensor(const int nb_col, const int nb_row, const int wichInit) {
         
         case 0: default:
             for (int i = 0; i < nb_col; i++) {
-                std::vector<double> v1(nb_row, 2);
+                std::vector<double> v1(nb_row, 0);
                 this->tensor.push_back(v1);
             }
             break;
@@ -161,7 +161,10 @@ Tensor Tensor::operator * (Tensor const &t2) {
     Tensor t3;
     std::vector<std::vector<double>> t2_tensor = t2.getTensor();
 
-    if (this->tensor.size() != t2_tensor.size() || this->tensor[0].size() != t2_tensor[0].size()) { return *this; }
+    if (this->tensor.size() != t2_tensor.size() || this->tensor[0].size() != t2_tensor[0].size()) { 
+        std::cout << "Wrong dimension for multiplication." << std::endl;
+        return *this; 
+    }
 
     for (int i = 0; i < this->tensor.size(); i++) {
         std::vector<double> v1;
@@ -178,7 +181,10 @@ void Tensor::operator *= (Tensor const &t2) {
 
     std::vector<std::vector<double>> t2_tensor = t2.getTensor();
 
-    if (this->tensor.size() != t2_tensor.size() || this->tensor[0].size() != t2_tensor[0].size()) { return ; }
+    if (this->tensor.size() != t2_tensor.size() || this->tensor[0].size() != t2_tensor[0].size()) { 
+        std::cout << "Wrong dimension for self multiplication." << std::endl;
+        return ; 
+    }
 
     for (int i = 0; i < this->tensor.size(); i++) {
         for (int j = 0; j < this->tensor[i].size(); j++) {
@@ -196,12 +202,15 @@ void Tensor::operator *= (double const &n) {
 }
 
 // Dot.
-Tensor Tensor::dot(Tensor const &t2) {
+Tensor Tensor::dot(Tensor &t2) {
 
     std::vector<std::vector<double>> t2_tensor = t2.getTensor();
 
     // If the dimensions mismatch.
-    if (this->tensor.size() != t2_tensor[0].size() || this->tensor[0].size() != t2_tensor.size()) { return *this; }
+    if (this->tensor[0].size() != t2_tensor.size()) { 
+        std::cout << "Wrong dimension for dot product." << std::endl;
+        return *this;
+    }
 
     Tensor output(this->tensor.size(), t2_tensor[0].size());
     double val = 0;
@@ -215,7 +224,6 @@ Tensor Tensor::dot(Tensor const &t2) {
             output.addValue(i, j, val);
         }
     }
-    
     return output;
 }
 

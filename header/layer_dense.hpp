@@ -10,6 +10,9 @@ class Layer_Dense {
         // Constructor.
         Layer_Dense(){};
         Layer_Dense(const int n_inputs, const int n_neurons);
+        
+        // Getter.
+        Tensor getOutput() const { return this->output; }
 
         // Forward pass.
         void forward(Tensor inputs);
