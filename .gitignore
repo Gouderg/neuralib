@@ -1,4 +1,4 @@
 .vscode/
 neuralib
-test.py
 build/
+src/*.o
