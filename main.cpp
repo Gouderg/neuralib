@@ -4,6 +4,7 @@
 #include "header/layer_dense.hpp"
 #include "header/activation_relu.hpp"
 #include "header/activation_softmax.hpp"
+#include "header/loss.hpp"
 
 int main(int argc, char const *argv[]) {   
     
@@ -31,6 +32,9 @@ int main(int argc, char const *argv[]) {
     Activation_ReLU activation1;
     Activation_Softmax activation2;
 
+    // Loss function.
+    Loss_CategoricalCrossEntropy loss;
+
     dense1.forward(X);
 
     activation1.forward(dense1.getOutput());
@@ -39,7 +43,10 @@ int main(int argc, char const *argv[]) {
 
     activation2.forward(dense2.getOutput());
 
-    std::cout << activation2.getOutput() << std::endl;
+    double loss_val = loss.calculate(activation2.getOutput(), y);
+
+    std::cout << loss_val << std::endl;
+
 
 
     
