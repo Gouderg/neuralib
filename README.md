@@ -15,7 +15,15 @@
 
 ## Library for 2D plotting
 
-- Koolplot
 - Gnuplot => Option choisi
-- Matlab
-- Python with matlabplotcpp.h
+
+## Compile with CMAKE
+
+In the project.
+
+```bash
+mkdir build
+cd build
+cmake ..
+make
+```

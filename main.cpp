@@ -1,5 +1,5 @@
-#include "../header/tensor.hpp"
-#include "../header/dataset.hpp"
+#include "header/tensor.hpp"
+#include "header/dataset.hpp"
 
 int main(int argc, char const *argv[]) {   
 
