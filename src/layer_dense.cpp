@@ -7,6 +7,6 @@ Layer_Dense::Layer_Dense(const int n_inputs, const int n_neurons) {
 
 }
 
-void Layer_Dense::forward(Tensor inputs) {
+void Layer_Dense::forward(Tensor& inputs) {
     this->output = inputs.dot(this->weights) + this->biases;
 }

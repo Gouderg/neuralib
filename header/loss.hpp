@@ -12,10 +12,10 @@ class Loss {
         virtual ~Loss(){}
 
         // Function for inheritance.
-        virtual std::vector<double> forward(Tensor y_pred, Tensor y_true);
+        virtual std::vector<double> forward(Tensor& y_pred, Tensor& y_true);
 
         // Calculates the data and regularization losses given model output and ground truth values.
-        double calculate(Tensor output, Tensor y);
+        double calculate(Tensor& output, Tensor& y);
 
 };
 
@@ -23,7 +23,7 @@ class Loss {
 class Loss_CategoricalCrossEntropy : public Loss {
 
     public:
-        std::vector<double> forward(Tensor y_pred, Tensor y_true);
+        std::vector<double> forward(Tensor& y_pred, Tensor& y_true);
 
 };
 
