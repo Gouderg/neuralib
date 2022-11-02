@@ -1,14 +1,12 @@
 #include "../header/activation_relu.hpp"
 
-void Activation_ReLU::forward(Tensor inputs) {
+void Activation_ReLU::forward(Tensor& inputs) {
 
-    std::vector<std::vector<double>> t = inputs.getTensor();
-
-    this->output = Tensor(t.size(), t[0].size());
+    this->output = Tensor(inputs.shapeY(), inputs.shapeX());
     
-    for (int i = 0; i < t.size(); i++) {
-        for (int j = 0; j < t[0].size(); j++) {
-            this->output.addValue(i, j, (t[i][j] > 0) ? t[i][j] : 0);
+    for (int i = 0; i < inputs.shapeY(); i++) {
+        for (int j = 0; j < inputs.shapeX(); j++) {
+            this->output.addValue(i, j, (inputs.getValue(i,j) > 0) ? inputs.getValue(i,j) : 0);
         }
     }
 }

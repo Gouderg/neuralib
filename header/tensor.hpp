@@ -69,7 +69,10 @@ class Tensor {
         friend std::ostream& operator <<(std::ostream&, const Tensor&);
 
         // Shape.
-        Shape shape() { return Shape(static_cast<int>(this->tensor.size()), static_cast<int>(this->tensor[0].size())); } 
+        Shape shape() { return Shape(static_cast<int>(this->tensor.size()), static_cast<int>(this->tensor[0].size())); }
+        int shapeX() { return shape().getX(); }
+        int shapeY() { return shape().getY(); }
+
 
     private:
         std::vector<std::vector<double>> tensor;

@@ -10,10 +10,10 @@ class Activation_ReLU {
         Activation_ReLU(){}
 
         // Getter.
-        Tensor getOutput() const { return this->output; }
+        Tensor& getOutput() { return this->output; }
 
         // Forward pass.
-        void forward(Tensor inputs);
+        void forward(Tensor &inputs);
 
     private:
         Tensor output;
