@@ -28,7 +28,8 @@ class Tensor {
         // Getter.
         std::vector<std::vector<double>> getTensor() const { return this->tensor; }
         double getValue(const int i, const int j) const { return this->tensor[i][j]; }
-
+        std::vector<double> getRow(const int i) const { return this->tensor[i]; }
+        
         // Setter.
         void setTensor(const std::vector<std::vector<double>> tensor) { this->tensor = tensor; }
         void addRow(const std::vector<double> row) { this->tensor.push_back(row); }

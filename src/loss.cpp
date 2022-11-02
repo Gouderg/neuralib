@@ -12,6 +12,35 @@ std::vector<double> Loss::forward(Tensor& y_pred, Tensor& y_true) {
     return a;
 }
 
+double Loss::accuracy(Tensor &inputs, Tensor y) {
+    
+    // Get the indice of the best score.
+    std::vector<int> predictions;
+    for (auto &row : inputs.getTensor()) {
+        predictions.push_back(std::max_element(row.begin(),row.end()) - row.begin());
+    }
+
+    // get the indice of the best ground truth.
+    std::vector<double> y_flat;
+    if (y.shapeY() == 1) {
+        y_flat = y.getRow(0);
+    } else {
+        for (auto &row : y.getTensor()) {
+            y_flat.push_back(std::max_element(row.begin(),row.end()) - row.begin());
+        }
+    }
+    
+    // Compute the mean.
+    double somme = 0.0;
+    for (int i = 0; i < predictions.size(); i++) {
+        if (predictions[i] == y_flat[i]) {
+            somme += 1;
+        }
+    }
+
+    return somme / predictions.size();
+}
+
 std::vector<double> Loss_CategoricalCrossEntropy::forward(Tensor& y_pred, Tensor& y_true) {
 
     // Clip data to prevent division by 0.

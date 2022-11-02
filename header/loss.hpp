@@ -17,6 +17,9 @@ class Loss {
         // Calculates the data and regularization losses given model output and ground truth values.
         double calculate(Tensor& output, Tensor& y);
 
+        // Calculate the accuracy
+        double accuracy(Tensor &inputs, Tensor y);
+
 };
 
 

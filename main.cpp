@@ -10,7 +10,7 @@ int main(int argc, char const *argv[]) {
     
     // Get the dataset.
     Tensor X, y;
-    std::tie(X, y) = Dataset::spiral_data(100000, 3);
+    std::tie(X, y) = Dataset::spiral_data(100, 3);
 
     // Plot the dataset
     // Plot plt;
@@ -24,8 +24,8 @@ int main(int argc, char const *argv[]) {
     // plt.show();
 
     // Create layer.
-    Layer_Dense dense1(2, 64);
-    Layer_Dense dense2(64, 3);
+    Layer_Dense dense1(2, 3);
+    Layer_Dense dense2(3, 3);
 
 
     // Activation function.
@@ -44,8 +44,11 @@ int main(int argc, char const *argv[]) {
     activation2.forward(dense2.getOutput());
 
     double loss_val = loss.calculate(activation2.getOutput(), y);
+    double accuracy = loss.accuracy(activation2.getOutput(), y);
 
-    std::cout << loss_val << std::endl;
+    std::cout << "loss: " << loss_val << std::endl;
+    std::cout << "acc: " << accuracy << std::endl;
+
 
     return 0;
 }
