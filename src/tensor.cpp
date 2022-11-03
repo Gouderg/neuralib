@@ -39,7 +39,7 @@ Tensor Tensor::operator + (Tensor const &t2) {
     if (t2_tensor.size() == 1 && this->tensor[0].size() == t2_tensor[0].size()) {
         for (int i = 0; i < this->tensor.size(); i++) {
             for (int j = 0; j < t2_tensor[0].size(); j++) {
-                t3.addValue(i, j, this->tensor[i][j] + t2_tensor[0][j]);
+                t3.setValue(i, j, this->tensor[i][j] + t2_tensor[0][j]);
             }
         }
         return t3;
@@ -51,7 +51,7 @@ Tensor Tensor::operator + (Tensor const &t2) {
 
     for (int i = 0; i < this->tensor.size(); i++) {
         for (int j = 0; j < this->tensor[i].size(); j++) {
-            t3.addValue(i, j, this->tensor[i][j] + t2_tensor[i][j]);
+            t3.setValue(i, j, this->tensor[i][j] + t2_tensor[i][j]);
         }
     }
 
@@ -221,7 +221,7 @@ Tensor Tensor::dot(Tensor const &t2) {
             for (int k = 0; k < this->tensor[0].size(); k++) {
                 val += this->tensor[i][k] * t2_tensor[k][j];
             }
-            output.addValue(i, j, val);
+            output.setValue(i, j, val);
         }
     }
     return output;

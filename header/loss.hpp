@@ -30,6 +30,4 @@ class Loss_CategoricalCrossEntropy : public Loss {
 
 };
 
-
-
 #endif

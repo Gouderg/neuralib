@@ -17,9 +17,14 @@ class Layer_Dense {
         // Forward pass.
         void forward(Tensor& inputs);
 
+        // Backward pass.
+        void backward(Tensor &dvalues);
+
 
     private:
-        Tensor weights, biases, output;
+        Tensor inputs, weights, biases, output;
+        Tensor dinputs, dweights, dbiases;
+
 };
 
 #endif

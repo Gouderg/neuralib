@@ -9,6 +9,7 @@
     - [X] Initialisation
     - [X] Forward Propagation
     - [ ] Back Propagation
+        - Il manque le backward pour Loss_CategoricalCrossentropy et pour Activation_Softmax
     - [ ] Optimizer
     - [ ] Update
 - [ ] Add Accuracy Graphics class
@@ -50,7 +51,7 @@ $$
 
 Sous ubuntu :
 ```bash
-sudo apt-get install gnuplot
+sudo apt-get install gnuplot libboost-all-dev
 ```
 
 In the project :

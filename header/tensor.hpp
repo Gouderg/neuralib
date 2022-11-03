@@ -33,7 +33,7 @@ class Tensor {
         // Setter.
         void setTensor(const std::vector<std::vector<double>> tensor) { this->tensor = tensor; }
         void addRow(const std::vector<double> row) { this->tensor.push_back(row); }
-        void addValue(const int i, const int j, const double value) { this->tensor[i][j] = value; }
+        void setValue(const int i, const int j, const double value) { this->tensor[i][j] = value; }
 
         
         // Addition.

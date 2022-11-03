@@ -1,6 +1,8 @@
 #include "../header/activation_softmax.hpp"
 
 void Activation_Softmax::forward(Tensor& inputs) {
+
+    this->inputs = inputs;
     
     int len_row = inputs.shapeX();
     int len_col = inputs.shapeY();
@@ -25,9 +27,15 @@ void Activation_Softmax::forward(Tensor& inputs) {
     // Store the output values.
     for (int i = 0; i < len_col; i++) {
         for (int j = 0; j < len_row; j++) {
-            this->output.addValue(i, j, exp_t[i][j] / somme_exp[i]);
+            this->output.setValue(i, j, exp_t[i][j] / somme_exp[i]);
         }
     }
 
 
+}
+
+void Activation_Softmax::backward(Tensor &dvalues) {
+    this->dinputs = Tensor(dvalues.shapeY(), dvalues.shapeX());
+
+    
 }

@@ -15,8 +15,12 @@ class Activation_ReLU {
         // Forward pass.
         void forward(Tensor &inputs);
 
+        // Backward pass.
+        void backward(Tensor &dvalues);
+
     private:
-        Tensor output;
+        Tensor output, inputs;
+        Tensor dinputs;
 };
 
 #endif
