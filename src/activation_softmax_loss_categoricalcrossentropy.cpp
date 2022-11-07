@@ -9,6 +9,8 @@ double Activation_Softmax_Loss_CategoricalCrossentropy::forward(Tensor &inputs, 
 
     this->activation.forward(inputs);
 
+    this->output = this->activation.getOutput();
+
     return this->loss.calculate(this->activation.getOutput(), y_true);
 }
 

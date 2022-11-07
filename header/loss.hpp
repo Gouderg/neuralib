@@ -11,6 +11,8 @@ class Loss {
 
         virtual ~Loss(){}
 
+        // Getter.
+
         // Function for inheritance.
         virtual std::vector<double> forward(Tensor& y_pred, Tensor& y_true);
 
@@ -20,6 +22,7 @@ class Loss {
         // Calculate the accuracy
         double accuracy(Tensor &inputs, Tensor y);
 
+
 };
 
 
@@ -27,7 +30,13 @@ class Loss_CategoricalCrossEntropy : public Loss {
 
     public:
         std::vector<double> forward(Tensor& y_pred, Tensor& y_true);
+    
+        void backward(Tensor &dvalues, Tensor &y_true);
 
-};
+        Tensor& getDinputs() { return this->dinputs; }
+        
+    private:
+        Tensor dinputs;
+}; 
 
 #endif

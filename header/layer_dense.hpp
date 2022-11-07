@@ -13,6 +13,11 @@ class Layer_Dense {
         
         // Getter.
         Tensor& getOutput() { return this->output; }
+        Tensor& getDinputs() { return this->dinputs; }
+        Tensor getDweights() { return this->dweights; }
+        Tensor getDbiases() { return this->dbiases; }
+
+
 
         // Forward pass.
         void forward(Tensor& inputs);

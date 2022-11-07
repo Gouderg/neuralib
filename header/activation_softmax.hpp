@@ -13,6 +13,8 @@ class Activation_Softmax {
 
         // Getter.
         Tensor& getOutput() { return this->output; }
+        Tensor& getDinputs() { return this->dinputs; }
+
 
         // Forward pass.
         void forward(Tensor& inputs);

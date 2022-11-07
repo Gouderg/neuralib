@@ -5,6 +5,7 @@
 #include "header/activation_relu.hpp"
 #include "header/activation_softmax.hpp"
 #include "header/loss.hpp"
+#include "header/activation_softmax_loss_categoricalcrossentropy.hpp"
 
 int main(int argc, char const *argv[]) {   
     
@@ -34,20 +35,35 @@ int main(int argc, char const *argv[]) {
 
     // Loss function.
     Loss_CategoricalCrossEntropy loss;
+    Activation_Softmax_Loss_CategoricalCrossentropy loss_activation;
 
+    // Forward.
     dense1.forward(X);
-
     activation1.forward(dense1.getOutput());
-    
     dense2.forward(activation1.getOutput());
-    
-    activation2.forward(dense2.getOutput());
+    // activation2.forward(dense2.getOutput());
+    double loss_value = loss_activation.forward(dense2.getOutput(), y);
+    double accuracy = loss.accuracy(loss_activation.getOutput(), y);
 
-    double loss_val = loss.calculate(activation2.getOutput(), y);
-    double accuracy = loss.accuracy(activation2.getOutput(), y);
+    // double loss_val = loss.calculate(activation2.getOutput(), y);
+    // double accuracy = loss.accuracy(activation2.getOutput(), y);
 
-    std::cout << "loss: " << loss_val << std::endl;
+    std::cout << "loss: " << loss_value << std::endl;
     std::cout << "acc: " << accuracy << std::endl;
+
+    // Backward.
+    // loss.backward(activation2.getOutput(), y);
+    // activation2.backward(loss.getDinputs());
+    loss_activation.backward(loss_activation.getOutput(), y);
+    dense2.backward(loss_activation.getDinputs());
+    activation1.backward(dense2.getDinputs());
+    dense1.backward(activation1.getDinputs());
+
+
+
+    std::cout << dense1.getDweights() << std::endl;
+    // std::cout << dense1.getDbiases() << std::endl;
+
 
 
     return 0;

@@ -16,12 +16,17 @@ class Activation_Softmax_Loss_CategoricalCrossentropy {
         // Backward pass.
         void backward(Tensor &dvalues, Tensor &y_true);
 
+        // Getter.
+        Tensor& getOutput() { return this->output; }
+        Tensor& getDinputs() { return this->dinputs; }
+
+
 
     private:
         Activation_Softmax activation;
         Loss_CategoricalCrossEntropy loss;
 
-        Tensor dinputs;
+        Tensor dinputs, output;
 
 };
 

@@ -81,3 +81,26 @@ std::vector<double> Loss_CategoricalCrossEntropy::forward(Tensor& y_pred, Tensor
 
     return correct_confidences;
 }
+
+void Loss_CategoricalCrossEntropy::backward(Tensor &dvalues, Tensor &y_true) {
+
+    int samples = dvalues.shapeY();
+    int labels = dvalues.shapeX();
+    this->dinputs = Tensor(samples, labels);
+
+    Tensor y_flat_diag(samples, labels);
+    if (y_true.shapeY() == 1) {
+        for (int i = 0; i < samples; i ++) {
+            y_flat_diag.setValue(i, y_true.getValue(0, i), 1);
+        }
+    } else {
+        y_flat_diag = y_true;
+    }
+    for (int i = 0; i < samples; i ++) {
+        for (int j = 0; j < labels; j ++) {
+            this->dinputs.setValue(i, j, (-y_flat_diag.getValue(i, j) / dvalues.getValue(i, j)) / samples);
+        }
+    }
+
+
+}

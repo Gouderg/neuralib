@@ -9,7 +9,7 @@
     - [X] Initialisation
     - [X] Forward Propagation
     - [ ] Back Propagation
-        - Il manque le backward pour Loss_CategoricalCrossentropy et pour Activation_Softmax
+        - Layer_Dense => Biases and fix Segfault
     - [ ] Optimizer
     - [ ] Update
 - [ ] Add Accuracy Graphics class

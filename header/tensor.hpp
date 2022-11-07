@@ -34,6 +34,8 @@ class Tensor {
         void setTensor(const std::vector<std::vector<double>> tensor) { this->tensor = tensor; }
         void addRow(const std::vector<double> row) { this->tensor.push_back(row); }
         void setValue(const int i, const int j, const double value) { this->tensor[i][j] = value; }
+        void setRow(const int i, const std::vector<double> value) { this->tensor[i] = value; }
+
 
         
         // Addition.
@@ -59,9 +61,13 @@ class Tensor {
 
         // Dot.
         Tensor dot(Tensor const &t2);
+        static Tensor dot(std::vector<std::vector<double>> v1, std::vector<std::vector<double>> v2);
+        std::vector<double> dot(std::vector<double> v1);
+
 
         // Transposate.
         Tensor transposate();
+        static std::vector<std::vector<double>> transposate(std::vector<std::vector<double>> v1);
 
         // Flatten.
         std::vector<double> flatten();

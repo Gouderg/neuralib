@@ -227,6 +227,40 @@ Tensor Tensor::dot(Tensor const &t2) {
     return output;
 }
 
+Tensor Tensor::dot(std::vector<std::vector<double>> v1, std::vector<std::vector<double>> v2) {
+
+    Tensor output(v1.size(), v2[0].size());
+    double val = 0;
+
+    for (int i = 0; i < v1.size(); i++) {
+        for (int j = 0; j < v2[0].size();j++) {
+            val = 0;
+            for (int k = 0; k < v1[0].size(); k++) {
+                val += v1[i][k] * v2[k][j];
+            }
+            output.setValue(i, j, val);
+        }
+    }
+    return output;
+}
+
+// Inner product between Tensor and 1-D array.
+std::vector<double> Tensor::dot(std::vector<double> v1) {
+
+    std::vector<double> output (v1.size(), 0);
+
+    for (int i = 0; i < this->tensor[0].size(); i++) {
+        for (int j = 0; j < this->tensor.size(); j++) {
+            output[j] += this->tensor[i][j] * v1[j];
+        }
+    }
+
+    return output;
+
+}
+
+
+
 // Transposate.
 Tensor Tensor::transposate() {
     Tensor output;
@@ -245,6 +279,23 @@ Tensor Tensor::transposate() {
     
     return output;
 }
+
+std::vector<std::vector<double>> Tensor::transposate(std::vector<std::vector<double>> v1) {
+    std::vector<std::vector<double>> output;
+
+    // Run through each column.
+    for (int j = 0; j < v1[0].size(); j++) {
+        std::vector<double> line_output;
+        // Run through each line.
+        for (int i = 0; i < v1.size(); i++) {
+           line_output.push_back(v1[i][j]);
+        }
+        output.push_back(line_output);
+    }
+    
+    return output;
+}
+
 
 // Flatten.
 std::vector<double> Tensor::flatten() {

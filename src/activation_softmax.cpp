@@ -37,5 +37,24 @@ void Activation_Softmax::forward(Tensor& inputs) {
 void Activation_Softmax::backward(Tensor &dvalues) {
     this->dinputs = Tensor(dvalues.shapeY(), dvalues.shapeX());
 
-    
+    for (int i = 0; i < dvalues.shapeY(); i ++) {
+        
+        std::vector<std::vector<double>> test (dvalues.shapeX(), std::vector<double> (1, 0));
+        for (int j = 0; j < dvalues.shapeX(); j ++) {
+            test[j][0] = this->output.getValue(i, j);
+        }
+
+        Tensor test2 (dvalues.shapeX(), dvalues.shapeX());
+        for (int j = 0; j < dvalues.shapeX(); j ++) {
+            test2.setValue(j, j, test[j][0]);
+        }
+
+        Tensor jacobian_matrix(dvalues.shapeX(), dvalues.shapeX());
+
+        jacobian_matrix = test2 - Tensor::dot(test, Tensor::transposate(test));
+        std::vector<double> out = dvalues.getRow(i);
+
+        this->dinputs.setRow(i, jacobian_matrix.dot(out));       
+        
+    }
 }
