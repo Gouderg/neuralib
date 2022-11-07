@@ -11,7 +11,9 @@ int main(int argc, char const *argv[]) {
     
     // Get the dataset.
     Tensor X, y;
-    std::tie(X, y) = Dataset::spiral_data(100, 3);
+    // std::tie(X, y) = Dataset::spiral_data(100, 3);
+    std::tie(X, y) = Dataset::raw_value(100, 3);
+
 
     // Plot the dataset
     // Plot plt;
