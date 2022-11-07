@@ -7,13 +7,13 @@
 #include "header/loss.hpp"
 #include "header/activation_softmax_loss_categoricalcrossentropy.hpp"
 
-int main(int argc, char const *argv[]) {   
-    
+int main(int argc, char const *argv[])
+{
+
     // Get the dataset.
     Tensor X, y;
     // std::tie(X, y) = Dataset::spiral_data(100, 3);
     std::tie(X, y) = Dataset::raw_value(100, 3);
-
 
     // Plot the dataset
     // Plot plt;
@@ -30,7 +30,6 @@ int main(int argc, char const *argv[]) {
     Layer_Dense dense1(2, 3);
     Layer_Dense dense2(3, 3);
 
-
     // Activation function.
     Activation_ReLU activation1;
     Activation_Softmax activation2;
@@ -41,32 +40,32 @@ int main(int argc, char const *argv[]) {
 
     // Forward.
     dense1.forward(X);
+    std::cout << dense1.getOutput() << std::endl;
     activation1.forward(dense1.getOutput());
     dense2.forward(activation1.getOutput());
-    // activation2.forward(dense2.getOutput());
-    double loss_value = loss_activation.forward(dense2.getOutput(), y);
-    double accuracy = loss.accuracy(loss_activation.getOutput(), y);
+    activation2.forward(dense2.getOutput());
 
-    // double loss_val = loss.calculate(activation2.getOutput(), y);
-    // double accuracy = loss.accuracy(activation2.getOutput(), y);
+    // double loss_val = loss_activation.forward(dense2.getOutput(), y);
+    // double accuracy = loss.accuracy(loss_activation.getOutput(), y);
 
-    std::cout << "loss: " << loss_value << std::endl;
-    std::cout << "acc: " << accuracy << std::endl;
+    double loss_val = loss.calculate(activation2.getOutput(), y);
+    double accuracy = loss.accuracy(activation2.getOutput(), y);
+
+    // std::cout << "loss: " << loss_val << std::endl;
+    // std::cout << "acc: " << accuracy << std::endl;
+
 
     // Backward.
-    // loss.backward(activation2.getOutput(), y);
-    // activation2.backward(loss.getDinputs());
-    loss_activation.backward(loss_activation.getOutput(), y);
-    dense2.backward(loss_activation.getDinputs());
+    // loss_activation.backward(loss_activation.getOutput(), y);
+
+    loss.backward(activation2.getOutput(), y);
+    activation2.backward(loss.getDinputs());
+    dense2.backward(activation2.getDinputs());
     activation1.backward(dense2.getDinputs());
     dense1.backward(activation1.getDinputs());
 
-
-
-    std::cout << dense1.getDweights() << std::endl;
+    // std::cout << std::fixed << dense1.getDweights() << std::endl;
     // std::cout << dense1.getDbiases() << std::endl;
-
-
 
     return 0;
 }

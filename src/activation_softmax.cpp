@@ -50,11 +50,12 @@ void Activation_Softmax::backward(Tensor &dvalues) {
         }
 
         Tensor jacobian_matrix(dvalues.shapeX(), dvalues.shapeX());
-
         jacobian_matrix = test2 - Tensor::dot(test, Tensor::transposate(test));
+
         std::vector<double> out = dvalues.getRow(i);
 
         this->dinputs.setRow(i, jacobian_matrix.dot(out));       
         
     }
+
 }

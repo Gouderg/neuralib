@@ -18,7 +18,17 @@ void Layer_Dense::backward(Tensor &dvalues) {
     
     // Gradients on parameters.
     this->dweights = this->inputs.transposate().dot(dvalues);
-    // this->biases = 
+    
+    std::vector<double> somme(dvalues.shapeX(), 0);
+    
+    for (int i = 0; i < dvalues.shapeY(); i++) {
+        for(int j = 0; j < dvalues.shapeX(); j++) {
+            somme[j] += dvalues.getValue(i, j);
+        }
+    }
+
+    this->dbiases = Tensor(1,dvalues.shapeX());
+    this->dbiases.setRow(0, somme); 
 
     // Gradients on values.
     this->dinputs = dvalues.dot(this->weights.transposate());

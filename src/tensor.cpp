@@ -22,7 +22,7 @@ Tensor::Tensor(const int nb_col, const int nb_row, const int wichInit) {
         
         case 0: default:
             for (int i = 0; i < nb_col; i++) {
-                std::vector<double> v1(nb_row, 0);
+                std::vector<double> v1(nb_row, 0.0);
                 this->tensor.push_back(v1);
             }
             break;
@@ -213,11 +213,11 @@ Tensor Tensor::dot(Tensor const &t2) {
     }
 
     Tensor output(this->tensor.size(), t2_tensor[0].size());
-    double val = 0;
+    double val = 0.0;
 
     for (int i = 0; i < this->tensor.size(); i++) {
         for (int j = 0; j < t2_tensor[0].size();j++) {
-            val = 0;
+            val = 0.0;
             for (int k = 0; k < this->tensor[0].size(); k++) {
                 val += this->tensor[i][k] * t2_tensor[k][j];
             }
@@ -230,11 +230,11 @@ Tensor Tensor::dot(Tensor const &t2) {
 Tensor Tensor::dot(std::vector<std::vector<double>> v1, std::vector<std::vector<double>> v2) {
 
     Tensor output(v1.size(), v2[0].size());
-    double val = 0;
+    double val = 0.0;
 
     for (int i = 0; i < v1.size(); i++) {
         for (int j = 0; j < v2[0].size();j++) {
-            val = 0;
+            val = 0.0;
             for (int k = 0; k < v1[0].size(); k++) {
                 val += v1[i][k] * v2[k][j];
             }
@@ -247,11 +247,11 @@ Tensor Tensor::dot(std::vector<std::vector<double>> v1, std::vector<std::vector<
 // Inner product between Tensor and 1-D array.
 std::vector<double> Tensor::dot(std::vector<double> v1) {
 
-    std::vector<double> output (v1.size(), 0);
+    std::vector<double> output (this->tensor[0].size(), 0);
 
     for (int i = 0; i < this->tensor[0].size(); i++) {
         for (int j = 0; j < this->tensor.size(); j++) {
-            output[j] += this->tensor[i][j] * v1[j];
+            output[i] += this->tensor[i][j] * v1[j];
         }
     }
 
