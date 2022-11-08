@@ -12,12 +12,14 @@ class Layer_Dense {
         Layer_Dense(const int n_inputs, const int n_neurons);
         
         // Getter.
+        Tensor& getWeights() { return this->weights; }
         Tensor& getOutput() { return this->output; }
         Tensor& getDinputs() { return this->dinputs; }
         Tensor& getDweights() { return this->dweights; }
         Tensor& getDbiases() { return this->dbiases; }
 
-
+        // Setter.
+        void setWeight (std::vector<std::vector<double>> tensor) { this->weights.setTensor(tensor); }
 
         // Forward pass.
         void forward(Tensor& inputs);
