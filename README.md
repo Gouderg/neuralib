@@ -8,8 +8,7 @@
 - [ ] Add Neural Network class
     - [X] Initialisation
     - [X] Forward Propagation
-    - [ ] Back Propagation
-        - Layer_Dense => Biases and fix Segfault
+    - [X] Back Propagation
     - [ ] Optimizer
     - [ ] Update
 - [ ] Add Accuracy Graphics class
