@@ -13,13 +13,19 @@ class Layer_Dense {
         
         // Getter.
         Tensor& getWeights() { return this->weights; }
+        Tensor& getBiases() { return this->biases; }
         Tensor& getOutput() { return this->output; }
         Tensor& getDinputs() { return this->dinputs; }
         Tensor& getDweights() { return this->dweights; }
         Tensor& getDbiases() { return this->dbiases; }
 
         // Setter.
-        void setWeight (std::vector<std::vector<double>> tensor) { this->weights.setTensor(tensor); }
+        void setWeights (std::vector<std::vector<double>> tensor) { this->weights.setTensor(tensor); }
+
+        // Add.
+        void addWeights (Tensor& t) {this->weights += t;}
+        void addBiases (Tensor& t) {this->biases += t;}
+
 
         // Forward pass.
         void forward(Tensor& inputs);

@@ -30,21 +30,12 @@ void Plot::set_y_limit(double ymin, double ymax) {
 }
 
 void Plot::draw_circle(double x, double y, double radius, std::string color) {
-    draw_ellipse(x,y,radius,radius,color);
-}
-
-void Plot::draw_ellipse(double x, double y, double a, double b, std::string color) {
-    double x_, y_;
     std::vector<point> p;
-
-    for (int i = 0; i < 360; i++){
-        x_ = a*cos(i * PI / 180) + x;
-        y_ = b*sin(i * PI / 180) + y;
-        p.push_back(point(x_, y_));
-    }
+    p.push_back(point(x, y));
     this->points.push_back(p);
     this->colors.push_back(color);
 }
+
 
 std::string Plot::getColor(const int value) {
     switch (value) {
@@ -72,19 +63,14 @@ void Plot::show() {
     gp.clearTmpfiles();
     gp << "set yrange [" << this->y_min << ":" << this->y_max << "]\n";
     gp << "set xrange [" << this->x_min << ":" << this->x_max << "]\n";
-    
-    for (int i = 0; i < this->colors.size(); i++) {
-        gp << "set linetype " << i + 1 <<" linecolor rgb "<< this->colors[i]<<std::endl;
-    }
-
-    
+        
     gp<<"plot";
 
     for (int i = 0; i < this->colors.size(); i++) {
         if (i != this->colors.size() - 1) {
-            gp << " '-' with linespoint ls " << i + 1 << " points 0 notitle,";
+            gp << " '-' with points pt 7 ps 1 lc " << this->colors[i] << " notitle,";
         } else {
-            gp << " '-' notitle with linespoint ls " << i + 1 << " points 0\n";
+            gp << " '-' with points pt 7 ps 1 lc " << this->colors[i] << " notitle\n";
         }
     }
 

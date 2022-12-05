@@ -177,6 +177,19 @@ Tensor Tensor::operator * (Tensor const &t2) {
     return t3;
 }
 
+Tensor Tensor::operator * (double const &n) {
+    Tensor t3;
+    for (int i = 0; i < this->tensor.size(); i++) {
+        std::vector<double> v1;
+        for (int j = 0; j < this->tensor[i].size(); j++) {
+            v1.push_back(this->tensor[i][j] * n);
+        }
+        t3.addRow(v1);
+    }
+    return t3;
+}
+
+
 void Tensor::operator *= (Tensor const &t2) {
 
     std::vector<std::vector<double>> t2_tensor = t2.getTensor();

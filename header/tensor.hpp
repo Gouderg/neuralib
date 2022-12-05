@@ -56,6 +56,7 @@ class Tensor {
         
         // Mulitiplication.
         Tensor operator * (Tensor const &t2);
+        Tensor operator * (double const &n);
         void operator *= (Tensor const &t2);
         void operator *= (double const &n);
 

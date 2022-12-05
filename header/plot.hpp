@@ -26,7 +26,6 @@ class Plot {
         void set_y_limit(double ymin, double ymax);
 
         void draw_circle(double x, double y, double radius, std::string color);
-        void draw_ellipse(double x, double y, double a, double b, std::string color);
 
         static std::string getColor(const int value);
 
