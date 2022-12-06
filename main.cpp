@@ -7,6 +7,7 @@
 #include "header/loss.hpp"
 #include "header/activation_softmax_loss_categoricalcrossentropy.hpp"
 #include "header/optimizer.hpp"
+#include "header/statistic.hpp"
 
 #define MAIN1
 
@@ -18,15 +19,19 @@ int main(int argc, char const *argv[]) {
     std::tie(X, y) = Dataset::raw_value(100, 3);
 
     // Plot the dataset.
-    Plot plt;
+    // Plot plt;
 
-    plt.set_x_limit(-1, 1);
-    plt.set_y_limit(-1, 1);
+    // plt.set_x_limit(-1, 1);
+    // plt.set_y_limit(-1, 1);
 
-    for (int i = 0; i < X.shape().getY(); i++) {
-        plt.draw_circle(X.getValue(i, 0), X.getValue(i, 1), 0.01 , Plot::getColor(y.getValue(0, i)));
-    }
-    plt.show();
+    // for (int i = 0; i < X.shape().getY(); i++) {
+    //     plt.draw_circle(X.getValue(i, 0), X.getValue(i, 1), 0.01 , Plot::getColor(y.getValue(0, i)));
+    // }
+    // plt.show();
+
+
+    // Setup the statistic system.
+    Statistic stat;
 
     // Create layer.
     Layer_Dense dense1(2, 3);
@@ -47,24 +52,33 @@ int main(int argc, char const *argv[]) {
     // Optimizer.
     Optimizer_SGD optimizer;
 
-    // Forward.
-    dense1.forward(X);
-    activation1.forward(dense1.getOutput());
-    dense2.forward(activation1.getOutput());
+    // Number of epoch.
+    for (int epoch = 0; epoch < 100; epoch++) {
+        // Forward.
+        dense1.forward(X);
+        activation1.forward(dense1.getOutput());
+        dense2.forward(activation1.getOutput());
 
-    double loss_val = loss_activation.forward(dense2.getOutput(), y);
-    double accuracy = loss.accuracy(loss_activation.getOutput(), y);
+        double loss_val = loss_activation.forward(dense2.getOutput(), y);
+        double accuracy = loss.accuracy(loss_activation.getOutput(), y);
+        stat.update(loss_val, accuracy);
 
+        if (epoch % 100 == 0) {
+            std::cout << "Epoch " << epoch;
+            std::cout << ", loss: " << loss_val;
+            std::cout << ", acc: " << accuracy << std::endl;
+        }
 
-    // Backward.
-    loss_activation.backward(loss_activation.getOutput(), y);
-    dense2.backward(loss_activation.getDinputs());
-    activation1.backward(dense2.getDinputs());
-    dense1.backward(activation1.getDinputs());
+        // Backward.
+        loss_activation.backward(loss_activation.getOutput(), y);
+        dense2.backward(loss_activation.getDinputs());
+        activation1.backward(dense2.getDinputs());
+        dense1.backward(activation1.getDinputs());
 
-    // Update weights and biases.
-    optimizer.update_params(dense1);
-    optimizer.update_params(dense2);
+        // Update weights and biases.
+        optimizer.update_params(dense1);
+        optimizer.update_params(dense2);
+    }
 
     #else
     std::cout << "Activation_ReLU, Activation_Softmax, Loss_CategoricalCrossEntropy" << std::endl;
@@ -85,6 +99,8 @@ int main(int argc, char const *argv[]) {
 
     double loss_val = loss.calculate(activation2.getOutput(), y);
     double accuracy = loss.accuracy(activation2.getOutput(), y);
+    stat.update(loss_val, accuracy);
+
 
     // Backward.
     loss.backward(activation2.getOutput(), y);
@@ -94,10 +110,10 @@ int main(int argc, char const *argv[]) {
     dense1.backward(activation1.getDinputs());
 
     #endif
-    std::cout << "loss: " << loss_val << std::endl;
-    std::cout << "acc: " << accuracy << std::endl;
-    std::cout << dense1.getWeights() << std::endl;
-    std::cout << dense1.getBiases() << std::endl;
+
+    // std::cout << dense1.getWeights() << std::endl;
+    // std::cout << dense1.getBiases() << std::endl;
+    stat.plot();
 
     return 0;
 }
