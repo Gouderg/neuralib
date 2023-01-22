@@ -11,6 +11,9 @@ class Optimizer_SGD {
     public: 
         Optimizer_SGD(double learning_rate = 1.0);
 
+        // Getter.
+        double getLr() const { return this->learning_rate; }
+
         void update_params(Layer_Dense &layer);
 
     private:

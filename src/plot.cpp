@@ -44,25 +44,15 @@ void Plot::draw_circle(double x, double y, double radius, std::string color) {
 }
 
 void Plot::draw_line(std::vector<double> y, std::string color) {
-    gp << "set yrange [" << this->y_min << ":" << this->y_max << "]\n";
-    gp << "set xrange [" << this->x_min << ":" << this->x_max << "]\n";
     gp << "set xlabel '" << this->xlabel << "'\n";
     gp << "set ylabel '" << this->ylabel << "'\n";
     gp << "set title '" << this->title << "'\n";
 
 
-    gp << "set linetype 1 lc rgb '" << color << "' lw 2 pt 1\n";
-
-    for (int i = 0; i < y.size(); i++) {
-        if (i != y.size()-1) {
-            gp << " '-' with linespoints 1, ";    
-        } else {
-            gp << " '-' with linespoints 1\n";    
-        }
-    }
+    gp << "set style line 1 lc rgb '" << color << "' lw 2 lt 1\n";
+    gp << "plot '-' with lines ls 1";
 
     gp.send1d(y);
-
     gp << "unset xlabel\n";
     gp << "unset ylabel\n";
 
@@ -70,6 +60,7 @@ void Plot::draw_line(std::vector<double> y, std::string color) {
 
 void Plot::setMultiplot(const int row, const int column) {
     gp.clearTmpfiles();
+    gp << "set size 1200,800\n";
     gp << "set multiplot layout "<< row << "," << column << " columnsfirst \n";
 }
 

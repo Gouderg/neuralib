@@ -53,7 +53,7 @@ int main(int argc, char const *argv[]) {
     Optimizer_SGD optimizer;
 
     // Number of epoch.
-    for (int epoch = 0; epoch < 100; epoch++) {
+    for (int epoch = 0; epoch < 1000; epoch++) {
         // Forward.
         dense1.forward(X);
         activation1.forward(dense1.getOutput());
@@ -61,7 +61,6 @@ int main(int argc, char const *argv[]) {
 
         double loss_val = loss_activation.forward(dense2.getOutput(), y);
         double accuracy = loss.accuracy(loss_activation.getOutput(), y);
-        stat.update(loss_val, accuracy);
 
         if (epoch % 100 == 0) {
             std::cout << "Epoch " << epoch;
@@ -78,6 +77,9 @@ int main(int argc, char const *argv[]) {
         // Update weights and biases.
         optimizer.update_params(dense1);
         optimizer.update_params(dense2);
+
+        // Get all the statistics.
+        stat.update(loss_val, accuracy, optimizer.getLr());
     }
 
     #else

@@ -14,7 +14,7 @@ class Statistic {
         Statistic(){}
 
         // Add value.
-        void update(const double loss, const double accuracy);
+        void update(const double loss, const double accuracy, const double learning_rate);
 
         // Plot graph.
         void plot();
@@ -22,6 +22,7 @@ class Statistic {
     private:
         std::vector<double> loss;
         std::vector<double> accuracy;
+        std::vector<double> learning_rate;
 
         Plot graph;
 

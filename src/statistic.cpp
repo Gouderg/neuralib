@@ -1,31 +1,27 @@
 #include "../header/statistic.hpp"
 
-void Statistic::update(const double loss, const double accuracy) {
+void Statistic::update(const double loss, const double accuracy, const double learning_rate) {
     this->loss.push_back(loss);
     this->accuracy.push_back(accuracy);
+    this->learning_rate.push_back(learning_rate);
 }
 
 void Statistic::plot() {
 
-    // this->graph.setMultiplot(1, 2);
+    this->graph.setMultiplot(3, 1);
 
 
     // Plot Loss.
-    this->graph.set_x_limit(0, this->loss.size());
-    this->graph.set_y_limit(0, *max_element(this->loss.begin(), this->loss.end()));
-    this->graph.set_legend("epoch", "val", "Loss");
-
-    this->graph.draw_line(this->loss, "blue");
+    this->graph.set_legend("epoch", "", "Loss");
+    this->graph.draw_line(this->loss, "red");
 
     // Plot Accuracy.
-    this->graph.set_x_limit(0, this->accuracy.size());
-    this->graph.set_y_limit(0, *max_element(this->accuracy.begin(), this->accuracy.end()));
-    this->graph.set_legend("epoch", "val", "Accuracy");
-
-    this->graph.draw_line(this->accuracy, "green");
-
+    this->graph.set_legend("epoch", "", "Accuracy");
+    this->graph.draw_line(this->accuracy, "blue");
 
     // Plot learning rate.
-    // this->graph.unsetMultiplot();
+    this->graph.set_legend("epoch", "", "Learning rate");
+    this->graph.draw_line(this->learning_rate, "green");
 
+    this->graph.unsetMultiplot();
 }
