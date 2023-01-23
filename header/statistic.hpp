@@ -17,7 +17,7 @@ class Statistic {
         void update(const double loss, const double accuracy, const double learning_rate);
 
         // Plot graph.
-        void plot();
+        void plot(const bool wantReduce = true);
 
     private:
         std::vector<double> loss;

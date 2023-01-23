@@ -18,9 +18,14 @@ class Layer_Dense {
         Tensor& getDinputs() { return this->dinputs; }
         Tensor& getDweights() { return this->dweights; }
         Tensor& getDbiases() { return this->dbiases; }
+        Tensor& getWeightMomentums() { return this->weight_momentums; }
+        Tensor& getBiasMomentums() { return this->bias_momentums; }
 
         // Setter.
         void setWeights (std::vector<std::vector<double>> tensor) { this->weights.setTensor(tensor); }
+        void setWeightMomemtums (Tensor w) {this->weight_momentums = w;}
+        void setBiasMomemtums (Tensor b) {this->bias_momentums = b;}
+
 
         // Add.
         void addWeights (Tensor& t) {this->weights += t;}
@@ -37,6 +42,7 @@ class Layer_Dense {
     private:
         Tensor inputs, weights, biases, output;
         Tensor dinputs, dweights, dbiases;
+        Tensor weight_momentums, bias_momentums;
 
 };
 

@@ -2,8 +2,14 @@
 
 // Constructor.
 Layer_Dense::Layer_Dense(const int n_inputs, const int n_neurons) {
+    
+    // Init layers.
     this->weights = Tensor(n_inputs, n_neurons, 1);
     this->biases = Tensor(1, n_neurons);
+
+    // Init momemtums layers with 0 with the same shape.
+    this->weight_momentums = Tensor(n_inputs, n_neurons, 0);
+    this->bias_momentums = Tensor(1, n_neurons, 0);
 }
 
 void Layer_Dense::forward(Tensor& inputs) {

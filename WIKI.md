@@ -62,3 +62,7 @@ On l'utilise souvent en conjonction avec la fonction d'activation softmax.
 La fonction d'activation softmaw et la fonction de perte categorical cross-entropy peut être simplifier et on peut les calculer plus vite. Voici les équations.
 
 <!-- TODO: Expliqué comment on fait et pourquoi on le fait. -->
+
+### Comment interpréter les courbes de Loss ?
+
+![Learning rate courbe](img/Learning_rate.png)

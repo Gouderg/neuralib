@@ -2,13 +2,13 @@
 
 
 // Constructor.
-Tensor::Tensor(const int nb_col, const int nb_row, const int wichInit) {
+Tensor::Tensor(const int nb_col, const int nb_row, const int whichInit) {
 
     // Gaussian distribution.    
     std::default_random_engine generator;
     std::normal_distribution<double> distribution(MEAN, DEVIATION);
     srand(time(NULL)); 
-    switch (wichInit) {
+    switch (whichInit) {
         case 1:
             
             for (int i = 0; i < nb_col; i++) {

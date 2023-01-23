@@ -34,10 +34,8 @@ int main(int argc, char const *argv[]) {
     Statistic stat;
 
     // Create layer.
-    Layer_Dense dense1(2, 3);
-    dense1.setWeights({{-0.01306527, 0.01658131, -0.00118164}, {-0.00680178, 0.00666383, -0.0046072 }});
-    Layer_Dense dense2(3, 3);
-    dense2.setWeights({{-0.01334258, -0.01346717, 0.00693773}, {-0.00159573, -0.00133702,  0.01077744}, {-0.01126826, -0.00730678, -0.0038488 }});
+    Layer_Dense dense1(2, 64);
+    Layer_Dense dense2(64, 3);
     
     #ifdef MAIN1
     std::cout << "Utilisation de: \"Activation_Softmax_Loss_CategoricalCrossentropy\"" << std::endl;
@@ -51,10 +49,10 @@ int main(int argc, char const *argv[]) {
     Activation_Softmax_Loss_CategoricalCrossentropy loss_activation;
 
     // Optimizer.
-    Optimizer_SGD optimizer;
+    Optimizer_SGD optimizer = Optimizer_SGD(1.0, 1e-3, 0.9);
 
     // Number of epoch.
-    for (int epoch = 0; epoch < 1000; epoch++) {
+    for (int epoch = 0; epoch < 10001; epoch++) {
         // Forward.
         dense1.forward(X);
         activation1.forward(dense1.getOutput());
@@ -63,11 +61,6 @@ int main(int argc, char const *argv[]) {
         double loss_val = loss_activation.forward(dense2.getOutput(), y);
         double accuracy = Loss::accuracy(loss_activation.getOutput(), y);
 
-        if (epoch % 100 == 0) {
-            std::cout << "Epoch " << epoch;
-            std::cout << ", loss: " << loss_val;
-            std::cout << ", acc: " << accuracy << std::endl;
-        }
 
         // Backward.
         loss_activation.backward(loss_activation.getOutput(), y);
@@ -76,11 +69,19 @@ int main(int argc, char const *argv[]) {
         dense1.backward(activation1.getDinputs());
 
         // Update weights and biases.
+        optimizer.pre_update_params();
         optimizer.update_params(dense1);
         optimizer.update_params(dense2);
+        optimizer.post_update_params();
 
         // Get all the statistics.
-        stat.update(loss_val, accuracy, optimizer.getLr());
+        if (epoch % 100 == 0) {
+            std::cout << "Epoch " << epoch;
+            std::cout << ", loss: " << loss_val;
+            std::cout << ", acc: " << accuracy;
+            std::cout << ", lr: " << optimizer.getCurrentLr() << std::endl;
+        }
+        stat.update(loss_val, accuracy, optimizer.getCurrentLr());
     }
 
     #else
@@ -102,7 +103,6 @@ int main(int argc, char const *argv[]) {
 
     double loss_val = loss.calculate(activation2.getOutput(), y);
     double accuracy = loss.accuracy(activation2.getOutput(), y);
-    stat.update(loss_val, accuracy);
 
 
     // Backward.
@@ -114,9 +114,7 @@ int main(int argc, char const *argv[]) {
 
     #endif
 
-    // std::cout << dense1.getWeights() << std::endl;
-    // std::cout << dense1.getBiases() << std::endl;
-    stat.plot();
+    stat.plot(false);
 
     return 0;
 }
