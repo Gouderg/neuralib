@@ -41,12 +41,13 @@ int main(int argc, char const *argv[]) {
     
     #ifdef MAIN1
     std::cout << "Utilisation de: \"Activation_Softmax_Loss_CategoricalCrossentropy\"" << std::endl;
+    std::cout << "La fonction de perte et la dernière fonction d'activation sont combinées." << std::endl;
+
 
     // Activation function.
     Activation_ReLU activation1;
 
     // Loss function.
-    Loss_CategoricalCrossEntropy loss;
     Activation_Softmax_Loss_CategoricalCrossentropy loss_activation;
 
     // Optimizer.
@@ -60,7 +61,7 @@ int main(int argc, char const *argv[]) {
         dense2.forward(activation1.getOutput());
 
         double loss_val = loss_activation.forward(dense2.getOutput(), y);
-        double accuracy = loss.accuracy(loss_activation.getOutput(), y);
+        double accuracy = Loss::accuracy(loss_activation.getOutput(), y);
 
         if (epoch % 100 == 0) {
             std::cout << "Epoch " << epoch;

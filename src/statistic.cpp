@@ -8,8 +8,7 @@ void Statistic::update(const double loss, const double accuracy, const double le
 
 void Statistic::plot() {
 
-    this->graph.setMultiplot(3, 1);
-
+    this->graph.setMultiplot(2, 2);
 
     // Plot Loss.
     this->graph.set_legend("epoch", "", "Loss");

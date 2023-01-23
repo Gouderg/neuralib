@@ -20,7 +20,7 @@ class Loss {
         double calculate(Tensor& output, Tensor& y);
 
         // Calculate the accuracy
-        double accuracy(Tensor &inputs, Tensor y);
+        static double accuracy(Tensor &inputs, Tensor y);
 
 
 };

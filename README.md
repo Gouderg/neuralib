@@ -23,29 +23,6 @@ $$
     output = inputs \times weights + biases
 $$
 
-### Rectified Linear (ReLU) Activation Function - Forward pass
-
-$$
-    y = \left\{
-            \begin{array}{ll}
-                x & x \gt 0 \\
-                0 & x \le 0
-            \end{array}
-        \right.
-$$
-
-### Softmax Activation Function - Forward pass
-
-$$\Large
-    S_{i,j} = \frac{e^{z_{i,j}}}{\sum_{l=1}^L e^{z_{i,j}}}
-$$
-
-### Categorical Cross-Entropy Loss
-
-$$\Large
-    L_i = -\sum_j y_{i,j} log(\hat{y}_{i,j})
-$$
-
 ## Setup the project
 
 Sous ubuntu :
