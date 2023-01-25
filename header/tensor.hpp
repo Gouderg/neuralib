@@ -8,6 +8,7 @@
 #include <algorithm>
 #include <functional>
 #include <ctime>
+#include <cmath>
 
 #include "shape.hpp"
 
@@ -37,12 +38,10 @@ class Tensor {
         void setRow(const int i, const std::vector<double> value) { this->tensor[i] = value; }
 
 
-        
         // Addition.
         Tensor operator + (Tensor const &t2);
         Tensor operator + (double const &n);
         void operator += (Tensor const &t2);
-
 
         // Substraction.
         Tensor operator - (Tensor const &t2);
@@ -50,9 +49,9 @@ class Tensor {
 
         // Division.
         Tensor operator / (Tensor const &t2);
+        Tensor operator / (double const &n);
         void operator /= (Tensor const &t2);
         void operator /= (double const &n);
-
         
         // Mulitiplication.
         Tensor operator * (Tensor const &t2);
@@ -65,6 +64,8 @@ class Tensor {
         static Tensor dot(std::vector<std::vector<double>> v1, std::vector<std::vector<double>> v2);
         std::vector<double> dot(std::vector<double> v1);
 
+        // Sqrt.
+        Tensor sqrt();
 
         // Transposate.
         Tensor transposate();

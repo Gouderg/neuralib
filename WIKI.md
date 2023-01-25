@@ -33,7 +33,9 @@ La fonction d'activation softmax est souvent utilisée dans les réseaux de neur
 
 On écrit sa fonction comme suit:
 $$\large
+
     f_i(x) = \frac{e^{x_i}}{\sum_{j=1}^{k}e^{x_j}}
+
 $$
 
 On l'utilise généralement pour un problème de classification.
@@ -49,7 +51,9 @@ La fonction de perte categorical cross entropy est une fonction de coût couramm
 On écrit sa fonction comme suit:
 
 $$\large
+
     L_i = -\sum_j y_{i,j} log(\hat{y}_{i,j})
+
 $$
 
 On l'utilise souvent en conjonction avec la fonction d'activation softmax.
@@ -59,10 +63,21 @@ On l'utilise souvent en conjonction avec la fonction d'activation softmax.
 
 ### Softmax et Categorical cross-entropy.
 
-La fonction d'activation softmaw et la fonction de perte categorical cross-entropy peut être simplifier et on peut les calculer plus vite. Voici les équations.
+La fonction d'activation softmax et la fonction de perte categorical cross-entropy peut être simplifier et on peut les calculer plus vite. Voici les équations.
 
 <!-- TODO: Expliqué comment on fait et pourquoi on le fait. -->
+
+
+## Descente de gradient
+
+Une descente de gradient est un algorithme qui permet de trouver le minimun de n'importe quelle fonction convexe en convergeant progressivement vers elle.
 
 ### Comment interpréter les courbes de Loss ?
 
 ![Learning rate courbe](img/Learning_rate.png)
+
+### Comment fonctionne le decay et le momentum
+
+
+
+### Comment fonctionne l'optimiseur adagrad, rmsProp et Adam

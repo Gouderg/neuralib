@@ -49,7 +49,11 @@ int main(int argc, char const *argv[]) {
     Activation_Softmax_Loss_CategoricalCrossentropy loss_activation;
 
     // Optimizer.
-    Optimizer_SGD optimizer = Optimizer_SGD(1.0, 1e-3, 0.9);
+    // Optimizer_SGD optimizer = Optimizer_SGD(1.0, 1e-3, 0.9);
+    // Optimizer_Adagrad optimizer = Optimizer_Adagrad(1.0, 1e-4, 1e-7);
+    // Optimizer_RMSprop optimizer = Optimizer_RMSprop(0.02, 1e-5, 1e-7, 0.999);
+    Optimizer_Adam optimizer = Optimizer_Adam(0.05, 5e-7);
+    std::cout << "Algorithme de descente de gradient: " << optimizer << "\n\n" << std::endl;
 
     // Number of epoch.
     for (int epoch = 0; epoch < 10001; epoch++) {

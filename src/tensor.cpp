@@ -132,6 +132,19 @@ Tensor Tensor::operator / (Tensor const &t2) {
     return t3;
 }
 
+Tensor Tensor::operator / (double const &n) {
+    Tensor t3 = *this;
+    if (n == 0) {return t3; }
+
+    for (int i = 0; i < this->tensor.size(); i++) {
+        for (int j = 0; j < this->tensor[i].size(); j++) {
+            t3.setValue(i, j, this->tensor[i][j] / n);
+        }
+    }
+
+    return t3;
+}
+
 void Tensor::operator /= (Tensor const &t2) {
 
     std::vector<std::vector<double>> t2_tensor = t2.getTensor();
@@ -269,9 +282,24 @@ std::vector<double> Tensor::dot(std::vector<double> v1) {
     }
 
     return output;
-
 }
 
+Tensor Tensor::sqrt() {
+    Tensor output;
+
+    // Run through each column.
+    for (int i = 0; i < this->tensor.size(); i++) {
+        std::vector<double> line_output;
+        // Run through each line.
+        for (int j = 0; j < this->tensor[i].size(); j++) {
+           line_output.push_back(std::sqrt(this->tensor[i][j]));
+        }
+
+        output.addRow(line_output);
+    }
+    
+    return output;
+}
 
 
 // Transposate.

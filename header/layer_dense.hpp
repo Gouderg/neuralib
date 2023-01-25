@@ -18,18 +18,30 @@ class Layer_Dense {
         Tensor& getDinputs() { return this->dinputs; }
         Tensor& getDweights() { return this->dweights; }
         Tensor& getDbiases() { return this->dbiases; }
-        Tensor& getWeightMomentums() { return this->weight_momentums; }
-        Tensor& getBiasMomentums() { return this->bias_momentums; }
+
+        Tensor& getWeightMomentum() { return this->weight_momentum; }
+        Tensor& getBiasMomentum() { return this->bias_momentum; }
+        Tensor& getWeightCache() { return this->weight_cache; }
+        Tensor& getBiasCache() { return this->bias_cache; }
+
+        Tensor getSquaredDWeights() { return this->dweights * this->dweights; }
+        Tensor getSquaredDBias() { return this->dbiases * this->dbiases; }
+
 
         // Setter.
         void setWeights (std::vector<std::vector<double>> tensor) { this->weights.setTensor(tensor); }
-        void setWeightMomemtums (Tensor w) {this->weight_momentums = w;}
-        void setBiasMomemtums (Tensor b) {this->bias_momentums = b;}
-
+        void setWeightMomentum (Tensor w) {this->weight_momentum = w;}
+        void setBiasMomentum (Tensor b) {this->bias_momentum = b;}
+        void setWeightCache (Tensor w) {this->weight_cache = w;}
+        void setBiasCache (Tensor b) {this->bias_cache = b;}
 
         // Add.
         void addWeights (Tensor& t) {this->weights += t;}
         void addBiases (Tensor& t) {this->biases += t;}
+        void addWeightMomentum (Tensor& w) {this->weight_momentum += w;}
+        void addBiasMomentum (Tensor& b) {this->bias_momentum += b;}
+        void addWeightCache (Tensor& w) {this->weight_cache += w;}
+        void addBiasCache (Tensor& b) {this->bias_cache += b;}
 
 
         // Forward pass.
@@ -42,7 +54,7 @@ class Layer_Dense {
     private:
         Tensor inputs, weights, biases, output;
         Tensor dinputs, dweights, dbiases;
-        Tensor weight_momentums, bias_momentums;
+        Tensor weight_momentum, bias_momentum, weight_cache, bias_cache;
 
 };
 

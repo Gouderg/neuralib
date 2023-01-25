@@ -7,9 +7,11 @@ Layer_Dense::Layer_Dense(const int n_inputs, const int n_neurons) {
     this->weights = Tensor(n_inputs, n_neurons, 1);
     this->biases = Tensor(1, n_neurons);
 
-    // Init momemtums layers with 0 with the same shape.
-    this->weight_momentums = Tensor(n_inputs, n_neurons, 0);
-    this->bias_momentums = Tensor(1, n_neurons, 0);
+    // Init optimizer layers with 0 with the same shape.
+    this->weight_momentum = Tensor(n_inputs, n_neurons, 0);
+    this->bias_momentum = Tensor(1, n_neurons, 0);
+    this->weight_cache = Tensor(n_inputs, n_neurons, 0);
+    this->bias_cache = Tensor(1, n_neurons, 0);
 }
 
 void Layer_Dense::forward(Tensor& inputs) {
