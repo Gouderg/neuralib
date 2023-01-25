@@ -32,10 +32,8 @@ $$
 La fonction d'activation softmax est souvent utilisée dans les réseaux de neurones pour les tâches de classification multiclasse. Elle prends en entrée un vecteur de valeurs réelles et produit en sortie un vecteur de probabilités, c'est-à-dire une distribution de probabilité sur les classes possibles. Chaque élément de la sortie est compris entre 0 et 1 et la somme des éléments vaut 1.
 
 On écrit sa fonction comme suit:
-$$\large
-
-    f_i(x) = \frac{e^{x_i}}{\sum_{j=1}^{k}e^{x_j}}
-
+$$\Large
+f_i(x) = \frac{e^{x_i}}{\sum_{j=1}^{k}e^{x_j}}
 $$
 
 On l'utilise généralement pour un problème de classification.
@@ -50,10 +48,8 @@ La fonction de perte categorical cross entropy est une fonction de coût couramm
 
 On écrit sa fonction comme suit:
 
-$$\large
-
-    L_i = -\sum_j y_{i,j} log(\hat{y}_{i,j})
-
+$$\Large
+L_i = -\sum_j y_{i,j} log(\hat{y}_{i,j})
 $$
 
 On l'utilise souvent en conjonction avec la fonction d'activation softmax.
