@@ -32,9 +32,7 @@ $$
 La fonction d'activation softmax est souvent utilisée dans les réseaux de neurones pour les tâches de classification multiclasse. Elle prends en entrée un vecteur de valeurs réelles et produit en sortie un vecteur de probabilités, c'est-à-dire une distribution de probabilité sur les classes possibles. Chaque élément de la sortie est compris entre 0 et 1 et la somme des éléments vaut 1.
 
 On écrit sa fonction comme suit:
-$$\Large
-f_i(x) = \frac{e^{x_i}}{\sum_{j=1}^{k}e^{x_j}}
-$$
+$$f_i(x) = \frac{e^{x_i}}{\sum_{j=1}^{k}e^{x_j}}$$
 
 On l'utilise généralement pour un problème de classification.
 
