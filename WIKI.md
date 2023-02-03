@@ -52,6 +52,11 @@ $$
 
 On l'utilise souvent en conjonction avec la fonction d'activation softmax.
 
+### **Softmax et Categorical cross-entropy.**
+
+La fonction d'activation softmax et la fonction de perte categorical cross-entropy peut être simplifier et on peut les calculer plus vite. Voici les équations.
+
+<!-- TODO: Expliqué comment on fait et pourquoi on le fait. -->
 
 ### **Comment interpréter les courbes de Loss ?**
 
@@ -185,10 +190,12 @@ En résumé, Adam est un optimiseur qui utilise une méthode d'adaptation automa
 * Moyennage glissant (beta1 et beta2): valeurs de 0,9 pour beta1 et 0,999 pour beta2 pour Adam.
 * Epsilon : valeur de 10^-8 pour Adam et RMSprop.
 
-## **Optimisation d'algorithme**
+## **Overfitting**
 
-### **Softmax et Categorical cross-entropy.**
+Mémoriser les données sans les comprendre. Le modèle prédit très bien les données qu'il a déjà vu mais généralise très mal pour les données inconnues.
 
-La fonction d'activation softmax et la fonction de perte categorical cross-entropy peut être simplifier et on peut les calculer plus vite. Voici les équations.
+Pour éviter cela, il vaut mieux avoir un jeu de test pour valider si le modèle.
 
-<!-- TODO: Expliqué comment on fait et pourquoi on le fait. -->
+S'il y a une différence de plus de 10% en accuracy c'est que le modèle a fait du sur-apprentissage.
+
+Les causes peuvent être une learning rate trop grande, trop d'epoch ou le modèle est trop gros.

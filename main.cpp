@@ -15,8 +15,8 @@ int main(int argc, char const *argv[]) {
 
     // Get the dataset.
     Tensor X, y;
-    // std::tie(X, y) = Dataset::spiral_data(100, 3);
-    std::tie(X, y) = Dataset::raw_value(100, 3);
+    std::tie(X, y) = Dataset::spiral_data(100, 3);
+    // std::tie(X, y) = Dataset::raw_value(100, 3);
 
     // Plot the dataset.
     // Plot plt;
@@ -34,8 +34,8 @@ int main(int argc, char const *argv[]) {
     Statistic stat;
 
     // Create layer.
-    Layer_Dense dense1(2, 64);
-    Layer_Dense dense2(64, 3);
+    Layer_Dense dense1(2, 32);
+    Layer_Dense dense2(32, 3);
     
     #ifdef MAIN1
     std::cout << "Utilisation de: \"Activation_Softmax_Loss_CategoricalCrossentropy\"" << std::endl;
@@ -52,7 +52,7 @@ int main(int argc, char const *argv[]) {
     // Optimizer_SGD optimizer = Optimizer_SGD(1.0, 1e-3, 0.9);
     // Optimizer_Adagrad optimizer = Optimizer_Adagrad(1.0, 1e-4, 1e-7);
     // Optimizer_RMSprop optimizer = Optimizer_RMSprop(0.02, 1e-5, 1e-7, 0.999);
-    Optimizer_Adam optimizer = Optimizer_Adam(0.05, 5e-7);
+    Optimizer_Adam optimizer = Optimizer_Adam(0.005, 5e-7);
     std::cout << "Algorithme de descente de gradient: " << optimizer << "\n\n" << std::endl;
 
     // Number of epoch.
@@ -119,6 +119,24 @@ int main(int argc, char const *argv[]) {
     #endif
 
     stat.plot(false);
+
+    // Test our model.
+    Tensor X_test, y_test;
+    std::cout << "Test: " << std::endl;
+    for (int i = 0; i < 10; i++) {
+        std::tie(X_test, y_test) = Dataset::spiral_data(100, 3);
+
+        // Forward.
+        dense1.forward(X_test);
+        activation1.forward(dense1.getOutput());
+        dense2.forward(activation1.getOutput());
+
+        double loss_val_test = loss_activation.forward(dense2.getOutput(), y_test);
+        double accuracy_test = Loss::accuracy(loss_activation.getOutput(), y_test);
+        std::cout << "Itérations n° " << i; 
+        std::cout << ", loss: " << loss_val_test;
+        std::cout << ", acc: " << accuracy_test << std::endl;
+    }
 
     return 0;
 }
