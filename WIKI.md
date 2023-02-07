@@ -198,4 +198,35 @@ Pour éviter cela, il vaut mieux avoir un jeu de test pour valider si le modèle
 
 S'il y a une différence de plus de 10% en accuracy c'est que le modèle a fait du sur-apprentissage.
 
-Les causes peuvent être une learning rate trop grande, trop d'epoch ou le modèle est trop gros.
+Les causes peuvent être une learning rate trop grande, trop d'epochs ou le modèle est trop gros.
+
+=> Modèle n'apprends pas : Essayer un modèle plus gros
+=> Modèle apprends : Essayer un modèle plus petit
+
+L'idéal est d'avoir une courbe de loss lors avec le jeu de test identique à la training loss même si cela veut dire une plus grande loss et une plus faible accurracy. Des performances similaires signifie une meilleure généralisation.
+
+## **Validation data**
+
+Pour le créer deux options:
+
+- Diviser le training dataset en training dataset et en validation dataset. (Si assez gros)
+- Cross Validation: Diviser le training dataset en plusieurs parties et à chaque epoch choisir une partie différente comme validation dataset.
+
+Lors d'une cross validation, on laisse le réseau s'entraîner plusieurs fois pour tester différents hyperparamètres.
+
+## **Training dataset**
+
+Il est généralement nécessaire de réaliser du preprocessing. Les réseaux de neurones marchent mieux avec des valeurs comprises en 0 et 1 ou -1 et 1. Centré les valeurs en 0 permet d'éviter atténuer les weights biasind dans certaines directions. C'est mieux d'utiliser une range entre -1 et 1.
+
+On utilise cette range car sinon avec des nombres trop grands, la valeurs de nos poids va devenir instable ou overflow.
+
+
+POur des valeurs comprises entre 0 et 255, on divise tout le dataset et on obtient des valeurs entre 0 et 1.
+Si on soustrait 127.5, puis on divise par 127.5, on obtient des valeurs entre -1 et 1.
+
+
+On essaie de d'appliquer le même coef donc on prends le max du training dataset. Si on utilise des capteurs, il faut garder ce coef car sinon lors des prédictions, le modèle ne reconnaitra pas les valeurs sans être scalé.
+
+On peut aussi utiliser de la data augmentation si le jeu de donnée est trop petit. Cela consiste à déformer les images pour en avoir de nouvelles tant que cela reste des cas possibles dans la réalitée.
+
+Combien d'éléments par classe ? => entre 1000 et 10000 par classes.
