@@ -9,8 +9,15 @@ Tensor::Tensor(const int nb_col, const int nb_row, const int whichInit) {
     std::normal_distribution<double> distribution(MEAN, DEVIATION);
     srand(time(NULL)); 
     switch (whichInit) {
-        case 1:
+
+        case 2:
+            for (int i = 0; i < nb_col; i++) {
+                std::vector<double> v1(nb_row, 1.0);
+                this->tensor.push_back(v1);
+            }
+            break;
             
+        case 1:
             for (int i = 0; i < nb_col; i++) {
                 std::vector<double> v1;
                 for (int j = 0; j < nb_row; j++) {

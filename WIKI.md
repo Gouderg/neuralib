@@ -230,3 +230,50 @@ On essaie de d'appliquer le même coef donc on prends le max du training dataset
 On peut aussi utiliser de la data augmentation si le jeu de donnée est trop petit. Cela consiste à déformer les images pour en avoir de nouvelles tant que cela reste des cas possibles dans la réalitée.
 
 Combien d'éléments par classe ? => entre 1000 et 10000 par classes.
+
+## **L1 & L2 regularization**
+
+L1 et L2 regularization sont des valeurs ajoutées à la loss pour pénaliser le modèle qui a de trop grandes valeurs. Souvent si les weights sont plus grand c'est qu'ils essaient de mémoriser la donnée.
+
+L1 est une pénalisation linéaire, et proportionnel aux pramètres.
+
+L2 est non linaire et pénalise plus les gros poids que les petits.
+
+On utilise souvent L1 avec L2 sinon on ne l'utilise pas car il a tendance à pénaliser les petits poids.
+
+On ajoute une constante pour controler l'impact de la pénalisation sur la loss.
+
+### L1 regularization for forward pass:
+
+$$\large
+    \begin{align} 
+        L_{1_w} = \lambda \sum |w_m| && L_{1_b} = \lambda \sum |b_m|
+    \end{align}
+$$
+
+### L2 regularization forward pass
+
+$$\large
+    \begin{align} 
+        L_{2_w} = \lambda \sum w_m² && L_{2_b} = \lambda \sum b_m²
+    \end{align}
+$$
+
+La nouvelle notation de la loss va devenir: 
+$Loss = DataLoss + L_{1_w} + L_{1_b} + L_{2_w} + L_{2_b}$
+
+### L2 backward pass
+
+$$
+    \frac{\partial L_{w_2}}{\partial w} = 2\lambda w_m
+$$
+
+### L1 backward pass
+
+$$
+    \frac{\partial L_{w_1}}{\partial w} = \lambda w_m 
+    \begin{cases}
+        1 & \text{si } w_m > 0 \\
+        -1 & \text{si } w_m < 0 \\
+\end{cases}
+$$

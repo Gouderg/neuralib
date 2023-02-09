@@ -7,6 +7,18 @@ double Loss::calculate(Tensor& output, Tensor& y) {
     return std::reduce(samples_losses.begin(), samples_losses.end()) / samples_losses.size();
 }
 
+double Loss::regularization_loss(Layer_Dense& layer) {
+    
+    double regularization_loss = 0;
+
+    if (layer.getWeightRegL1() > 0) {
+        regularization_loss += layer.getWeightRegL1();
+    }
+
+    return regularization_loss;
+
+}
+
 std::vector<double> Loss::forward(Tensor& y_pred, Tensor& y_true) {
     std::vector<double> a(y_true.shapeY(), 0);
     return a;

@@ -9,7 +9,7 @@ class Layer_Dense {
 
         // Constructor.
         Layer_Dense(){};
-        Layer_Dense(const int n_inputs, const int n_neurons);
+        Layer_Dense(const int n_inputs, const int n_neurons, double weight_reg_L1 = 0.0, double weight_reg_L2 = 0.0, double bias_reg_L1 = 0.0, double bias_reg_L2 = 0.0);
         
         // Getter.
         Tensor& getWeights() { return this->weights; }
@@ -23,6 +23,12 @@ class Layer_Dense {
         Tensor& getBiasMomentum() { return this->bias_momentum; }
         Tensor& getWeightCache() { return this->weight_cache; }
         Tensor& getBiasCache() { return this->bias_cache; }
+
+        double getWeightRegL1() { return this->weight_reg_L1; }
+        double getWeightRegL2() { return this->weight_reg_L2; }
+        double getBiasRegL1() { return this->bias_reg_L1; }
+        double getBiasRegL2() { return this->bias_reg_L2; }
+
 
         Tensor getSquaredDWeights() { return this->dweights * this->dweights; }
         Tensor getSquaredDBias() { return this->dbiases * this->dbiases; }
@@ -56,6 +62,7 @@ class Layer_Dense {
         Tensor dinputs, dweights, dbiases;
         Tensor weight_momentum, bias_momentum, weight_cache, bias_cache;
 
+        double weight_reg_L1, weight_reg_L2, bias_reg_L1, bias_reg_L2;
 };
 
 #endif

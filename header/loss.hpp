@@ -4,6 +4,7 @@
 #include <cmath>
 
 #include "../header/tensor.hpp"
+#include "../header/layer_dense.hpp"
 
 class Loss {
 
@@ -18,6 +19,8 @@ class Loss {
 
         // Calculates the data and regularization losses given model output and ground truth values.
         double calculate(Tensor& output, Tensor& y);
+
+        double regularization_loss(Layer_Dense& layer);;
 
         // Calculate the accuracy
         static double accuracy(Tensor &inputs, Tensor y);
