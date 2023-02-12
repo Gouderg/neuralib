@@ -19,6 +19,7 @@ class Activation_Softmax_Loss_CategoricalCrossentropy {
         // Getter.
         Tensor& getOutput() { return this->output; }
         Tensor& getDinputs() { return this->dinputs; }
+        Loss_CategoricalCrossEntropy& getLoss() {return this->loss;}
 
 
 

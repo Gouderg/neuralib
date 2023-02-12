@@ -366,3 +366,29 @@ std::ostream& operator<<(std::ostream& out, const Tensor& tensor) {
     }
     return out;
 }
+
+// Sum of all the term.
+double Tensor::sum(Tensor v1) {
+    double sum = 0;
+
+
+    for (int i = 0; i < v1.shapeY(); i++) {
+        std::vector<double> row = v1.getRow(i);
+        sum += std::accumulate(row.begin(), row.end(), 0);
+    }
+
+    return sum;
+}
+
+// Abs of all the term.
+Tensor Tensor::abs() {
+    Tensor v1 = *this;
+
+    for (int i = 0; i < this->shapeY(); i++){
+        for (int j = 0; j < this->shapeX(); j++){
+            v1.setValue(i, j, std::abs(this->getValue(i,j)));
+        }
+    }
+
+    return v1;
+}

@@ -45,9 +45,9 @@ void Layer_Dense::backward(Tensor &dvalues) {
 
     // Regularization.
     if (this->weight_reg_L1 > 0) {
-        Tensor w = Tensor(this->weights.shapeX(), this->weights.shapeY(), 0);
-        for (int i = 0; i < w.shapeX(); i++) {
-            for (int j = 0; j < w.shapeY(); j++) {
+        Tensor w = Tensor(this->weights.shapeY(), this->weights.shapeX(), 0);
+        for (int i = 0; i < w.shapeY(); i++) {
+            for (int j = 0; j < w.shapeX(); j++) {
                 if (this->weights.getValue(i, j) < 0) {
                     w.setValue(i, j, -1);
                 }
@@ -61,9 +61,9 @@ void Layer_Dense::backward(Tensor &dvalues) {
     }
 
     if (this->bias_reg_L1 > 0) {
-        Tensor b = Tensor(this->biases.shapeX(), this->biases.shapeY(), 0);
-        for (int i = 0; i < b.shapeX(); i++) {
-            for (int j = 0; j < b.shapeY(); j++) {
+        Tensor b = Tensor(this->biases.shapeY(), this->biases.shapeX(), 0);
+        for (int i = 0; i < b.shapeY(); i++) {
+            for (int j = 0; j < b.shapeX(); j++) {
                 if (this->biases.getValue(i, j) < 0) {
                     b.setValue(i, j, -1);
                 }

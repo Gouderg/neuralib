@@ -4,11 +4,6 @@
 
 Valgrind output before:
 ```
-==21060== Memcheck, a memory error detector
-==21060== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==21060== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
-==21060== Command: ./neuralib
-==21060== 
 1.09861
 ==21060== 
 ==21060== HEAP SUMMARY:
@@ -33,11 +28,6 @@ sys	    0m0,240s
 Valgrind output after changing for pointer:
 
 ```
-==19787== Memcheck, a memory error detector
-==19787== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==19787== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
-==19787== Command: ./neuralib
-==19787== 
 1.09861
 ==19787== 
 ==19787== HEAP SUMMARY:
@@ -66,5 +56,20 @@ real    0m3,203s
 user    0m3,033s
 sys     0m0,164s
 ```
+## Round 2
 
+Tester le code après avoir implémenté  
 
+Paramètres initiaux
+
+```cpp
+const int NB_EPOCH = 1000;
+const int NB_POINT = 500;
+const int NB_NEURON = 64;
+```
+
+```
+real    0m41,571s
+user    0m40,803s
+sys     0m0,660s
+```

@@ -77,6 +77,12 @@ class Tensor {
         // Cout.
         friend std::ostream& operator <<(std::ostream&, const Tensor&);
 
+        // Sum of all terms.
+        static double sum(Tensor v1);
+
+        // Absolute value of all terms.
+        Tensor abs();
+
         // Shape.
         Shape shape() { return Shape(static_cast<int>(this->tensor.size()), static_cast<int>(this->tensor[0].size())); }
         int shapeX() { return shape().getX(); }

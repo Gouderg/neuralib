@@ -11,10 +11,24 @@ double Loss::regularization_loss(Layer_Dense& layer) {
     
     double regularization_loss = 0;
 
+    Tensor w = layer.getWeights();
+    Tensor b = layer.getBiases();
+
     if (layer.getWeightRegL1() > 0) {
-        regularization_loss += layer.getWeightRegL1();
+        regularization_loss += layer.getWeightRegL1() * Tensor::sum(w.abs());
     }
 
+    if (layer.getWeightRegL2() > 0) {
+        regularization_loss += layer.getWeightRegL2() * Tensor::sum(w * w);
+    }
+
+    if (layer.getBiasRegL1() > 0) {
+        regularization_loss += layer.getBiasRegL1() * Tensor::sum(b.abs());
+    }
+
+    if (layer.getBiasRegL2() > 0) {
+        regularization_loss += layer.getBiasRegL2() * Tensor::sum(b * b);
+    }
     return regularization_loss;
 
 }

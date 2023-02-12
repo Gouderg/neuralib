@@ -11,11 +11,15 @@
 
 #define MAIN1
 
+const int NB_EPOCH = 1000;
+const int NB_POINT = 500;
+const int NB_NEURON = 64;
+
 int main(int argc, char const *argv[]) {
 
     // Get the dataset.
     Tensor X, y;
-    std::tie(X, y) = Dataset::spiral_data(100, 3);
+    std::tie(X, y) = Dataset::spiral_data(NB_POINT, 3);
     // std::tie(X, y) = Dataset::raw_value(100, 3);
 
     // Plot the dataset.
@@ -34,8 +38,8 @@ int main(int argc, char const *argv[]) {
     Statistic stat;
 
     // Create layer.
-    Layer_Dense dense1(2, 32);
-    Layer_Dense dense2(32, 3);
+    Layer_Dense dense1(2, NB_NEURON, 0, 5e-4, 0, 5e-4);
+    Layer_Dense dense2(NB_NEURON, 3);
     
     #ifdef MAIN1
     std::cout << "Utilisation de: \"Activation_Softmax_Loss_CategoricalCrossentropy\"" << std::endl;
@@ -52,18 +56,23 @@ int main(int argc, char const *argv[]) {
     // Optimizer_SGD optimizer = Optimizer_SGD(1.0, 1e-3, 0.9);
     // Optimizer_Adagrad optimizer = Optimizer_Adagrad(1.0, 1e-4, 1e-7);
     // Optimizer_RMSprop optimizer = Optimizer_RMSprop(0.02, 1e-5, 1e-7, 0.999);
-    Optimizer_Adam optimizer = Optimizer_Adam(0.005, 5e-7);
+    Optimizer_Adam optimizer = Optimizer_Adam(0.02, 5e-7);
     std::cout << "Algorithme de descente de gradient: " << optimizer << "\n\n" << std::endl;
 
+    // Init stat value.
+    double data_loss = 0.0, regularization_loss = 0.0, loss_val = 0.0, accuracy = 0.0;
+
     // Number of epoch.
-    for (int epoch = 0; epoch < 10001; epoch++) {
+    for (int epoch = 0; epoch < NB_EPOCH; epoch++) {
         // Forward.
         dense1.forward(X);
         activation1.forward(dense1.getOutput());
         dense2.forward(activation1.getOutput());
 
-        double loss_val = loss_activation.forward(dense2.getOutput(), y);
-        double accuracy = Loss::accuracy(loss_activation.getOutput(), y);
+        data_loss = loss_activation.forward(dense2.getOutput(), y);
+        regularization_loss = loss_activation.getLoss().regularization_loss(dense1) + loss_activation.getLoss().regularization_loss(dense2);
+        loss_val = data_loss + regularization_loss;
+        accuracy = Loss::accuracy(loss_activation.getOutput(), y);
 
 
         // Backward.
@@ -81,9 +90,11 @@ int main(int argc, char const *argv[]) {
         // Get all the statistics.
         if (epoch % 100 == 0) {
             std::cout << "Epoch " << epoch;
-            std::cout << ", loss: " << loss_val;
             std::cout << ", acc: " << accuracy;
-            std::cout << ", lr: " << optimizer.getCurrentLr() << std::endl;
+            std::cout << ", loss: " << loss_val;
+            std::cout << ", (data_loss: " << data_loss;
+            std::cout << ", regu_loss: " << regularization_loss;
+            std::cout << "), lr: " << optimizer.getCurrentLr() << std::endl;
         }
         stat.update(loss_val, accuracy, optimizer.getCurrentLr());
     }
@@ -124,7 +135,7 @@ int main(int argc, char const *argv[]) {
     Tensor X_test, y_test;
     std::cout << "Test: " << std::endl;
     for (int i = 0; i < 10; i++) {
-        std::tie(X_test, y_test) = Dataset::spiral_data(100, 3);
+        std::tie(X_test, y_test) = Dataset::spiral_data(NB_POINT, 3);
 
         // Forward.
         dense1.forward(X_test);

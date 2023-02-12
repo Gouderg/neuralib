@@ -37,3 +37,8 @@ cd build
 cmake ..
 make
 ```
+
+## Bibliographie
+
+- https://medium.com/@dr.sunhongyu/c-efficient-matrix-multiplication-example-b23a18990f1e
+- https://vaibhaw-vipul.medium.com/matrix-multiplication-optimizing-the-code-from-6-hours-to-1-sec-70889d33dcfa
