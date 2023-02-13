@@ -41,6 +41,6 @@ make
 
 ## Bibliographie
 
-- https://medium.com/@dr.sunhongyu/c-efficient-matrix-multiplication-example-b23a18990f1e
+- https://valgrind.org/docs/manual/cg-manual.html
 - https://vaibhaw-vipul.medium.com/matrix-multiplication-optimizing-the-code-from-6-hours-to-1-sec-70889d33dcfa
-
+- https://wiki.gentoo.org/wiki/GCC_optimization/fr
