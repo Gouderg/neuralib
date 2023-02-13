@@ -266,12 +266,12 @@ Tensor Tensor::dot(std::vector<std::vector<double>> v1, std::vector<std::vector<
     double val = 0.0;
 
     for (int i = 0; i < v1.size(); i++) {
-        for (int j = 0; j < v2[0].size();j++) {
+        for (int k = 0; k < v1[0].size(); k++) {
             val = 0.0;
-            for (int k = 0; k < v1[0].size(); k++) {
+            for (int j = 0; j < v2[0].size();j++) {
                 val += v1[i][k] * v2[k][j];
             }
-            output.setValue(i, j, val);
+            output.setValue(i, k, val);
         }
     }
     return output;

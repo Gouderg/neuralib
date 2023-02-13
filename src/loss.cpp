@@ -92,7 +92,6 @@ std::vector<double> Loss_CategoricalCrossEntropy::forward(Tensor& y_pred, Tensor
             correct_confidences[i] = y_pred_clipped[i][y_true.getValue(0, i)];
         }
     } else {
-        double somme = 0;
         for (int i = 0; i < y_true.shapeX(); i++) {
             for (int j = 0; j < y_true.shapeY(); j++) {
                 correct_confidences[i] += y_pred_clipped[i][j] * y_true.getValue(i, j);

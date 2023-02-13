@@ -58,7 +58,7 @@ sys     0m0,164s
 ```
 ## Round 2
 
-Tester le code après avoir implémenté  
+Tester le code après avoir implémenté la régularization.  
 
 Paramètres initiaux
 
@@ -72,4 +72,12 @@ const int NB_NEURON = 64;
 real    0m41,571s
 user    0m40,803s
 sys     0m0,660s
+```
+
+En ajoutant la compilation 03.
+
+```
+real    0m40,877s
+user    0m40,079s
+sys     0m0,770s
 ```

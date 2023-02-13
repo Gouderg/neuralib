@@ -8,6 +8,7 @@
 #include "header/activation_softmax_loss_categoricalcrossentropy.hpp"
 #include "header/optimizer.hpp"
 #include "header/statistic.hpp"
+#include <ctime>
 
 #define MAIN1
 
@@ -63,6 +64,7 @@ int main(int argc, char const *argv[]) {
     double data_loss = 0.0, regularization_loss = 0.0, loss_val = 0.0, accuracy = 0.0;
 
     // Number of epoch.
+    time_t start = std::time(NULL);
     for (int epoch = 0; epoch < NB_EPOCH; epoch++) {
         // Forward.
         dense1.forward(X);
@@ -98,7 +100,7 @@ int main(int argc, char const *argv[]) {
         }
         stat.update(loss_val, accuracy, optimizer.getCurrentLr());
     }
-
+    time_t end = std::time(NULL);
     #else
     std::cout << "Activation_ReLU, Activation_Softmax, Loss_CategoricalCrossEntropy" << std::endl;
 
@@ -128,7 +130,7 @@ int main(int argc, char const *argv[]) {
     dense1.backward(activation1.getDinputs());
 
     #endif
-
+    std::cout << "Temps d'exécution: " << end - start << " sec." << std::endl;
     stat.plot(false);
 
     // Test our model.
@@ -148,6 +150,8 @@ int main(int argc, char const *argv[]) {
         std::cout << ", loss: " << loss_val_test;
         std::cout << ", acc: " << accuracy_test << std::endl;
     }
+
+    
 
     return 0;
 }
