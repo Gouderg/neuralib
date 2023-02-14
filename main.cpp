@@ -13,11 +13,11 @@ void test_complex();
 
 int main(int argc, char const *argv[]) {
 
-
-    // test_addition();
-    // test_soustraction();
-    // test_multiplication();
-    // test_division();
+    test_matrix_product();
+    test_addition();
+    test_soustraction();
+    test_multiplication();
+    test_division();
     test_complex();
     
 
