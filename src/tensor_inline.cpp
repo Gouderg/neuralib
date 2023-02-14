@@ -3,6 +3,11 @@
 // Constructor.
 TensorInline::TensorInline(const int nb_row, const int nb_col, const int whichInit) {
 
+    if (nb_row <= 0 || nb_col <= 0) {
+        std::cout << "Error TensorInline Constructor: cannot set tensor size <= 0" << std::endl;
+        exit(1);
+    }
+
     this->width = nb_col;
     this->height = nb_row;
 
@@ -33,42 +38,272 @@ TensorInline::TensorInline(const int nb_row, const int nb_col, const int whichIn
 
 }
 
-// Cout.
-std::ostream& operator<<(std::ostream& out, const TensorInline& t) {
+// Addition.
+TensorInline TensorInline::operator + (TensorInline const &t2) {
+    TensorInline t3(this->height, t2.getWidth());
 
-    const int w = t.getWidth();
-    for (int i = 0; i < t.getHeight(); i++) {
-        for (int j = 0; j < w; j++) {
-            out << t.tensor[i * w + j] << " ";
+    // Broadcasting operation.
+    if (t2.getHeight() == 1 && t2.getWidth() == this->width) {
+        for (int i = 0; i < this->height; i++) {
+            for (int j = 0; j < this->width; j++) {
+                t3.tensor[this->width * i + j] = this->tensor[this->width * i + j] + t2.tensor[j];
+            }
         }
-        out << "\n";
+        return t3;
     }
-    return out;
+
+    // Other cases.
+    if (this->height != t2.getHeight() || this->width != t2.getWidth()) { return *this; }
+
+    for (int i = 0; i < this->height; i++) {
+        for (int j = 0; j < this->width; j++) {
+            t3.tensor[this->width * i + j] = this->tensor[this->width * i + j] + t2.tensor[this->width * i + j];
+        }
+    }
+
+    return t3;
 }
 
-// Dot product.
-TensorInline TensorInline::dot(const TensorInline& t2) {
+TensorInline TensorInline::operator + (double const &n) {
+    TensorInline t3 = *this;
 
-    // Check conditions.
-    if (this->width != t2.getHeight()) {
-        std::cout << "Wrong dimensions for dot product." << std::endl;
+    for (int i = 0; i < t3.getHeight() * getWidth(); i++) {
+        t3.tensor[i] += n;
     }
 
-    // Output vector.
-    TensorInline t3 = TensorInline(this->height, t2.getWidth(), 0);
+    return t3;
+}
 
-    const int w = t2.getWidth();
-    int i, j, k;
-    TensorInline t1 = *this;
-    #pragma omp parallel for private(i,j,k) shared(t1, t2, t3)
-    for (i = 0; i < this->height; i++) {
-        for (k = 0; k < this->width; k++) {
-            for (j = 0; j < w; j++) {
-                t3.tensor[w * i + j] += t1.tensor[this->width * i + k] * t2.tensor[k * w + j];
+void TensorInline::operator += (TensorInline const &t2) {
+
+    // Broadcasting operation.
+    if (t2.getHeight() == 1 && t2.getWidth() == this->width) {
+        for (int i = 0; i < this->height; i++) {
+            for (int j = 0; j < this->width; j++) {
+                this->tensor[this->width * i + j] += t2.tensor[j];
+            }
+        }
+        return ;
+    }
+
+    // Other cases.
+    if (this->height != t2.getHeight() || this->width != t2.getWidth()) { return ; }
+
+    for (int i = 0; i < this->height; i++) {
+        for (int j = 0; j < this->width; j++) {
+            this->tensor[this->width * i + j] += t2.tensor[this->width * i + j];
+        }
+    }
+}
+
+void TensorInline::operator += (double const &n) {
+    for (int i = 0; i < this->height * this->width; i++) {
+        this->tensor[i] += n;
+    }
+}
+
+// Substraction.
+TensorInline TensorInline::operator - (TensorInline const &t2) {
+    TensorInline t3(this->height, t2.getWidth());
+
+    // Broadcasting operation.
+    if (t2.getHeight() == 1 && t2.getWidth() == this->width) {
+        for (int i = 0; i < this->height; i++) {
+            for (int j = 0; j < this->width; j++) {
+                t3.tensor[this->width * i + j] = this->tensor[this->width * i + j] - t2.tensor[j];
+            }
+        }
+        return t3;
+    }
+
+    // Other cases.
+    if (this->height != t2.getHeight() || this->width != t2.getWidth()) { return *this; }
+
+    for (int i = 0; i < this->height; i++) {
+        for (int j = 0; j < this->width; j++) {
+            t3.tensor[this->width * i + j] = this->tensor[this->width * i + j] - t2.tensor[this->width * i + j];
+        }
+    }
+
+    return t3;
+}
+
+TensorInline TensorInline::operator - (double const &n) {
+    TensorInline t3 = *this;
+
+    for (int i = 0; i < t3.getHeight() * getWidth(); i++) {
+        t3.tensor[i] -= n;
+    }
+
+    return t3;
+}
+
+void TensorInline::operator -= (TensorInline const &t2) {
+
+    // Broadcasting operation.
+    if (t2.getHeight() == 1 && t2.getWidth() == this->width) {
+        for (int i = 0; i < this->height; i++) {
+            for (int j = 0; j < this->width; j++) {
+                this->tensor[this->width * i + j] -= t2.tensor[j];
+            }
+        }
+        return ;
+    }
+
+    // Other cases.
+    if (this->height != t2.getHeight() || this->width != t2.getWidth()) { return ; }
+    
+    for (int i = 0; i < this->height; i++) {
+        for (int j = 0; j < this->width; j++) {
+            this->tensor[this->width * i + j] -= t2.tensor[this->width * i + j];
+        }
+    }
+}
+
+void TensorInline::operator -= (double const &n) {
+    for (int i = 0; i < this->height * this->width; i++) {
+        this->tensor[i] -= n;
+    }
+}
+
+// Multiplication.
+TensorInline TensorInline::operator * (TensorInline const &t2) {
+    TensorInline t3(this->height, t2.getWidth());
+
+    // Broadcasting operation.
+    if (t2.getHeight() == 1 && t2.getWidth() == this->width) {
+        for (int i = 0; i < this->height; i++) {
+            for (int j = 0; j < this->width; j++) {
+                t3.tensor[this->width * i + j] = this->tensor[this->width * i + j] * t2.tensor[j];
+            }
+        }
+        return t3;
+    }
+
+    // Other cases.
+    if (this->height != t2.getHeight() || this->width != t2.getWidth()) { return *this; }
+
+    for (int i = 0; i < this->height; i++) {
+        for (int j = 0; j < this->width; j++) {
+            t3.tensor[this->width * i + j] = this->tensor[this->width * i + j] * t2.tensor[this->width * i + j];
+        }
+    }
+
+    return t3;
+}
+
+TensorInline TensorInline::operator * (double const &n) {
+    TensorInline t3 = *this;
+
+    for (int i = 0; i < t3.getHeight() * getWidth(); i++) {
+        t3.tensor[i] *= n;
+    }
+
+    return t3;
+}
+
+void TensorInline::operator *= (TensorInline const &t2) {
+
+    // Broadcasting operation.
+    if (t2.getHeight() == 1 && t2.getWidth() == this->width) {
+        for (int i = 0; i < this->height; i++) {
+            for (int j = 0; j < this->width; j++) {
+                this->tensor[this->width * i + j] *= t2.tensor[j];
+            }
+        }
+        return ;
+    }
+
+    // Other cases.
+    if (this->height != t2.getHeight() || this->width != t2.getWidth()) { return ; }
+    
+    for (int i = 0; i < this->height; i++) {
+        for (int j = 0; j < this->width; j++) {
+            this->tensor[this->width * i + j] *= t2.tensor[this->width * i + j];
+        }
+    }
+}
+
+void TensorInline::operator *= (double const &n) {
+    for (int i = 0; i < this->height * this->width; i++) {
+        this->tensor[i] *= n;
+    }
+}
+
+// Division.
+TensorInline TensorInline::operator / (TensorInline const &t2) {
+    TensorInline t3(this->height, t2.getWidth());
+
+    // Broadcasting operation.
+    if (t2.getHeight() == 1 && t2.getWidth() == this->width) {
+        for (int i = 0; i < this->height; i++) {
+            for (int j = 0; j < this->width; j++) {
+                t3.tensor[this->width * i + j] = t2.tensor[j] == 0 ? this->tensor[this->width * i + j] : this->tensor[this->width * i + j] / t2.tensor[j] ;
+            }
+        }
+        return t3;
+    }
+
+    // Other cases.
+    if (this->height != t2.getHeight() || this->width != t2.getWidth()) { return *this; }
+
+    for (int i = 0; i < this->height; i++) {
+        for (int j = 0; j < this->width; j++) {
+            t3.tensor[this->width * i + j] = t2.tensor[this->width * i + j] == 0 ? this->tensor[this->width * i + j] : this->tensor[this->width * i + j] / t2.tensor[this->width * i + j] ;
+
+        }
+    }
+
+    return t3;
+}
+
+TensorInline TensorInline::operator / (double const &n) {
+    TensorInline t3 = *this;
+
+    // Division by 0.
+    if (n == 0) { return t3; }
+
+    for (int i = 0; i < t3.getHeight() * getWidth(); i++) {
+        t3.tensor[i] /= n;
+    }
+
+    return t3;
+}
+
+void TensorInline::operator /= (TensorInline const &t2) {
+
+    // Broadcasting operation.
+    if (t2.getHeight() == 1 && t2.getWidth() == this->width) {
+        for (int i = 0; i < this->height; i++) {
+            for (int j = 0; j < this->width; j++) {
+                if (t2.tensor[j] != 0) {
+                    this->tensor[this->width * i + j] /= t2.tensor[j];
+                }
+            }
+        }
+        return ;
+    }
+
+    // Other cases.
+    if (this->height != t2.getHeight() || this->width != t2.getWidth()) { return ; }
+    
+    for (int i = 0; i < this->height; i++) {
+        for (int j = 0; j < this->width; j++) {
+            if (t2.tensor[this->width * i + j] != 0) {
+                this->tensor[this->width * i + j] /= t2.tensor[this->width * i + j];
             }
         }
     }
-    return t3;
+}
+
+void TensorInline::operator /= (double const &n) {
+    
+    // Division by 0.
+    if (n == 0) { return ;}
+
+    for (int i = 0; i < this->height * this->width; i++) {
+        this->tensor[i] /= n;
+    }
 }
 
 // Dot product.
@@ -95,4 +330,55 @@ TensorInline TensorInline::dot(const TensorInline& t1, const TensorInline& t2) {
         }
     }
     return t3;
+}
+
+// Square root.
+TensorInline TensorInline::sqrt() {
+    TensorInline t = *this;
+
+    for (int i = 0; i < this->width * this->height; i++) {
+        t.tensor[i] = std::sqrt(this->tensor[i]);
+    }
+
+    return t;
+}
+
+// Absolute value.
+TensorInline TensorInline::abs() {
+    TensorInline t = *this;
+
+    for (int i = 0; i < this->width * this->height; i++) {
+        t.tensor[i] = std::abs(this->tensor[i]);
+    }
+
+    return t;
+}
+
+// Transposate.
+TensorInline TensorInline::transposate() {
+    TensorInline t3(this->width, this->height);
+
+    for (int i = 0; i < this->height; i++) {
+        for (int j = 0; j < this->width; j++) {
+            t3.tensor[j * this->height + i] = this->tensor[this->width * i + j];
+        }
+    }
+    return t3;
+}
+
+double TensorInline::sum(TensorInline const &t) {
+    return std::accumulate(t.tensor.begin(), t.tensor.end(), 0);
+}
+
+// Cout.
+std::ostream& operator<<(std::ostream& out, const TensorInline& t) {
+
+    const int w = t.getWidth();
+    for (int i = 0; i < t.getHeight(); i++) {
+        for (int j = 0; j < w; j++) {
+            out << t.tensor[i * w + j] << " ";
+        }
+        out << "\n";
+    }
+    return out;
 }
