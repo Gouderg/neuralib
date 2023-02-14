@@ -10,13 +10,16 @@
 #include <ctime>
 #include <cmath>
 #include <omp.h>
+#include <sys/sysinfo.h>
 
 #include "tensor.hpp"
+
+const int nb_procs = std::max(omp_get_num_procs() - 1, 2);
 
 class TensorInline {
 
     public:
-        
+
         // Set Tensor attribut public to simplify operation.
         std::vector<double> tensor;
         

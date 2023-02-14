@@ -29,7 +29,8 @@ TensorInline::TensorInline(const int nb_row, const int nb_col, const int whichIn
         case 0: default:
             this->tensor = std::vector<double> (nb_row * nb_col, 0.0);
             break;
-    }   
+    }
+
 }
 
 // Cout.
@@ -85,7 +86,7 @@ TensorInline TensorInline::dot(const TensorInline& t1, const TensorInline& t2) {
     const int w1 = t1.getWidth();
     int i, j, k;
 
-    #pragma omp parallel for private(i,j,k) shared(t1, t2, t3)
+    #pragma omp parallel for private(i,j,k) shared(t1, t2, t3) num_threads(nb_procs)
     for (i = 0; i < t1.getHeight(); i++) {
         for (k = 0; k < w1; k++) {
             for (j = 0; j < w2; j++) {

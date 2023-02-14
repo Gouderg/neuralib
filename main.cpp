@@ -17,9 +17,9 @@ int main(int argc, char const *argv[]) {
     // Tensor t3 = t1.dot(t2);
     end = std::chrono::steady_clock::now();
     
-    b2 = std::chrono::steady_clock::now();
     TensorInline ti1(sizeMat, sizeMat, 1);
     TensorInline ti2(sizeMat, sizeMat, 1);
+    b2 = std::chrono::steady_clock::now();
     TensorInline ti3 = TensorInline::dot(ti1, ti2);
     e2 = std::chrono::steady_clock::now();
     
