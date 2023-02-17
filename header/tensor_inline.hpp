@@ -1,5 +1,5 @@
 #ifndef TENSOR_INLINE_H 
-#define TENSOR_ININE_H
+#define TENSOR_INLINE_H
 
 #include <iostream>
 #include <vector>

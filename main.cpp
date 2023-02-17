@@ -1,5 +1,7 @@
 #include "header/tensor.hpp"
 #include "header/tensor_inline.hpp"
+#include "header/dataset.hpp"
+#include "header/plot.hpp"
 
 #include <chrono>
 
@@ -13,14 +15,40 @@ void test_complex();
 
 int main(int argc, char const *argv[]) {
 
-    test_matrix_product();
-    test_addition();
-    test_soustraction();
-    test_multiplication();
-    test_division();
-    test_complex();
-    
+    TensorInline X, y;
+    const int samples = 1000;
 
+    X.setHeight(samples * 3);
+    X.setWidth(2);
+    y.setHeight(1);
+    y.setWidth(samples * 3);
+    std::tie(X, y) = Dataset::spiral_data(samples, 3);
+
+    
+    // Plot the dataset.
+    Plot plt;
+
+    plt.set_x_limit(-1, 1);
+    plt.set_y_limit(-1, 1);
+
+    for (int i = 0; i < X.getHeight() * X.getWidth(); i += 2) {
+        plt.draw_circle(X.tensor[i], X.tensor[i + 1], 0.01 , Plot::getColor(y.tensor[static_cast<int>(i / 2)]));
+    }
+    plt.show();
+
+    Tensor X1, y1;
+    std::tie(X1, y1) = Dataset::spiral_data2(100, 3);
+
+    // Plot the dataset.
+    Plot plt2;
+
+    plt2.set_x_limit(-1, 1);
+    plt2.set_y_limit(-1, 1);
+
+    for (int i = 0; i < X1.shape().getY(); i++) {
+        plt2.draw_circle(X1.getValue(i, 0), X1.getValue(i, 1), 0.01 , Plot::getColor(y1.getValue(0, i)));
+    }
+    // plt2.show();
 
 
     return 0;

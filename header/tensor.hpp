@@ -13,7 +13,7 @@
 #include "shape.hpp"
 
 const double MEAN = 0.0;
-const double DEVIATION = 0.01;
+const double STD_DEVIATION = 1;
 
 class Tensor {
 

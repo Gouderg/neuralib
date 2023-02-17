@@ -13,7 +13,7 @@ TensorInline::TensorInline(const int nb_row, const int nb_col, const int whichIn
 
     // Gaussian distribution.    
     std::default_random_engine generator;
-    std::normal_distribution<double> distribution(MEAN, DEVIATION);
+    std::normal_distribution<double> distribution(MEAN, STD_DEVIATION);
     srand(time(NULL)); 
 
     switch(whichInit) {

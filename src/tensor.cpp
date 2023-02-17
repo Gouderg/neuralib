@@ -6,7 +6,7 @@ Tensor::Tensor(const int nb_col, const int nb_row, const int whichInit) {
 
     // Gaussian distribution.    
     std::default_random_engine generator;
-    std::normal_distribution<double> distribution(MEAN, DEVIATION);
+    std::normal_distribution<double> distribution(MEAN, STD_DEVIATION);
     srand(time(NULL)); 
     switch (whichInit) {
 

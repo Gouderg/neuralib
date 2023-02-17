@@ -20,7 +20,7 @@ int main(int argc, char const *argv[]) {
 
     // Get the dataset.
     Tensor X, y;
-    std::tie(X, y) = Dataset::spiral_data(NB_POINT, 3);
+    std::tie(X, y) = Dataset::spiral_data2(NB_POINT, 3);
     // std::tie(X, y) = Dataset::raw_value(100, 3);
 
     // Plot the dataset.
@@ -137,7 +137,7 @@ int main(int argc, char const *argv[]) {
     Tensor X_test, y_test;
     std::cout << "Test: " << std::endl;
     for (int i = 0; i < 10; i++) {
-        std::tie(X_test, y_test) = Dataset::spiral_data(NB_POINT, 3);
+        std::tie(X_test, y_test) = Dataset::spiral_data2(NB_POINT, 3);
 
         // Forward.
         dense1.forward(X_test);
