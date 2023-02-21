@@ -12,8 +12,8 @@
 
 #define MAIN1
 
-const int NB_EPOCH = 1000;
-const int NB_POINT = 500;
+const int NB_EPOCH = 10000;
+const int NB_POINT = 100;
 const int NB_NEURON = 64;
 
 int main(int argc, char const *argv[]) {
