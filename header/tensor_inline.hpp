@@ -12,8 +12,7 @@
 #include <omp.h>
 #include <sys/sysinfo.h>
 
-const double MEAN = 0.0;
-const double STD_DEVIATION = 1;
+#include "constants.hpp"
 
 const int nb_procs = std::max(omp_get_num_procs() - 1, 2);
 

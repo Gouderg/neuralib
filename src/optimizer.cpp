@@ -83,8 +83,8 @@ void Optimizer_Adam::update_params(Layer_Dense &layer) {
     w_cache = layer.getWeightCache() / (1.0 - pow(this->beta2, this->iterations + 1.0));
     b_cache = layer.getBiasCache() / (1.0 - pow(this->beta2, this->iterations + 1.0));
 
-    w = w_mom * -this->current_lr / (w_cache.sqrt() + this->mom_ep);
-    b = b_mom * -this->current_lr / (b_cache.sqrt() + this->mom_ep);
+    w = w_mom * (-this->current_lr) / (w_cache.sqrt() + this->mom_ep);
+    b = b_mom * (-this->current_lr) / (b_cache.sqrt() + this->mom_ep);
 
     layer.addWeights(w);
     layer.addBiases(b);

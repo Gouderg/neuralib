@@ -7,17 +7,15 @@
 #include "header/activation_softmax_loss_categoricalcrossentropy.hpp"
 #include "header/optimizer.hpp"
 #include "header/statistic.hpp"
+#include "header/constants.hpp"
+
 #include <ctime>
 
-const int NB_EPOCH = 10000;
-const int NB_POINT = 100;
-const int NB_NEURON = 32;
-const int NB_LABEL = 3;
 
 int main() {
 
     // Get the dataset.
-    TensorInline X(NB_POINT * NB_LABEL, 2), y(1, NB_POINT * NB_LABEL);
+    TensorInline X(NB_POINT * NB_LABEL, NB_INPUTS), y(1, NB_POINT * NB_LABEL);
     
     // Get the dataset.
     std::tie(X, y) = Dataset::spiral_data(NB_POINT, NB_LABEL);
@@ -38,8 +36,8 @@ int main() {
     Statistic stat;
 
     // Create layer.
-    Layer_Dense dense1(2, NB_NEURON, 0, 5e-4, 0, 5e-4);
-    Layer_Dense dense2(NB_NEURON, 3);
+    Layer_Dense dense1(NB_INPUTS, NB_NEURON, WEIGHT_L1, WEIGHT_L2, BIAS_L1, BIAS_L2);
+    Layer_Dense dense2(NB_NEURON, NB_LABEL);
 
     std::cout << "Utilisation de: \"Activation_Softmax_Loss_CategoricalCrossentropy\"" << std::endl;
     std::cout << "La fonction de perte et la dernière fonction d'activation sont combinées." << std::endl;
@@ -55,7 +53,7 @@ int main() {
     // Optimizer_SGD optimizer = Optimizer_SGD(1.0, 1e-3, 0.9);
     // Optimizer_Adagrad optimizer = Optimizer_Adagrad(1.0, 1e-4, 1e-7);
     // Optimizer_RMSprop optimizer = Optimizer_RMSprop(0.02, 1e-5, 1e-7, 0.999);
-    Optimizer_Adam optimizer = Optimizer_Adam(0.02, 5e-7);
+    Optimizer_Adam optimizer = Optimizer_Adam(LEARNING_RATE, DECAY, MOMENTUM_EPSILON);
     std::cout << "Algorithme de descente de gradient: " << optimizer << "\n\n" << std::endl;
 
     // Init stat value.
@@ -104,12 +102,12 @@ int main() {
     // stat.plot(false);
 
     // Test our model.
-    TensorInline X_test(NB_POINT * NB_LABEL, 2), y_test(1, NB_POINT * NB_LABEL);
+    TensorInline X_test(NB_POINT * NB_LABEL, NB_INPUTS), y_test(1, NB_POINT * NB_LABEL);
 
     #ifdef TEST
     std::cout << "Test: " << std::endl;
     for (int i = 0; i < 10; i++) {
-        std::tie(X_test, y_test) = Dataset::spiral_data(NB_POINT, 3);
+        std::tie(X_test, y_test) = Dataset::spiral_data(NB_POINT, NB_LABEL);
 
         // Forward.
         dense1.forward(X_test);
