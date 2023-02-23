@@ -27,7 +27,7 @@ TensorInline::TensorInline(const int nb_row, const int nb_col, const int whichIn
             
             // Gaussian distribution.    
             for (int i = 0; i < nb_row * nb_col; i++) {
-                this->tensor.push_back(distribution(generator));
+                this->tensor.push_back(distribution(generator) * 0.02);
             }
             break;
 
@@ -332,11 +332,36 @@ TensorInline TensorInline::dot(const TensorInline& t1, const TensorInline& t2) {
     return t3;
 }
 
+TensorInline TensorInline::dot(const TensorInline& t1, const std::vector<double>& t2) {
+
+    // Check conditions.
+    if (t1.getWidth() != static_cast<int>(t2.size())) {
+        std::cout << "Wrong dimensions for dot product." << std::endl;
+    }
+
+    // Output vector.
+    TensorInline t3 = TensorInline(t1.getHeight(), t2.size(), 0);
+
+    const int w2 = t2.size();
+    const int w1 = t1.getWidth();
+    int i, j, k;
+
+    #pragma omp parallel for private(i,j,k) shared(t1, t2, t3) num_threads(nb_procs)
+    for (i = 0; i < t1.getHeight(); i++) {
+        for (k = 0; k < w1; k++) {
+            for (j = 0; j < w2; j++) {
+                t3.tensor[w2 * i + j] += t1.tensor[w1 * i + k] * t2[j];
+            }
+        }
+    }
+    return t3;
+}
+
 // Square root.
 TensorInline TensorInline::sqrt() {
     TensorInline t = *this;
 
-    for (int i = 0; i < this->width * this->height; i++) {
+    for (int i = 0; i < static_cast<int>(this->tensor.size()); i++) {
         t.tensor[i] = std::sqrt(this->tensor[i]);
     }
 
@@ -346,8 +371,7 @@ TensorInline TensorInline::sqrt() {
 // Absolute value.
 TensorInline TensorInline::abs() {
     TensorInline t = *this;
-
-    for (int i = 0; i < this->width * this->height; i++) {
+    for (int i = 0; i < static_cast<int>(this->tensor.size()); i++) {
         t.tensor[i] = std::abs(this->tensor[i]);
     }
 

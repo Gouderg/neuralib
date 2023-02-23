@@ -12,7 +12,7 @@ void Statistic::plot(const bool wantNormalize) {
     std::vector<double> loss_ok, acc_ok, lr_ok;
     if (this->loss.size() >= 5000 && wantNormalize) {
         double loss = 0, acc = 0, lr = 0;
-        for (int i = 0; i < this->loss.size(); i++) {
+        for (int i = 0; i < static_cast<int>(this->loss.size()); i++) {
                 loss += this->loss[i];
                 acc += this->accuracy[i];
                 lr += this->learning_rate[i];

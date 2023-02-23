@@ -11,14 +11,14 @@ class Activation_Softmax_Loss_CategoricalCrossentropy {
         Activation_Softmax_Loss_CategoricalCrossentropy();
 
         // Forward pass.
-        double forward(Tensor &ouput, Tensor &y_true);
+        double forward(TensorInline &ouput, TensorInline &y_true);
 
         // Backward pass.
-        void backward(Tensor &dvalues, Tensor &y_true);
+        void backward(TensorInline &dvalues, TensorInline &y_true);
 
         // Getter.
-        Tensor& getOutput() { return this->output; }
-        Tensor& getDinputs() { return this->dinputs; }
+        TensorInline& getOutput() { return this->output; }
+        TensorInline& getDinputs() { return this->dinputs; }
         Loss_CategoricalCrossEntropy& getLoss() {return this->loss;}
 
 
@@ -27,7 +27,7 @@ class Activation_Softmax_Loss_CategoricalCrossentropy {
         Activation_Softmax activation;
         Loss_CategoricalCrossEntropy loss;
 
-        Tensor dinputs, output;
+        TensorInline dinputs, output;
 
 };
 

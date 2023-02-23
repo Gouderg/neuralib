@@ -22,7 +22,7 @@ void Optimizer::post_update_params() {
 
 void Optimizer_SGD::update_params(Layer_Dense &layer) {
     
-    Tensor w, b;
+    TensorInline w, b;
     if (this->mom_ep) {
         w = layer.getWeightMomentum() * this->mom_ep - layer.getDweights() * this->current_lr;
         layer.setWeightMomentum(w);
@@ -40,7 +40,7 @@ void Optimizer_SGD::update_params(Layer_Dense &layer) {
 
 void Optimizer_Adagrad::update_params(Layer_Dense &layer) {
 
-    Tensor w, b;
+    TensorInline w, b;
 
     w = layer.getSquaredDWeights();
     b = layer.getSquaredDBias();
@@ -56,7 +56,7 @@ void Optimizer_Adagrad::update_params(Layer_Dense &layer) {
 
 void Optimizer_RMSprop::update_params(Layer_Dense &layer) {
 
-    Tensor w, b;
+    TensorInline w, b;
 
     layer.setWeightCache(layer.getWeightCache() * this->rho + layer.getSquaredDWeights() * (1 - this->rho));
     layer.setBiasCache(layer.getBiasCache() * this->rho + layer.getSquaredDBias() * (1 - this->rho));
@@ -69,7 +69,7 @@ void Optimizer_RMSprop::update_params(Layer_Dense &layer) {
 
 void Optimizer_Adam::update_params(Layer_Dense &layer) {
 
-    Tensor w, b, w_mom, b_mom, w_cache, b_cache;
+    TensorInline w, b, w_mom, b_mom, w_cache, b_cache;
 
     layer.setWeightMomentum(layer.getWeightMomentum() * this->beta1 + layer.getDweights() * (1 - this->beta1));
     layer.setBiasMomentum(layer.getBiasMomentum() * this->beta1 + layer.getDbiases() * (1 - this->beta1));

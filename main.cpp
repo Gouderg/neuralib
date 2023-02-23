@@ -1,196 +1,127 @@
-#include "header/tensor.hpp"
-#include "header/tensor_inline.hpp"
 #include "header/dataset.hpp"
 #include "header/plot.hpp"
+#include "header/layer_dense.hpp"
+#include "header/activation_relu.hpp"
+#include "header/activation_softmax.hpp"
+#include "header/loss.hpp"
+#include "header/activation_softmax_loss_categoricalcrossentropy.hpp"
+#include "header/optimizer.hpp"
+#include "header/statistic.hpp"
+#include <ctime>
 
-#include <chrono>
+const int NB_EPOCH = 10000;
+const int NB_POINT = 100;
+const int NB_NEURON = 32;
+const int NB_LABEL = 3;
 
+int main() {
 
-void test_matrix_product();
-void test_addition();
-void test_soustraction();
-void test_multiplication();
-void test_division();
-void test_complex();
-
-int main(int argc, char const *argv[]) {
-
-    TensorInline X, y;
-    const int samples = 1000;
-
-    X.setHeight(samples * 3);
-    X.setWidth(2);
-    y.setHeight(1);
-    y.setWidth(samples * 3);
-    std::tie(X, y) = Dataset::spiral_data(samples, 3);
-
+    // Get the dataset.
+    TensorInline X(NB_POINT * NB_LABEL, 2), y(1, NB_POINT * NB_LABEL);
     
-    // Plot the dataset.
-    Plot plt;
-
-    plt.set_x_limit(-1, 1);
-    plt.set_y_limit(-1, 1);
-
-    for (int i = 0; i < X.getHeight() * X.getWidth(); i += 2) {
-        plt.draw_circle(X.tensor[i], X.tensor[i + 1], 0.01 , Plot::getColor(y.tensor[static_cast<int>(i / 2)]));
-    }
-    plt.show();
-
-    Tensor X1, y1;
-    std::tie(X1, y1) = Dataset::spiral_data2(100, 3);
+    // Get the dataset.
+    std::tie(X, y) = Dataset::spiral_data(NB_POINT, NB_LABEL);
 
     // Plot the dataset.
-    Plot plt2;
+    // Plot plt;
 
-    plt2.set_x_limit(-1, 1);
-    plt2.set_y_limit(-1, 1);
+    // plt.set_x_limit(-1, 1);
+    // plt.set_y_limit(-1, 1);
 
-    for (int i = 0; i < X1.shape().getY(); i++) {
-        plt2.draw_circle(X1.getValue(i, 0), X1.getValue(i, 1), 0.01 , Plot::getColor(y1.getValue(0, i)));
+    // for (int i = 0; i < X.getHeight() * X.getWidth(); i += 2) {
+    //     plt.draw_circle(X.tensor[i], X.tensor[i + 1], Plot::getColor(y.tensor[static_cast<int>(i / 2)]));
+    // }
+    // plt.show();
+
+
+    // Setup the statistic system.
+    Statistic stat;
+
+    // Create layer.
+    Layer_Dense dense1(2, NB_NEURON, 0, 5e-4, 0, 5e-4);
+    Layer_Dense dense2(NB_NEURON, 3);
+
+    std::cout << "Utilisation de: \"Activation_Softmax_Loss_CategoricalCrossentropy\"" << std::endl;
+    std::cout << "La fonction de perte et la dernière fonction d'activation sont combinées." << std::endl;
+
+
+    // Activation function.
+    Activation_ReLU activation1;
+
+    // Loss function.
+    Activation_Softmax_Loss_CategoricalCrossentropy loss_activation;
+
+    // Optimizer.
+    // Optimizer_SGD optimizer = Optimizer_SGD(1.0, 1e-3, 0.9);
+    // Optimizer_Adagrad optimizer = Optimizer_Adagrad(1.0, 1e-4, 1e-7);
+    // Optimizer_RMSprop optimizer = Optimizer_RMSprop(0.02, 1e-5, 1e-7, 0.999);
+    Optimizer_Adam optimizer = Optimizer_Adam(0.02, 5e-7);
+    std::cout << "Algorithme de descente de gradient: " << optimizer << "\n\n" << std::endl;
+
+    // Init stat value.
+    double data_loss = 0.0, regularization_loss = 0.0, loss_val = 0.0, accuracy = 0.0;
+
+    // Number of epoch.
+    time_t start = std::time(NULL);
+    for (int epoch = 0; epoch < NB_EPOCH; epoch++) {
+        // Forward.
+        dense1.forward(X);
+        activation1.forward(dense1.getOutput());
+        dense2.forward(activation1.getOutput());
+
+        data_loss = loss_activation.forward(dense2.getOutput(), y);
+        regularization_loss = loss_activation.getLoss().regularization_loss(dense1) + loss_activation.getLoss().regularization_loss(dense2);
+        loss_val = data_loss + regularization_loss;
+        accuracy = Loss::accuracy(loss_activation.getOutput(), y);
+
+        // Get all the statistics.
+        if (epoch % 100 == 0) {
+            std::cout << "Epoch " << epoch;
+            std::cout << ", acc: " << accuracy;
+            std::cout << ", loss: " << loss_val;
+            std::cout << ", (data_loss: " << data_loss;
+            std::cout << ", regu_loss: " << regularization_loss;
+            std::cout << "), lr: " << optimizer.getCurrentLr() << std::endl;
+        }
+        stat.update(loss_val, accuracy, optimizer.getCurrentLr());
+
+        // Backward.
+        loss_activation.backward(loss_activation.getOutput(), y);
+        dense2.backward(loss_activation.getDinputs());
+        activation1.backward(dense2.getDinputs());
+        dense1.backward(activation1.getDinputs());
+
+        // Update weights and biases.
+        optimizer.pre_update_params();
+        optimizer.update_params(dense1);
+        optimizer.update_params(dense2);
+        optimizer.post_update_params();
+
     }
-    // plt2.show();
+    time_t end = std::time(NULL);
 
+    std::cout << "Temps d'exécution: " << end - start << " sec." << std::endl;
+    // stat.plot(false);
 
+    // Test our model.
+    TensorInline X_test(NB_POINT * NB_LABEL, 2), y_test(1, NB_POINT * NB_LABEL);
+
+    #ifdef TEST
+    std::cout << "Test: " << std::endl;
+    for (int i = 0; i < 10; i++) {
+        std::tie(X_test, y_test) = Dataset::spiral_data(NB_POINT, 3);
+
+        // Forward.
+        dense1.forward(X_test);
+        activation1.forward(dense1.getOutput());
+        dense2.forward(activation1.getOutput());
+
+        double loss_val_test = loss_activation.forward(dense2.getOutput(), y_test);
+        double accuracy_test = Loss::accuracy(loss_activation.getOutput(), y_test);
+        std::cout << "Itérations n° " << i; 
+        std::cout << ", loss: " << loss_val_test;
+        std::cout << ", acc: " << accuracy_test << std::endl;
+    }
+    #endif
     return 0;
-}
-
-void test_matrix_product() {
-    std::chrono::steady_clock::time_point begin, end, b2, e2;
-    const int sizeMat = 4096;
-
-    // Test 1.
-   
-    TensorInline ti1(sizeMat, sizeMat, 1);
-    TensorInline ti2(sizeMat, sizeMat, 1);
-    b2 = std::chrono::steady_clock::now();
-    TensorInline ti3 = TensorInline::dot(ti1, ti2);
-    e2 = std::chrono::steady_clock::now();
-    
-    std::cout << "Dimensions: " << sizeMat << std::endl;
-    std::cout << "Time difference = " << std::chrono::duration_cast<std::chrono::seconds>(end - begin).count() << "[s] vs " << std::chrono::duration_cast<std::chrono::seconds>(e2 - b2).count()
-              << "[s]" << std::endl;
-    std::cout << "Time difference = " << std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() << "[ms] vs " << std::chrono::duration_cast<std::chrono::milliseconds>(e2 - b2).count()
-              << "[ms]" << std::endl;
-
-}
-
-void test_addition() {
-
-    TensorInline ti1(3, 3);
-    TensorInline ti2(1, 3, 2);
-    TensorInline ti3(3, 3);
-
-    ti1.tensor = {2, 2, 2, 2, 2, 2, 2, 2, 2};
-
-    // Tensor +
-    std::cout << ti1 + ti2 << std::endl;
-    std::cout << ti1 + ti3 << std::endl;
-
-    // Double +
-    std::cout << ti1 + 100 << std::endl;
-
-    // Tensor += 
-    std::cout << ti1 << std::endl;
-    ti1 += ti2;
-    std::cout << ti1 << std::endl;
-
-    // Double +=
-    ti1 += 2;
-    std::cout << ti1 << std::endl;
-
-}
-
-void test_soustraction() {
-
-    TensorInline ti1(3, 3);
-    TensorInline ti2(1, 3, 2);
-    TensorInline ti3(3, 3);
-
-    ti1.tensor = {2, 2, 2, 2, 2, 2, 2, 2, 2};
-
-    // Tensor -
-    std::cout << ti1 - ti2 << std::endl;
-    std::cout << ti1 - ti3 << std::endl;
-
-    // Double -
-    std::cout << ti1 - 100 << std::endl;
-
-    // Tensor -= 
-    std::cout << ti1 << std::endl;
-    ti1 -= ti2;
-    std::cout << ti1 << std::endl;
-
-    // Double -=
-    ti1 -= 2;
-    std::cout << ti1 << std::endl;
-
-}
-
-void test_multiplication() {
-
-    TensorInline ti1(3, 3);
-    TensorInline ti2(1, 3, 2);
-    TensorInline ti3(3, 3);
-
-    ti1.tensor = {2, 2, 2, 2, 2, 2, 2, 2, 2};
-
-    // Tensor *
-    std::cout << ti1 * ti2 << std::endl;
-    std::cout << ti1 * ti3 << std::endl;
-
-    // Double *
-    std::cout << ti1 * 100 << std::endl;
-
-    // Tensor *= 
-    std::cout << ti1 << std::endl;
-    ti1 *= ti2;
-    std::cout << ti1 << std::endl;
-
-    // Double *=
-    ti1 *= 2;
-    std::cout << ti1 << std::endl;
-
-}
-
-void test_division() {
-
-    TensorInline ti1(3, 3);
-    TensorInline ti2(1, 3, 2);
-    TensorInline ti3(3, 3);
-
-    ti1.tensor = {2, 2, 2, 2, 2, 2, 2, 2, 2};
-
-    // Tensor *
-    std::cout << ti1 / ti2 << std::endl;
-    std::cout << ti1 / ti3 << std::endl;
-
-    // Double *
-    std::cout << ti1 / 100 << std::endl;
-
-    // Tensor *= 
-    std::cout << ti1 << std::endl;
-    ti1 /= ti2;
-    std::cout << ti1 << std::endl;
-
-    // Double *=
-    ti1 /= 2;
-    std::cout << ti1 << std::endl;
-
-}
-
-void test_complex() {
-    TensorInline ti1(3, 3, 2);
-
-    std::cout << ti1 << std::endl;
-    std::cout << ti1.abs() << std::endl;
-    std::cout << ti1.sqrt() << std::endl;
-    std::cout << TensorInline::sum(ti1) << std::endl;
-
-    std::cout << ti1.transposate() << std::endl;
-    
-    TensorInline ti2(3, 0, 1);
-    std::cout << ti2 << std::endl;
-    std::cout << ti2.transposate() << std::endl;
-
-
 }

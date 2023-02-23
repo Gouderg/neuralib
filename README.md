@@ -46,3 +46,5 @@ make
 - https://vaibhaw-vipul.medium.com/matrix-multiplication-optimizing-the-code-from-6-hours-to-1-sec-70889d33dcfa
 - https://wiki.gentoo.org/wiki/GCC_optimization/fr
 - https://github.com/deftio/C-and-Cpp-Tests-with-CI-CD-Example
+- https://stackoverflow.com/questions/65871948/same-random-numbers-in-c-as-computed-by-python3-numpy-random-rand
+- 

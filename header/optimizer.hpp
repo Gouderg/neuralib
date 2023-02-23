@@ -4,7 +4,6 @@
 #include <iostream>
 
 #include "layer_dense.hpp"
-#include "tensor.hpp"
 
 // We assume that momemtum and epsilon is a different variable but can be mutualize between all the class.
 class Optimizer {

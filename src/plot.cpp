@@ -36,7 +36,7 @@ void Plot::set_legend(const std::string xlabel, const std::string ylabel, const 
 }
 
 
-void Plot::draw_circle(double x, double y, double radius, std::string color) {
+void Plot::draw_circle(double x, double y, std::string color) {
     std::vector<point> p;
     p.push_back(point(x, y));
     this->points.push_back(p);
@@ -92,15 +92,15 @@ void Plot::show() {
         
     gp<<"plot";
 
-    for (int i = 0; i < this->colors.size(); i++) {
-        if (i != this->colors.size() - 1) {
+    for (int i = 0; i < static_cast<int>(this->colors.size()); i++) {
+        if (i != static_cast<int>(this->colors.size()) - 1) {
             gp << " '-' with points pt 7 ps 1 lc " << this->colors[i] << " notitle,";
         } else {
             gp << " '-' with points pt 7 ps 1 lc " << this->colors[i] << " notitle\n";
         }
     }
 
-    for (int i = 0; i < this->colors.size(); i++) {
+    for (int i = 0; i < static_cast<int>(this->colors.size()); i++) {
         gp.send1d(this->points[i]);
     }
 

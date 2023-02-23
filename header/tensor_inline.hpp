@@ -12,7 +12,8 @@
 #include <omp.h>
 #include <sys/sysinfo.h>
 
-#include "tensor.hpp"
+const double MEAN = 0.0;
+const double STD_DEVIATION = 1;
 
 const int nb_procs = std::max(omp_get_num_procs() - 1, 2);
 
@@ -70,6 +71,8 @@ class TensorInline {
 
         // Dot product. No need product from one tensor. Need two tensors to apply multi-procs.
         static TensorInline dot(const TensorInline& t1, const TensorInline& t2);
+        static TensorInline dot(const TensorInline& t1, const std::vector<double>& t2);
+
 
         // Square root.
         TensorInline sqrt();

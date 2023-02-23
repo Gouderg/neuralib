@@ -1,60 +1,62 @@
 #include "../header/activation_softmax.hpp"
 
-void Activation_Softmax::forward(Tensor& inputs) {
+void Activation_Softmax::forward(TensorInline& inputs) {
 
     this->inputs = inputs;
-    
-    int len_row = inputs.shapeX();
-    int len_col = inputs.shapeY();
 
     // Init the output size.
-    this->output = Tensor(len_col, len_row);
+    this->output = TensorInline(inputs.getHeight(), inputs.getWidth());
     
     // Init exp values.
-    std::vector<std::vector<double>> exp_t(len_col, std::vector<double> (len_row, 0));
+    TensorInline exp_t(inputs.getHeight(), inputs.getWidth(), 0);
     
     // Init somme of row exp.
-    std::vector<double> somme_exp (len_col, 0);
+    std::vector<double> somme_exp (inputs.getHeight(), 0);
 
     // Get all the exp_values.
-    for (int i = 0; i < len_col; i++) {
-        for (int j = 0; j < len_row; j++) {
-            exp_t[i][j] = exp(inputs.getValue(i, j));
-            somme_exp[i] += exp(inputs.getValue(i, j));
-        }
+    int row = -1;
+    for (int i = 0; i < inputs.getHeight() * inputs.getWidth(); i++) {
+        if (i % inputs.getWidth() == 0) {row += 1;}
+        exp_t.tensor[i] = exp(inputs.tensor[i]);
+        somme_exp[row] += exp(inputs.tensor[i]);
     }
 
     // Store the output values.
-    for (int i = 0; i < len_col; i++) {
-        for (int j = 0; j < len_row; j++) {
-            this->output.setValue(i, j, exp_t[i][j] / somme_exp[i]);
-        }
+    row = -1;
+    for (int i = 0; i < inputs.getHeight() * inputs.getWidth(); i++) {
+        if (i % inputs.getWidth() == 0) {row += 1;}
+        this->output.tensor[i] = exp_t.tensor[i] / somme_exp[row];
     }
 
 
 }
 
-void Activation_Softmax::backward(Tensor &dvalues) {
-    this->dinputs = Tensor(dvalues.shapeY(), dvalues.shapeX());
+void Activation_Softmax::backward(TensorInline &dvalues) {
 
-    for (int i = 0; i < dvalues.shapeY(); i ++) {
+    int width = dvalues.getWidth();
+    int height = dvalues.getHeight();
+    this->dinputs = TensorInline(0, 0);
+
+    for (int i = 0; i < height; i += width) {
         
-        std::vector<std::vector<double>> test (dvalues.shapeX(), std::vector<double> (1, 0));
-        for (int j = 0; j < dvalues.shapeX(); j ++) {
-            test[j][0] = this->output.getValue(i, j);
+        TensorInline test (width, 1, 0);
+        for (int j = 0; j < width; j ++) {
+            test.tensor[j] = this->output.tensor[i+j];
         }
 
-        Tensor test2 (dvalues.shapeX(), dvalues.shapeX());
-        for (int j = 0; j < dvalues.shapeX(); j ++) {
-            test2.setValue(j, j, test[j][0]);
+        TensorInline test2 (width, width);
+        for (int j = 0; j < width; j ++) {
+            test2.tensor[j * width + j] = test.tensor[j];
         }
 
-        Tensor jacobian_matrix(dvalues.shapeX(), dvalues.shapeX());
-        jacobian_matrix = test2 - Tensor::dot(test, Tensor::transposate(test));
+        TensorInline jacobian_matrix(width, width);
+        jacobian_matrix = test2 - TensorInline::dot(test, test.transposate());
 
-        std::vector<double> out = dvalues.getRow(i);
+        std::vector<double> out(dvalues.tensor.begin() + i, dvalues.tensor.begin() + i + width + 1);
 
-        this->dinputs.setRow(i, jacobian_matrix.dot(out));       
+        TensorInline res = TensorInline::dot(jacobian_matrix, out);
+
+        this->dinputs.tensor.insert(this->dinputs.tensor.end(), res.tensor.begin(), res.tensor.end());       
         
     }
 

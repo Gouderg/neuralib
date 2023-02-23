@@ -25,7 +25,7 @@ class Plot {
         void set_y_limit(double ymin, double ymax);
         void set_legend(const std::string xlabel, const std::string ylabel, const std::string title);
 
-        void draw_circle(double x, double y, double radius, std::string color);
+        void draw_circle(double x, double y, std::string color);
         void draw_line(std::vector<double> y, std::string color);
 
         static std::string getColor(const int value);
