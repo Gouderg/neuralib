@@ -9,9 +9,8 @@ class Loss {
 
     public:
 
+        // Destructor.
         virtual ~Loss(){}
-
-        // Getter.
 
         // Function for inheritance.
         virtual std::vector<double> forward(TensorInline y_pred, TensorInline& y_true);

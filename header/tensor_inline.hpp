@@ -27,9 +27,6 @@ class TensorInline {
         TensorInline(){};
         TensorInline(const int nb_col, const int nb_row, const int whichInit = 0);
 
-        // Desctructor.
-        ~TensorInline(){}
-
         // Getter.
         int getWidth() const { return this->width; }
         int getHeight() const { return this->height; }

@@ -7,8 +7,6 @@ class Activation_ReLU {
 
     public:
 
-        Activation_ReLU(){}
-
         // Getter.
         TensorInline& getOutput() { return this->output; }
         TensorInline& getDinputs() { return this->dinputs; }

@@ -21,9 +21,6 @@ class Optimizer {
         virtual void update_params(Layer_Dense &layer) = 0;
         void post_update_params();
 
-        // Destructor.
-        virtual ~Optimizer(){};
-
         // Cout.
         friend std::ostream& operator <<(std::ostream&, const Optimizer&);
 

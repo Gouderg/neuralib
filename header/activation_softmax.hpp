@@ -9,8 +9,6 @@ class Activation_Softmax {
     
     public:
 
-        Activation_Softmax(){}
-
         // Getter.
         TensorInline& getOutput() { return this->output; }
         TensorInline& getDinputs() { return this->dinputs; }
