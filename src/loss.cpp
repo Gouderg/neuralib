@@ -1,13 +1,13 @@
 #include "../header/loss.hpp"
 
-double Loss::calculate(TensorInline& output, TensorInline& y) {
+double Loss::calculate(const TensorInline& output, const TensorInline& y) {
 
     std::vector<double> samples_losses = forward(output, y);
 
     return std::reduce(samples_losses.begin(), samples_losses.end()) / samples_losses.size();
 }
 
-double Loss::regularization_loss(Layer_Dense& layer) {
+double Loss::regularization_loss(const Layer_Dense& layer) {
     
     double regularization_loss = 0;
 
@@ -32,12 +32,12 @@ double Loss::regularization_loss(Layer_Dense& layer) {
     return regularization_loss;
 }
 
-std::vector<double> Loss::forward(TensorInline y_pred, TensorInline& y_true) {
+std::vector<double> Loss::forward(const TensorInline &y_pred, const TensorInline& y_true) {
     std::vector<double> a(y_true.getHeight(), 0);
     return a;
 }
 
-double Loss::accuracy(TensorInline &inputs, TensorInline y) {
+double Loss::accuracy(const TensorInline &inputs, const TensorInline &y) {
     
     // Get the indice of the best score.
     std::vector<int> predictions;
@@ -66,7 +66,7 @@ double Loss::accuracy(TensorInline &inputs, TensorInline y) {
     return somme / predictions.size();
 }
 
-std::vector<double> Loss_CategoricalCrossEntropy::forward(TensorInline y_pred, TensorInline& y_true) {
+std::vector<double> Loss_CategoricalCrossEntropy::forward(const TensorInline &y_pred, const TensorInline& y_true) {
 
     // Clip data to prevent division by 0.
     TensorInline y_pred_clipped = y_pred;
@@ -103,7 +103,7 @@ std::vector<double> Loss_CategoricalCrossEntropy::forward(TensorInline y_pred, T
     return correct_confidences;
 }
 
-void Loss_CategoricalCrossEntropy::backward(TensorInline &dvalues, TensorInline &y_true) {
+void Loss_CategoricalCrossEntropy::backward(const TensorInline &dvalues, const TensorInline &y_true) {
 
     int samples = dvalues.getHeight();
     int labels = dvalues.getWidth();

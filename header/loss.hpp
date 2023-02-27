@@ -13,15 +13,15 @@ class Loss {
         virtual ~Loss(){}
 
         // Function for inheritance.
-        virtual std::vector<double> forward(TensorInline y_pred, TensorInline& y_true);
+        virtual std::vector<double> forward(const TensorInline &y_pred, const TensorInline& y_true);
 
         // Calculates the data and regularization losses given model output and ground truth values.
-        double calculate(TensorInline& output, TensorInline& y);
+        double calculate(const TensorInline& output, const TensorInline& y);
 
-        double regularization_loss(Layer_Dense& layer);;
+        double regularization_loss(const Layer_Dense& layer);
 
         // Calculate the accuracy
-        static double accuracy(TensorInline &inputs, TensorInline y);
+        static double accuracy(const TensorInline &inputs, const TensorInline &y);
 
 
 };
@@ -30,11 +30,11 @@ class Loss {
 class Loss_CategoricalCrossEntropy : public Loss {
 
     public:
-        std::vector<double> forward(TensorInline y_pred, TensorInline& y_true);
+        std::vector<double> forward(const TensorInline &y_pred, const TensorInline& y_true);
     
-        void backward(TensorInline &dvalues, TensorInline &y_true);
+        void backward(const TensorInline &dvalues, const TensorInline &y_true);
 
-        TensorInline& getDinputs() { return this->dinputs; }
+        const TensorInline& getDinputs() const { return this->dinputs; }
         
     private:
         TensorInline dinputs;

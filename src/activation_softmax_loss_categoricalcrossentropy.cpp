@@ -5,7 +5,7 @@ Activation_Softmax_Loss_CategoricalCrossentropy::Activation_Softmax_Loss_Categor
     this->loss = Loss_CategoricalCrossEntropy();
 }
 
-double Activation_Softmax_Loss_CategoricalCrossentropy::forward(TensorInline &inputs, TensorInline &y_true) {
+double Activation_Softmax_Loss_CategoricalCrossentropy::forward(const TensorInline &inputs, const TensorInline &y_true) {
 
     this->activation.forward(inputs);
 
@@ -14,7 +14,7 @@ double Activation_Softmax_Loss_CategoricalCrossentropy::forward(TensorInline &in
     return this->loss.calculate(this->activation.getOutput(), y_true);
 }
 
-void Activation_Softmax_Loss_CategoricalCrossentropy::backward(TensorInline &dvalues, TensorInline& y_true) {
+void Activation_Softmax_Loss_CategoricalCrossentropy::backward(const TensorInline &dvalues, const TensorInline& y_true) {
 
     this->dinputs = dvalues;
 

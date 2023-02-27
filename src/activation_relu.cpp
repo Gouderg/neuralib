@@ -1,6 +1,6 @@
 #include "../header/activation_relu.hpp"
 
-void Activation_ReLU::forward(TensorInline& inputs) {
+void Activation_ReLU::forward(const TensorInline &inputs) {
     this->inputs = inputs;
 
     this->output = TensorInline(inputs.getHeight(), inputs.getWidth());
@@ -10,7 +10,7 @@ void Activation_ReLU::forward(TensorInline& inputs) {
     }
 }
 
-void Activation_ReLU::backward(TensorInline dvalues) {
+void Activation_ReLU::backward(const TensorInline &dvalues) {
     this->dinputs = dvalues;
 
     for (int i = 0; i < this->dinputs.getHeight() * this->dinputs.getWidth(); i++) {

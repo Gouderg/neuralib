@@ -28,8 +28,8 @@ class TensorInline {
         TensorInline(const int nb_col, const int nb_row, const int whichInit = 0);
 
         // Getter.
-        int getWidth() const { return this->width; }
-        int getHeight() const { return this->height; }
+        const int getWidth() const { return this->width; }
+        const int getHeight() const { return this->height; }
         std::vector<double> getTensor() const { return this->tensor; }
 
         // Setter.
@@ -40,26 +40,26 @@ class TensorInline {
         /** Basics operations */
 
         // Addition.
-        TensorInline operator + (TensorInline const &t2);
-        TensorInline operator + (double const &n);
+        TensorInline operator + (TensorInline const &t2) const;
+        TensorInline operator + (double const &n) const;
         void operator += (TensorInline const &t2);
         void operator += (double const &n);
 
         // Substraction.
-        TensorInline operator - (TensorInline const &t2);
-        TensorInline operator - (double const &n);
+        TensorInline operator - (TensorInline const &t2) const;
+        TensorInline operator - (double const &n) const;
         void operator -= (TensorInline const &t2);
         void operator -= (double const &n);
 
         // Multiplication.
-        TensorInline operator * (TensorInline const &t2);
-        TensorInline operator * (double const &n);
+        TensorInline operator * (TensorInline const &t2) const;
+        TensorInline operator * (double const &n) const;
         void operator *= (TensorInline const &t2);
         void operator *= (double const &n);
 
         // Division.
-        TensorInline operator / (TensorInline const &t2);
-        TensorInline operator / (double const &n);
+        TensorInline operator / (TensorInline const &t2) const;
+        TensorInline operator / (double const &n) const;
         void operator /= (TensorInline const &t2);
         void operator /= (double const &n);
 
@@ -71,13 +71,13 @@ class TensorInline {
 
 
         // Square root.
-        TensorInline sqrt();
+        TensorInline sqrt() const;
 
         // Absolute value.
-        TensorInline abs();
+        TensorInline abs() const;
 
         // Transposate.
-        TensorInline transposate();
+        TensorInline transposate() const;
 
         // Sum all terms of the tensor.
         static double sum(TensorInline const &t);

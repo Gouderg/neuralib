@@ -12,51 +12,51 @@ class Layer_Dense {
         Layer_Dense(const int n_inputs, const int n_neurons, double weight_reg_L1 = 0.0, double weight_reg_L2 = 0.0, double bias_reg_L1 = 0.0, double bias_reg_L2 = 0.0);
         
         // Getter.
-        TensorInline& getWeights() { return this->weights; }
-        TensorInline& getBiases() { return this->biases; }
-        TensorInline& getOutput() { return this->output; }
-        TensorInline& getDinputs() { return this->dinputs; }
-        TensorInline& getDweights() { return this->dweights; }
-        TensorInline& getDbiases() { return this->dbiases; }
+        const TensorInline& getWeights() const { return this->weights; }
+        const TensorInline& getBiases() const { return this->biases; }
+        const TensorInline& getOutput() const { return this->output; }
+        const TensorInline& getDinputs() const{ return this->dinputs; }
+        const TensorInline& getDweights() const { return this->dweights; }
+        const TensorInline& getDbiases() const { return this->dbiases; }
 
-        TensorInline& getWeightMomentum() { return this->weight_momentum; }
-        TensorInline& getBiasMomentum() { return this->bias_momentum; }
-        TensorInline& getWeightCache() { return this->weight_cache; }
-        TensorInline& getBiasCache() { return this->bias_cache; }
+        const TensorInline& getWeightMomentum() const { return this->weight_momentum; }
+        const TensorInline& getBiasMomentum() const { return this->bias_momentum; }
+        const TensorInline& getWeightCache() const { return this->weight_cache; }
+        const TensorInline& getBiasCache() const { return this->bias_cache; }
 
-        double getWeightRegL1() { return this->weight_reg_L1; }
-        double getWeightRegL2() { return this->weight_reg_L2; }
-        double getBiasRegL1() { return this->bias_reg_L1; }
-        double getBiasRegL2() { return this->bias_reg_L2; }
+        const double getWeightRegL1() const { return this->weight_reg_L1; }
+        const double getWeightRegL2() const { return this->weight_reg_L2; }
+        const double getBiasRegL1() const { return this->bias_reg_L1; }
+        const double getBiasRegL2() const { return this->bias_reg_L2; }
 
 
-        TensorInline getSquaredDWeights() { return this->dweights * this->dweights; }
-        TensorInline getSquaredDBias() { return this->dbiases * this->dbiases; }
+        const TensorInline getSquaredDWeights() const { return this->dweights * this->dweights; }
+        const TensorInline getSquaredDBias() const { return this->dbiases * this->dbiases; }
 
 
         // Setter.
         void setWeights (TensorInline w) { this->weights = w; }
         void setWeights (std::vector<double> w) { this->weights.tensor = w; }
 
-        void setWeightMomentum (TensorInline w) {this->weight_momentum = w;}
-        void setBiasMomentum (TensorInline b) {this->bias_momentum = b;}
-        void setWeightCache (TensorInline w) {this->weight_cache = w;}
-        void setBiasCache (TensorInline b) {this->bias_cache = b;}
+        void setWeightMomentum (const TensorInline w) {this->weight_momentum = w;}
+        void setBiasMomentum (const TensorInline b) {this->bias_momentum = b;}
+        void setWeightCache (const TensorInline w) {this->weight_cache = w;}
+        void setBiasCache (const TensorInline b) {this->bias_cache = b;}
 
         // Add.
-        void addWeights (TensorInline& t) {this->weights += t;}
-        void addBiases (TensorInline& t) {this->biases += t;}
-        void addWeightMomentum (TensorInline& w) {this->weight_momentum += w;}
-        void addBiasMomentum (TensorInline& b) {this->bias_momentum += b;}
-        void addWeightCache (TensorInline& w) {this->weight_cache += w;}
-        void addBiasCache (TensorInline& b) {this->bias_cache += b;}
+        void addWeights (const TensorInline& t) {this->weights += t;}
+        void addBiases (const TensorInline& t) {this->biases += t;}
+        void addWeightMomentum (const TensorInline& w) {this->weight_momentum += w;}
+        void addBiasMomentum (const TensorInline& b) {this->bias_momentum += b;}
+        void addWeightCache (const TensorInline& w) {this->weight_cache += w;}
+        void addBiasCache (const TensorInline& b) {this->bias_cache += b;}
 
 
         // Forward pass.
-        void forward(TensorInline& inputs);
+        void forward(const TensorInline& inputs);
 
         // Backward pass.
-        void backward(TensorInline &dvalues);
+        void backward(const TensorInline &dvalues);
 
 
     private:

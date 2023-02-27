@@ -1,6 +1,6 @@
 #include "../header/activation_softmax.hpp"
 
-void Activation_Softmax::forward(TensorInline& inputs) {
+void Activation_Softmax::forward(const TensorInline& inputs) {
 
     this->inputs = inputs;
 
@@ -31,7 +31,7 @@ void Activation_Softmax::forward(TensorInline& inputs) {
 
 }
 
-void Activation_Softmax::backward(TensorInline &dvalues) {
+void Activation_Softmax::backward(const TensorInline &dvalues) {
 
     int width = dvalues.getWidth();
     int height = dvalues.getHeight();

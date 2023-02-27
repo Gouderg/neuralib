@@ -12,8 +12,8 @@ class Optimizer {
         Optimizer(const double learning_rate = 1.0, const double decay = 0.0, const double mom_ep = 0.0);
 
         // Getter.
-        double getLr() const { return this->learning_rate; }
-        double getCurrentLr() const { return this->current_lr; }
+        const double getLr() const { return this->learning_rate; }
+        const double getCurrentLr() const { return this->current_lr; }
 
         
         // Update.

@@ -11,14 +11,14 @@ class Activation_Softmax_Loss_CategoricalCrossentropy {
         Activation_Softmax_Loss_CategoricalCrossentropy();
 
         // Forward pass.
-        double forward(TensorInline &ouput, TensorInline &y_true);
+        double forward(const TensorInline &ouput, const TensorInline &y_true);
 
         // Backward pass.
-        void backward(TensorInline &dvalues, TensorInline &y_true);
+        void backward(const TensorInline &dvalues, const TensorInline &y_true);
 
         // Getter.
-        TensorInline& getOutput() { return this->output; }
-        TensorInline& getDinputs() { return this->dinputs; }
+        const TensorInline& getOutput() const { return this->output; }
+        const TensorInline& getDinputs() const { return this->dinputs; }
         Loss_CategoricalCrossEntropy& getLoss() {return this->loss;}
 
 

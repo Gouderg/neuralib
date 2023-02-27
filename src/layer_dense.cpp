@@ -20,14 +20,14 @@ Layer_Dense::Layer_Dense(const int n_inputs, const int n_neurons, double weight_
 
 }
 
-void Layer_Dense::forward(TensorInline& inputs) {
+void Layer_Dense::forward(const TensorInline& inputs) {
     
     this->inputs = inputs;
 
     this->output = TensorInline::dot(inputs, this->weights) + this->biases;
 }
 
-void Layer_Dense::backward(TensorInline &dvalues) {
+void Layer_Dense::backward(const TensorInline &dvalues) {
     
     // Gradients on parameters.
     this->dweights = TensorInline::dot(this->inputs.transposate(), dvalues);

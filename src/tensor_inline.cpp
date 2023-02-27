@@ -39,7 +39,7 @@ TensorInline::TensorInline(const int nb_row, const int nb_col, const int whichIn
 }
 
 // Addition.
-TensorInline TensorInline::operator + (TensorInline const &t2) {
+TensorInline TensorInline::operator + (TensorInline const &t2) const{
     TensorInline t3(this->height, t2.getWidth());
 
     // Broadcasting operation.
@@ -64,7 +64,7 @@ TensorInline TensorInline::operator + (TensorInline const &t2) {
     return t3;
 }
 
-TensorInline TensorInline::operator + (double const &n) {
+TensorInline TensorInline::operator + (double const &n) const {
     TensorInline t3 = *this;
 
     for (int i = 0; i < t3.getHeight() * getWidth(); i++) {
@@ -103,7 +103,7 @@ void TensorInline::operator += (double const &n) {
 }
 
 // Substraction.
-TensorInline TensorInline::operator - (TensorInline const &t2) {
+TensorInline TensorInline::operator - (TensorInline const &t2) const {
     TensorInline t3(this->height, t2.getWidth());
 
     // Broadcasting operation.
@@ -128,7 +128,7 @@ TensorInline TensorInline::operator - (TensorInline const &t2) {
     return t3;
 }
 
-TensorInline TensorInline::operator - (double const &n) {
+TensorInline TensorInline::operator - (double const &n) const {
     TensorInline t3 = *this;
 
     for (int i = 0; i < t3.getHeight() * getWidth(); i++) {
@@ -167,7 +167,7 @@ void TensorInline::operator -= (double const &n) {
 }
 
 // Multiplication.
-TensorInline TensorInline::operator * (TensorInline const &t2) {
+TensorInline TensorInline::operator * (TensorInline const &t2) const {
     TensorInline t3(this->height, t2.getWidth());
 
     // Broadcasting operation.
@@ -192,7 +192,7 @@ TensorInline TensorInline::operator * (TensorInline const &t2) {
     return t3;
 }
 
-TensorInline TensorInline::operator * (double const &n) {
+TensorInline TensorInline::operator * (double const &n) const {
     TensorInline t3 = *this;
 
     for (int i = 0; i < t3.getHeight() * getWidth(); i++) {
@@ -231,7 +231,7 @@ void TensorInline::operator *= (double const &n) {
 }
 
 // Division.
-TensorInline TensorInline::operator / (TensorInline const &t2) {
+TensorInline TensorInline::operator / (TensorInline const &t2) const {
     TensorInline t3(this->height, t2.getWidth());
 
     // Broadcasting operation.
@@ -257,7 +257,7 @@ TensorInline TensorInline::operator / (TensorInline const &t2) {
     return t3;
 }
 
-TensorInline TensorInline::operator / (double const &n) {
+TensorInline TensorInline::operator / (double const &n) const {
     TensorInline t3 = *this;
 
     // Division by 0.
@@ -358,7 +358,7 @@ TensorInline TensorInline::dot(const TensorInline& t1, const std::vector<double>
 }
 
 // Square root.
-TensorInline TensorInline::sqrt() {
+TensorInline TensorInline::sqrt() const {
     TensorInline t = *this;
 
     for (int i = 0; i < static_cast<int>(this->tensor.size()); i++) {
@@ -369,7 +369,7 @@ TensorInline TensorInline::sqrt() {
 }
 
 // Absolute value.
-TensorInline TensorInline::abs() {
+TensorInline TensorInline::abs() const {
     TensorInline t = *this;
     for (int i = 0; i < static_cast<int>(this->tensor.size()); i++) {
         t.tensor[i] = std::abs(this->tensor[i]);
@@ -379,7 +379,7 @@ TensorInline TensorInline::abs() {
 }
 
 // Transposate.
-TensorInline TensorInline::transposate() {
+TensorInline TensorInline::transposate() const {
     TensorInline t3(this->width, this->height);
 
     for (int i = 0; i < this->height; i++) {

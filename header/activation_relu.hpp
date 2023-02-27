@@ -8,15 +8,15 @@ class Activation_ReLU {
     public:
 
         // Getter.
-        TensorInline& getOutput() { return this->output; }
-        TensorInline& getDinputs() { return this->dinputs; }
+        const TensorInline& getOutput() const { return this->output; }
+        const TensorInline& getDinputs() const { return this->dinputs; }
 
 
         // Forward pass.
-        void forward(TensorInline &inputs);
+        void forward(const TensorInline &inputs);
 
         // Backward pass.
-        void backward(TensorInline dvalues);
+        void backward(const TensorInline &dvalues);
 
     private:
         TensorInline output, inputs;
