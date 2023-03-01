@@ -306,6 +306,15 @@ void TensorInline::operator /= (double const &n) {
     }
 }
 
+// Comparaison.
+bool TensorInline::operator == (TensorInline const &t2) const {
+    return this->tensor == t2.tensor;
+}
+
+bool TensorInline::operator != (TensorInline const &t2) const {
+    return !(this->tensor == t2.tensor);
+}
+
 // Dot product.
 TensorInline TensorInline::dot(const TensorInline& t1, const TensorInline& t2) {
 

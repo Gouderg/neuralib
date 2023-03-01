@@ -63,6 +63,11 @@ class TensorInline {
         void operator /= (TensorInline const &t2);
         void operator /= (double const &n);
 
+        // Comparaison.
+        bool operator == (TensorInline const &t2) const;
+        bool operator != (TensorInline const &t2) const;
+
+
         /** Special operations */
 
         // Dot product. No need product from one tensor. Need two tensors to apply multi-procs.

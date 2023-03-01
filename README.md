@@ -29,7 +29,7 @@ $$
 
 Sous ubuntu :
 ```bash
-sudo apt-get install gnuplot libboost-all-dev
+sudo apt-get install gnuplot libboost-all-dev cxxtest
 ```
 
 In the project :
@@ -40,6 +40,8 @@ cmake ..
 make
 ```
 
+
+
 ## Bibliographie
 
 - https://valgrind.org/docs/manual/cg-manual.html
@@ -47,4 +49,5 @@ make
 - https://wiki.gentoo.org/wiki/GCC_optimization/fr
 - https://github.com/deftio/C-and-Cpp-Tests-with-CI-CD-Example
 - https://stackoverflow.com/questions/65871948/same-random-numbers-in-c-as-computed-by-python3-numpy-random-rand
-- 
+- https://cxxtest.com/
+- http://cxxtest.com/guide.html
