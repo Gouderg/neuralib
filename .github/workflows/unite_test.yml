@@ -5,6 +5,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: sudo apt-get install cxxtest
+      - run: ls
       - run: cd ../../unitTest/
       - run: ./build.sh
 
