@@ -107,9 +107,9 @@ void Loss_CategoricalCrossEntropy::backward(const TensorInline &dvalues, const T
 
     int samples = dvalues.getHeight();
     int labels = dvalues.getWidth();
-    this->dinputs = TensorInline(samples, labels);
+    this->dinputs = TensorInline({samples, labels});
 
-    TensorInline y_flat_diag(samples, labels);
+    TensorInline y_flat_diag({samples, labels});
     if (y_true.getHeight() == 1) {
         for (int i = 0; i < samples; i ++) {
             y_flat_diag.tensor[i * y_flat_diag.getWidth() + y_true.tensor[i]] = 1;

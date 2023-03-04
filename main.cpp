@@ -15,7 +15,7 @@
 int main() {
 
     // Get the dataset.
-    TensorInline X(NB_POINT * NB_LABEL, NB_INPUTS), y(1, NB_POINT * NB_LABEL);
+    TensorInline X({NB_POINT * NB_LABEL, NB_INPUTS}), y({1, NB_POINT * NB_LABEL});
     
     // Get the dataset.
     std::tie(X, y) = Dataset::spiral_data(NB_POINT, NB_LABEL);
@@ -102,7 +102,7 @@ int main() {
     // stat.plot(false);
 
     // Test our model.
-    TensorInline X_test(NB_POINT * NB_LABEL, NB_INPUTS), y_test(1, NB_POINT * NB_LABEL);
+    TensorInline X_test({NB_POINT * NB_LABEL, NB_INPUTS}), y_test({1, NB_POINT * NB_LABEL});
 
     #ifdef TEST
     std::cout << "Test: " << std::endl;

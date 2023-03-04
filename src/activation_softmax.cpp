@@ -5,10 +5,10 @@ void Activation_Softmax::forward(const TensorInline& inputs) {
     this->inputs = inputs;
 
     // Init the output size.
-    this->output = TensorInline(inputs.getHeight(), inputs.getWidth());
+    this->output = TensorInline({inputs.getHeight(), inputs.getWidth()});
     
     // Init exp values.
-    TensorInline exp_t(inputs.getHeight(), inputs.getWidth(), 0);
+    TensorInline exp_t({inputs.getHeight(), inputs.getWidth()});
     
     // Init somme of row exp.
     std::vector<double> somme_exp (inputs.getHeight(), 0);
@@ -35,21 +35,21 @@ void Activation_Softmax::backward(const TensorInline &dvalues) {
 
     int width = dvalues.getWidth();
     int height = dvalues.getHeight();
-    this->dinputs = TensorInline(0, 0);
+    this->dinputs = TensorInline({0, 0});
 
     for (int i = 0; i < height; i += width) {
         
-        TensorInline test (width, 1, 0);
+        TensorInline test ({width, 1});
         for (int j = 0; j < width; j ++) {
             test.tensor[j] = this->output.tensor[i+j];
         }
 
-        TensorInline test2 (width, width);
+        TensorInline test2 ({width, width});
         for (int j = 0; j < width; j ++) {
             test2.tensor[j * width + j] = test.tensor[j];
         }
 
-        TensorInline jacobian_matrix(width, width);
+        TensorInline jacobian_matrix({width, width});
         jacobian_matrix = test2 - TensorInline::dot(test, test.transposate());
 
         std::vector<double> out(dvalues.tensor.begin() + i, dvalues.tensor.begin() + i + width + 1);

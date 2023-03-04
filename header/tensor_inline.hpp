@@ -16,6 +16,13 @@
 
 const int nb_procs = std::max(omp_get_num_procs() - 1, 2);
 
+struct TensorInlineParams {
+    int height;
+    int width;
+    bool isRandom = false;
+    double valueToSet = 0.0;
+};
+
 class TensorInline {
 
     public:
@@ -25,7 +32,7 @@ class TensorInline {
         
         // Constructor.
         TensorInline(){};
-        TensorInline(const int nb_col, const int nb_row, const int whichInit = 0);
+        TensorInline(TensorInlineParams p);
 
         // Getter.
         const int getWidth() const { return this->width; }

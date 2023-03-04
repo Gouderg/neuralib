@@ -4,14 +4,14 @@
 Layer_Dense::Layer_Dense(const int n_inputs, const int n_neurons, double weight_reg_L1, double weight_reg_L2, double bias_reg_L1, double bias_reg_L2) {
     
     // Init layers.
-    this->weights = TensorInline(n_inputs, n_neurons, 1);
-    this->biases = TensorInline(1, n_neurons);
+    this->weights = TensorInline({n_inputs, n_neurons, true});
+    this->biases = TensorInline({1, n_neurons});
 
     // Init optimizer layers with 0 with the same shape.
-    this->weight_momentum = TensorInline(n_inputs, n_neurons, 0);
-    this->bias_momentum = TensorInline(1, n_neurons, 0);
-    this->weight_cache = TensorInline(n_inputs, n_neurons, 0);
-    this->bias_cache = TensorInline(1, n_neurons, 0);
+    this->weight_momentum = TensorInline({n_inputs, n_neurons});
+    this->bias_momentum = TensorInline({1, n_neurons});
+    this->weight_cache = TensorInline({n_inputs, n_neurons});
+    this->bias_cache = TensorInline({1, n_neurons});
 
     this->weight_reg_L1 = weight_reg_L1;
     this->weight_reg_L2 = weight_reg_L2;
@@ -31,7 +31,7 @@ void Layer_Dense::backward(const TensorInline &dvalues) {
     
     // Gradients on parameters.
     this->dweights = TensorInline::dot(this->inputs.transposate(), dvalues);
-    this->dbiases = TensorInline(1,dvalues.getWidth());
+    this->dbiases = TensorInline({1, dvalues.getWidth()});
 
     
     int cpt = -1;
@@ -42,7 +42,7 @@ void Layer_Dense::backward(const TensorInline &dvalues) {
 
     // Regularization.
     if (this->weight_reg_L1 > 0) {
-        TensorInline w = TensorInline(this->weights.getHeight(), this->weights.getWidth(), 2);
+        TensorInline w = TensorInline({this->weights.getHeight(), this->weights.getWidth(), false, 1});
         for (int i = 0; i < w.getHeight() * w.getWidth(); i++) {
             if (this->weights.tensor[i] < 0) {
                 w.tensor[i] = -1;
@@ -56,7 +56,7 @@ void Layer_Dense::backward(const TensorInline &dvalues) {
     }
 
     if (this->bias_reg_L1 > 0) {
-        TensorInline b = TensorInline(this->biases.getHeight(), this->biases.getWidth(), 2);
+        TensorInline b = TensorInline({this->biases.getHeight(), this->biases.getWidth(), false, 1});
         for (int i = 0; i < b.getHeight() * b.getWidth(); i++) {
             if (this->biases.tensor[i] < 0) {
                 b.tensor[i] = -1;

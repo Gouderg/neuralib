@@ -8,8 +8,8 @@ std::tuple<TensorInline, TensorInline> Dataset::spiral_data(const int samples, c
     std::normal_distribution<> d{MEAN, STD_DEVIATION};
 
 
-    TensorInline X(samples * classes, 2);
-    TensorInline y(1, samples * classes);
+    TensorInline X({samples * classes, 2});
+    TensorInline y({1, samples * classes});
 
     double r = 0.0; // Radius for the angle.
     double t = 0.0, t_random = 0.0; // theta

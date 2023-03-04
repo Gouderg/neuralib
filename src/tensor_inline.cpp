@@ -1,46 +1,37 @@
 #include "../header/tensor_inline.hpp"
 
 // Constructor.
-TensorInline::TensorInline(const int nb_row, const int nb_col, const int whichInit) {
+TensorInline::TensorInline(TensorInlineParams p) {
 
-    if (nb_row <= 0 || nb_col <= 0) {
+    if (p.height <= 0 || p.width <= 0) {
         std::cout << "Error TensorInline Constructor: cannot set tensor size <= 0" << std::endl;
         exit(1);
     }
 
-    this->width = nb_col;
-    this->height = nb_row;
+    this->width = p.width;
+    this->height = p.height;
 
     // Gaussian distribution.    
     std::default_random_engine generator;
     std::normal_distribution<double> distribution(MEAN, STD_DEVIATION);
     srand(time(NULL)); 
 
-    switch(whichInit) {
-        case 2:
-            this->tensor = std::vector<double> (nb_row * nb_col, 1.0);
-            break;
-
-        case 1:
-            // Allocate space.
-            this->tensor.reserve(nb_row * nb_col);
-            
-            // Gaussian distribution.    
-            for (int i = 0; i < nb_row * nb_col; i++) {
-                this->tensor.push_back(distribution(generator) * 0.02);
-            }
-            break;
-
-        case 0: default:
-            this->tensor = std::vector<double> (nb_row * nb_col, 0.0);
-            break;
+    if (p.isRandom) {
+        // Allocate space.
+        this->tensor.reserve(p.height * p.width);
+        
+        // Gaussian distribution.    
+        for (int i = 0; i < p.height * p.width; i++) {
+            this->tensor.push_back(distribution(generator) * 0.02);
+        }
+    } else {
+        this->tensor = std::vector<double> (p.height * p.width, p.valueToSet);
     }
-
 }
 
 // Addition.
 TensorInline TensorInline::operator + (TensorInline const &t2) const{
-    TensorInline t3(this->height, t2.getWidth());
+    TensorInline t3({ this->height, t2.getWidth() });
 
     // Broadcasting operation.
     if (t2.getHeight() == 1 && t2.getWidth() == this->width) {
@@ -104,7 +95,7 @@ void TensorInline::operator += (double const &n) {
 
 // Substraction.
 TensorInline TensorInline::operator - (TensorInline const &t2) const {
-    TensorInline t3(this->height, t2.getWidth());
+    TensorInline t3({ this->height, t2.getWidth() });
 
     // Broadcasting operation.
     if (t2.getHeight() == 1 && t2.getWidth() == this->width) {
@@ -168,7 +159,7 @@ void TensorInline::operator -= (double const &n) {
 
 // Multiplication.
 TensorInline TensorInline::operator * (TensorInline const &t2) const {
-    TensorInline t3(this->height, t2.getWidth());
+    TensorInline t3({ this->height, t2.getWidth() });
 
     // Broadcasting operation.
     if (t2.getHeight() == 1 && t2.getWidth() == this->width) {
@@ -232,7 +223,7 @@ void TensorInline::operator *= (double const &n) {
 
 // Division.
 TensorInline TensorInline::operator / (TensorInline const &t2) const {
-    TensorInline t3(this->height, t2.getWidth());
+    TensorInline t3({ this->height, t2.getWidth() });
 
     // Broadcasting operation.
     if (t2.getHeight() == 1 && t2.getWidth() == this->width) {
@@ -324,7 +315,7 @@ TensorInline TensorInline::dot(const TensorInline& t1, const TensorInline& t2) {
     }
 
     // Output vector.
-    TensorInline t3 = TensorInline(t1.getHeight(), t2.getWidth(), 0);
+    TensorInline t3 = TensorInline({t1.getHeight(), t2.getWidth(), false, 0});
 
     const int w2 = t2.getWidth();
     const int w1 = t1.getWidth();
@@ -349,7 +340,7 @@ TensorInline TensorInline::dot(const TensorInline& t1, const std::vector<double>
     }
 
     // Output vector.
-    TensorInline t3 = TensorInline(t1.getHeight(), t2.size(), 0);
+    TensorInline t3 = TensorInline({t1.getHeight(), static_cast<int>(t2.size()), false, 0});
 
     const int w2 = t2.size();
     const int w1 = t1.getWidth();
@@ -389,7 +380,7 @@ TensorInline TensorInline::abs() const {
 
 // Transposate.
 TensorInline TensorInline::transposate() const {
-    TensorInline t3(this->width, this->height);
+    TensorInline t3({this->width, this->height});
 
     for (int i = 0; i < this->height; i++) {
         for (int j = 0; j < this->width; j++) {
