@@ -1,0 +1,9 @@
+name: Unite-test
+on: [push]
+jobs:
+  check-tensorinline:
+    runs-on: ubuntu-latest
+    steps:
+      run: apt-get install cxxtest
+      run: ../../unitTest/./build.sh
+
