@@ -4,7 +4,7 @@ jobs:
   check-tensorinline:
     runs-on: ubuntu-latest
     steps:
-      run: apt-get install cxxtest
-      run: cd ../../unitTest/
-      run: ./build.sh
+      - run: apt-get install cxxtest
+      - run: cd ../../unitTest/
+      - run: ./build.sh
 
