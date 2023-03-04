@@ -312,10 +312,11 @@ TensorInline TensorInline::dot(const TensorInline& t1, const TensorInline& t2) {
     // Check conditions.
     if (t1.getWidth() != t2.getHeight()) {
         std::cout << "Wrong dimensions for dot product." << std::endl;
+        return t1;
     }
 
     // Output vector.
-    TensorInline t3 = TensorInline({t1.getHeight(), t2.getWidth(), false, 0});
+    TensorInline t3 ({t1.getHeight(), t2.getWidth(), false, 0.0});
 
     const int w2 = t2.getWidth();
     const int w1 = t1.getWidth();
@@ -337,10 +338,11 @@ TensorInline TensorInline::dot(const TensorInline& t1, const std::vector<double>
     // Check conditions.
     if (t1.getWidth() != static_cast<int>(t2.size())) {
         std::cout << "Wrong dimensions for dot product." << std::endl;
+        return t1;
     }
 
     // Output vector.
-    TensorInline t3 = TensorInline({t1.getHeight(), static_cast<int>(t2.size()), false, 0});
+    TensorInline t3 ({t1.getHeight(), static_cast<int>(t2.size()), false, 0.0});
 
     const int w2 = t2.size();
     const int w1 = t1.getWidth();
@@ -362,7 +364,7 @@ TensorInline TensorInline::sqrt() const {
     TensorInline t = *this;
 
     for (int i = 0; i < static_cast<int>(this->tensor.size()); i++) {
-        t.tensor[i] = std::sqrt(this->tensor[i]);
+        t.tensor[i] =  this->tensor[i] >= 0.0 ? std::sqrt(this->tensor[i]) : this->tensor[i];
     }
 
     return t;

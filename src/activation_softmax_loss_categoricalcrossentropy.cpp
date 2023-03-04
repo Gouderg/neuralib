@@ -31,7 +31,7 @@ void Activation_Softmax_Loss_CategoricalCrossentropy::backward(const TensorInlin
     // Compute the gradient (-1 on the good label).
     double samples = y_flat.size();
     for (int i = 0; i < samples; i++) {
-        this->dinputs.tensor[i * this->dinputs.getWidth() + y_flat[i]] -= 1;
+        this->dinputs.tensor[i * this->dinputs.getWidth() + y_flat[i]] -= 1.0;
     }
     this->dinputs /= samples;
 }

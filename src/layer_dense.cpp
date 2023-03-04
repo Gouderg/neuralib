@@ -42,10 +42,10 @@ void Layer_Dense::backward(const TensorInline &dvalues) {
 
     // Regularization.
     if (this->weight_reg_L1 > 0) {
-        TensorInline w = TensorInline({this->weights.getHeight(), this->weights.getWidth(), false, 1});
+        TensorInline w = TensorInline({this->weights.getHeight(), this->weights.getWidth(), false, 1.0});
         for (int i = 0; i < w.getHeight() * w.getWidth(); i++) {
             if (this->weights.tensor[i] < 0) {
-                w.tensor[i] = -1;
+                w.tensor[i] = -1.0;
             }
         }
         this->dweights += (w * this->weight_reg_L1); 
@@ -56,10 +56,10 @@ void Layer_Dense::backward(const TensorInline &dvalues) {
     }
 
     if (this->bias_reg_L1 > 0) {
-        TensorInline b = TensorInline({this->biases.getHeight(), this->biases.getWidth(), false, 1});
+        TensorInline b = TensorInline({this->biases.getHeight(), this->biases.getWidth(), false, 1.0});
         for (int i = 0; i < b.getHeight() * b.getWidth(); i++) {
             if (this->biases.tensor[i] < 0) {
-                b.tensor[i] = -1;
+                b.tensor[i] = -1.0;
             }
         }
         this->dbiases += (b * this->bias_reg_L1); 

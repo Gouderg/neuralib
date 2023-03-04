@@ -20,9 +20,9 @@ void Statistic::plot(const bool wantNormalize) {
                 loss_ok.push_back(loss / 100.0);
                 acc_ok.push_back(acc / 100.0);
                 lr_ok.push_back(lr / 100.0);
-                loss = 0;
-                acc = 0;
-                lr = 0;
+                loss = 0.0;
+                acc = 0.0;
+                lr = 0.0;
             }
         }
     } else {

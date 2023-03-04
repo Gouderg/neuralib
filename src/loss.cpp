@@ -9,7 +9,7 @@ double Loss::calculate(const TensorInline& output, const TensorInline& y) {
 
 double Loss::regularization_loss(const Layer_Dense& layer) {
     
-    double regularization_loss = 0;
+    double regularization_loss = 0.0;
 
     TensorInline w = layer.getWeights();
     TensorInline b = layer.getBiases();
@@ -59,7 +59,7 @@ double Loss::accuracy(const TensorInline &inputs, const TensorInline &y) {
     double somme = 0.0;
     for (int i = 0; i < static_cast<int>(predictions.size()); i++) {
         if (predictions[i] == y_flat[i]) {
-            somme += 1;
+            somme += 1.0;
         }
     }
 
@@ -112,7 +112,7 @@ void Loss_CategoricalCrossEntropy::backward(const TensorInline &dvalues, const T
     TensorInline y_flat_diag({samples, labels});
     if (y_true.getHeight() == 1) {
         for (int i = 0; i < samples; i ++) {
-            y_flat_diag.tensor[i * y_flat_diag.getWidth() + y_true.tensor[i]] = 1;
+            y_flat_diag.tensor[i * y_flat_diag.getWidth() + y_true.tensor[i]] = 1.0;
         }
     } else {
         y_flat_diag = y_true;
