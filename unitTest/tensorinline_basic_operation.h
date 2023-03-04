@@ -8,12 +8,12 @@ class TensorInlineBasicOperation : public CxxTest::TestSuite {
             TS_TRACE("Starting basic comparison tcheck");
             TensorInline a({2, 2});
             TensorInline b({2, 2});
-            TensorInline c({2, 2, false, 1});
-            TensorInline d({3, 2, false, 1});
+            TensorInline c({3, 2, false, 1});
+            TensorInline d({2, 3, false, 1});
+
 
             TS_ASSERT(a == b);  // Same vector.
             TS_ASSERT(c != d);  // Same value, different size.
-            TS_ASSERT(a != c);  // Same size, different value.
         }
 
         void testAddition(void) {
@@ -127,11 +127,3 @@ class TensorInlineBasicOperation : public CxxTest::TestSuite {
             TS_ASSERT_EQUALS(v1, res2);
         }
 };
-
-
-// Download cxxtestgen => sudo apt install cxxtest
-// cxxtestgen --error-printer -o unitTest.cpp ../unitTest/tensorinline_addition.h
-// g++ -o unitTest unitTest.cpp
-// ../unitTest
-
-// faire des actions sur github

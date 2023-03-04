@@ -299,11 +299,11 @@ void TensorInline::operator /= (double const &n) {
 
 // Comparaison.
 bool TensorInline::operator == (TensorInline const &t2) const {
-    return this->tensor == t2.tensor;
+    return this->tensor == t2.tensor && this->width == t2.getWidth() && this->height == t2.getHeight();
 }
 
 bool TensorInline::operator != (TensorInline const &t2) const {
-    return !(this->tensor == t2.tensor);
+    return !(this->tensor == t2.tensor) || this->width != t2.getWidth() || this->height != t2.getHeight();
 }
 
 // Dot product.
@@ -391,7 +391,7 @@ TensorInline TensorInline::transposate() const {
 }
 
 double TensorInline::sum(TensorInline const &t) {
-    return std::accumulate(t.tensor.begin(), t.tensor.end(), 0);
+    return std::accumulate(t.tensor.begin(), t.tensor.end(), 0.0);
 }
 
 // Cout.
