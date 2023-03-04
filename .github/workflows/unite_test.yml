@@ -5,8 +5,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: sudo apt-get install cxxtest
-      - run: ls ../neuralib/
-      - run: ls ../../neuralib/
+      - run: cxxtestgen -v
       - run: cd ../../neuralib/unitTest/
       - run: ./build.sh
 
