@@ -1,7 +1,7 @@
 all: lib run_tests clean
 
 # Rules to build your targets
-lib: src/tensor_inline.cpp
+lib: ../src/tensor_inline.cpp
 
 # A rule that runs the unit tests
 run_tests: runner
@@ -13,7 +13,7 @@ runner: runner.cpp src/tensor_inline.cpp
 		g++ -o $@ -fopenmp $^
 
 # How to generate the test runner
-runner.cpp: unitTest/tensorinline_basic_operation.h unitTest/tensorinline_complex_operation.h
+runner.cpp: tensorinline_basic_operation.h tensorinline_complex_operation.h
 		cxxtestgen -o $@ --error-printer $^
 
 clean:
