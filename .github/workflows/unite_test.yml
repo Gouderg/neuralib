@@ -7,6 +7,5 @@ jobs:
       - run: sudo apt-get install cxxtest
       - run: cxxtestgen --v
       - uses: actions/checkout@v3
-      - run: cd unitTest
       - run: make
 
