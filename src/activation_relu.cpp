@@ -1,25 +1,21 @@
 #include "../header/activation_relu.hpp"
 
-void Activation_ReLU::forward(Tensor& inputs) {
+void Activation_ReLU::forward(const TensorInline &inputs) {
     this->inputs = inputs;
 
-    this->output = Tensor(inputs.shapeY(), inputs.shapeX());
+    this->output = TensorInline({inputs.getHeight(), inputs.getWidth()});
     
-    for (int i = 0; i < inputs.shapeY(); i++) {
-        for (int j = 0; j < inputs.shapeX(); j++) {
-            this->output.setValue(i, j, (inputs.getValue(i,j) > 0) ? inputs.getValue(i,j) : 0);
-        }
+    for (int i = 0; i < inputs.getHeight() * inputs.getWidth(); i++) {
+            this->output.tensor[i] = inputs.tensor[i] > 0 ? inputs.tensor[i] : 0.0;
     }
 }
 
-void Activation_ReLU::backward(Tensor &dvalues) {
+void Activation_ReLU::backward(const TensorInline &dvalues) {
     this->dinputs = dvalues;
 
-    for (int i = 0; i < this->dinputs.shapeY(); i++) {
-        for (int j = 0; j < this->dinputs.shapeX(); j++) {
-            if (this->inputs.getValue(i, j) <= 0) {
-                this->dinputs.setValue(i, j, 0);
-            }
+    for (int i = 0; i < this->dinputs.getHeight() * this->dinputs.getWidth(); i++) {
+        if (this->inputs.tensor[i] <= 0) {
+            this->dinputs.tensor[i] = 0.0;
         }
     }
 }

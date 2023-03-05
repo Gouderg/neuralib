@@ -22,7 +22,7 @@ void Optimizer::post_update_params() {
 
 void Optimizer_SGD::update_params(Layer_Dense &layer) {
     
-    Tensor w, b;
+    TensorInline w, b;
     if (this->mom_ep) {
         w = layer.getWeightMomentum() * this->mom_ep - layer.getDweights() * this->current_lr;
         layer.setWeightMomentum(w);
@@ -40,7 +40,7 @@ void Optimizer_SGD::update_params(Layer_Dense &layer) {
 
 void Optimizer_Adagrad::update_params(Layer_Dense &layer) {
 
-    Tensor w, b;
+    TensorInline w, b;
 
     w = layer.getSquaredDWeights();
     b = layer.getSquaredDBias();
@@ -56,7 +56,7 @@ void Optimizer_Adagrad::update_params(Layer_Dense &layer) {
 
 void Optimizer_RMSprop::update_params(Layer_Dense &layer) {
 
-    Tensor w, b;
+    TensorInline w, b;
 
     layer.setWeightCache(layer.getWeightCache() * this->rho + layer.getSquaredDWeights() * (1 - this->rho));
     layer.setBiasCache(layer.getBiasCache() * this->rho + layer.getSquaredDBias() * (1 - this->rho));
@@ -69,22 +69,21 @@ void Optimizer_RMSprop::update_params(Layer_Dense &layer) {
 
 void Optimizer_Adam::update_params(Layer_Dense &layer) {
 
-    Tensor w, b, w_mom, b_mom, w_cache, b_cache;
-
-    layer.setWeightMomentum(layer.getWeightMomentum() * this->beta1 + layer.getDweights() * (1 - this->beta1));
-    layer.setBiasMomentum(layer.getBiasMomentum() * this->beta1 + layer.getDbiases() * (1 - this->beta1));
+    TensorInline w, b, w_mom, b_mom, w_cache, b_cache;
+    layer.setWeightMomentum(layer.getWeightMomentum() * this->beta1 + layer.getDweights() * (1.0 - this->beta1));
+    layer.setBiasMomentum(layer.getBiasMomentum() * this->beta1 + layer.getDbiases() * (1.0 - this->beta1));
 
     w_mom = layer.getWeightMomentum() / (1.0 - pow(this->beta1, this->iterations + 1.0));
     b_mom = layer.getBiasMomentum() / (1.0 - pow(this->beta1, this->iterations + 1.0));
 
-    layer.setWeightCache(layer.getWeightCache() * this->beta2 + layer.getSquaredDWeights() * (1 - this->beta2));
-    layer.setBiasCache(layer.getBiasCache() * this->beta2 + layer.getSquaredDBias() * (1 - this->beta2));
+    layer.setWeightCache(layer.getWeightCache() * this->beta2 + layer.getSquaredDWeights() * (1.0 - this->beta2));
+    layer.setBiasCache(layer.getBiasCache() * this->beta2 + layer.getSquaredDBias() * (1.0 - this->beta2));
 
     w_cache = layer.getWeightCache() / (1.0 - pow(this->beta2, this->iterations + 1.0));
     b_cache = layer.getBiasCache() / (1.0 - pow(this->beta2, this->iterations + 1.0));
 
-    w = w_mom * -this->current_lr / (w_cache.sqrt() + this->mom_ep);
-    b = b_mom * -this->current_lr / (b_cache.sqrt() + this->mom_ep);
+    w = w_mom * (-this->current_lr) / (w_cache.sqrt() + this->mom_ep);
+    b = b_mom * (-this->current_lr) / (b_cache.sqrt() + this->mom_ep);
 
     layer.addWeights(w);
     layer.addBiases(b);

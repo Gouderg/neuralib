@@ -56,28 +56,49 @@ real    0m3,203s
 user    0m3,033s
 sys     0m0,164s
 ```
-## Round 2
+## Round 2 - Optimiser la classe Tensor.
 
-Tester le code après avoir implémenté la régularization.  
+Dans un premier temps, j'ai chercher l'implémentation de la matrice. Avan c'était un vector de vector. Maintenant, c'est un vecteur inline dont on calcule la position avec i et j
 
-Paramètres initiaux
+De plus, le produit vectoriel de l'implémentation inline ajoute un petit tricks qui consiste à intervertir le for k et le for j. Cela permet d'avoir moins de lecture mémoire inutile.
 
+
+
+### Matrice de taille 512 par 512: 
+
+```
+Time difference = 1[s] vs 0[s]
+Time difference = 1055[ms] vs 838[ms]
+```
+
+### Quand on ajoute l'optimizer -O sur une matrice de 2048 par 2048:
+
+```
+Time difference = 22[s] vs 9[s]
+Time difference = 22891[ms] vs 9695[ms]
+```
+
+### Avec l'optimizer -O3:
+```
+Time difference = 23[s] vs 4[s]
+Time difference = 23071[ms] vs 4473[ms]
+```
+
+Pour débugguer la mémoire de son code on peut utiliser la commande `valgrind --tool=cachegrind ./opti` puis `cg_annotate cachegrind.out.33577`
+
+### Utilisation de la parallélisation
+
+On peut ajouter la ligne suivante : 
 ```cpp
-const int NB_EPOCH = 1000;
-const int NB_POINT = 500;
-const int NB_NEURON = 64;
+#include <omp.h>
+
+#pragma omp parallel for private(i,j,k) shared(t1, t2, t3)
 ```
 
-```
-real    0m41,571s
-user    0m40,803s
-sys     0m0,660s
-```
+et dans le Makefile : `-fopenmp`
 
-En ajoutant la compilation 03.
+### Optimiser les flags de compilation
 
-```
-real    0m40,877s
-user    0m40,079s
-sys     0m0,770s
-```
+`gcc -c -Q -march=native --help=target`
+
+

@@ -1,0 +1,11 @@
+name: Unite-test
+on: [push]
+jobs:
+  check-tensorinline:
+    runs-on: ubuntu-latest
+    steps:
+      - run: sudo apt-get install cxxtest
+      - run: cxxtestgen --v
+      - uses: actions/checkout@v3
+      - run: make
+

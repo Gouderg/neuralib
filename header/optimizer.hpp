@@ -4,7 +4,6 @@
 #include <iostream>
 
 #include "layer_dense.hpp"
-#include "tensor.hpp"
 
 // We assume that momemtum and epsilon is a different variable but can be mutualize between all the class.
 class Optimizer {
@@ -13,17 +12,14 @@ class Optimizer {
         Optimizer(const double learning_rate = 1.0, const double decay = 0.0, const double mom_ep = 0.0);
 
         // Getter.
-        double getLr() const { return this->learning_rate; }
-        double getCurrentLr() const { return this->current_lr; }
+        const double getLr() const { return this->learning_rate; }
+        const double getCurrentLr() const { return this->current_lr; }
 
         
         // Update.
         void pre_update_params();
         virtual void update_params(Layer_Dense &layer) = 0;
         void post_update_params();
-
-        // Destructor.
-        virtual ~Optimizer(){};
 
         // Cout.
         friend std::ostream& operator <<(std::ostream&, const Optimizer&);

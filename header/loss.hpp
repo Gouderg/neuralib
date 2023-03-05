@@ -3,27 +3,25 @@
 
 #include <cmath>
 
-#include "../header/tensor.hpp"
 #include "../header/layer_dense.hpp"
 
 class Loss {
 
     public:
 
+        // Destructor.
         virtual ~Loss(){}
 
-        // Getter.
-
         // Function for inheritance.
-        virtual std::vector<double> forward(Tensor& y_pred, Tensor& y_true);
+        virtual std::vector<double> forward(const TensorInline &y_pred, const TensorInline& y_true);
 
         // Calculates the data and regularization losses given model output and ground truth values.
-        double calculate(Tensor& output, Tensor& y);
+        double calculate(const TensorInline& output, const TensorInline& y);
 
-        double regularization_loss(Layer_Dense& layer);;
+        double regularization_loss(const Layer_Dense& layer);
 
         // Calculate the accuracy
-        static double accuracy(Tensor &inputs, Tensor y);
+        static double accuracy(const TensorInline &inputs, const TensorInline &y);
 
 
 };
@@ -32,14 +30,14 @@ class Loss {
 class Loss_CategoricalCrossEntropy : public Loss {
 
     public:
-        std::vector<double> forward(Tensor& y_pred, Tensor& y_true);
+        std::vector<double> forward(const TensorInline &y_pred, const TensorInline& y_true);
     
-        void backward(Tensor &dvalues, Tensor &y_true);
+        void backward(const TensorInline &dvalues, const TensorInline &y_true);
 
-        Tensor& getDinputs() { return this->dinputs; }
+        const TensorInline& getDinputs() const { return this->dinputs; }
         
     private:
-        Tensor dinputs;
+        TensorInline dinputs;
 }; 
 
 #endif

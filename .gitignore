@@ -2,3 +2,4 @@
 neuralib
 build/
 src/*.o
+opti

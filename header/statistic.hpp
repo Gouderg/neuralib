@@ -9,9 +9,6 @@
 class Statistic {
 
     public:
-        
-        // Constructor.
-        Statistic(){}
 
         // Add value.
         void update(const double loss, const double accuracy, const double learning_rate);

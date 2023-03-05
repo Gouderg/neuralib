@@ -6,13 +6,14 @@
 #include <random>
 #include <cmath>
 
-#include "tensor.hpp"
+#include "tensor_inline.hpp"
+
 
 class Dataset {
 
     public:
-        static std::tuple<Tensor, Tensor> spiral_data(const int samples, const int classes);
-        static std::tuple<Tensor, Tensor> raw_value(const int samples, const int classes);
+        static std::tuple<TensorInline, TensorInline> spiral_data(const int samples, const int classes);
+
 };
 
 #endif

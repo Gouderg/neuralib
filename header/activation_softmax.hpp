@@ -3,27 +3,25 @@
 
 #include <cmath>
 
-#include "../header/tensor.hpp"
+#include "../header/tensor_inline.hpp"
 
 class Activation_Softmax {
     
     public:
 
-        Activation_Softmax(){}
-
         // Getter.
-        Tensor& getOutput() { return this->output; }
-        Tensor& getDinputs() { return this->dinputs; }
+        const TensorInline& getOutput() const { return this->output; }
+        const TensorInline& getDinputs() const { return this->dinputs; }
 
 
         // Forward pass.
-        void forward(Tensor& inputs);
+        void forward(const TensorInline& inputs);
 
         // Backward pass.
-        void backward(Tensor &dvalues);
+        void backward(const TensorInline &dvalues);
 
     private:
-        Tensor output, inputs, dinputs;
+        TensorInline output, inputs, dinputs;
 };
 
 #endif

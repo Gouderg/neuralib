@@ -1,28 +1,26 @@
 #ifndef ACTIVATION_RELU_H
 #define ACTIVATION_RELU_H
 
-#include "../header/tensor.hpp"
+#include "../header/tensor_inline.hpp"
 
 class Activation_ReLU {
 
     public:
 
-        Activation_ReLU(){}
-
         // Getter.
-        Tensor& getOutput() { return this->output; }
-        Tensor& getDinputs() { return this->dinputs; }
+        const TensorInline& getOutput() const { return this->output; }
+        const TensorInline& getDinputs() const { return this->dinputs; }
 
 
         // Forward pass.
-        void forward(Tensor &inputs);
+        void forward(const TensorInline &inputs);
 
         // Backward pass.
-        void backward(Tensor &dvalues);
+        void backward(const TensorInline &dvalues);
 
     private:
-        Tensor output, inputs;
-        Tensor dinputs;
+        TensorInline output, inputs;
+        TensorInline dinputs;
 };
 
 #endif
