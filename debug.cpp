@@ -7,44 +7,25 @@
 #include "header/activation_softmax_loss_categoricalcrossentropy.hpp"
 #include "header/optimizer.hpp"
 #include "header/statistic.hpp"
+#include <ctime>
 #include "header/constants.hpp"
 
-#include <ctime>
+#define MAIN1
 
-#define TEST
 
 int main() {
 
     // Get the dataset.
-    TensorInline X({NB_POINT * NB_LABEL, NB_INPUTS}), y({1, NB_POINT * NB_LABEL});
-    
-    // Get the dataset.
-    std::tie(X, y) = Dataset::spiral_data(NB_POINT, NB_LABEL);
+    TensorInline X({NB_POINT * NB_LABEL, 2}), y({1, NB_POINT * NB_LABEL});
+    X.tensor = { 0.0,          0.,          0.10738789,  0.02852226,  0.09263825, -0.20199226, -0.32224888, -0.08524539, -0.3495118 ,  0.27454028, -0.52100587,  0.19285966,  0.5045865 ,  0.43570277,  0.76882404,  0.11767714,  0.49269393, -0.73984873, -0.70364994, -0.71054685, -0.        , -0.        , -0.07394107,  0.08293611,  0.00808054,  0.22207525,  0.24548167,  0.22549914,  0.38364738, -0.22437814, -0.00801609, -0.5554977 , -0.66060567,  0.08969161, -0.7174548 ,  0.30032802,  0.17299275,  0.87189275,  0.66193414,  0.74956197, -0        ,  0,  0.05838184, -0.09453698, -0.13682534, -0.17510438, -0.27516943, -0.18812999,  0.19194843,  0.40085742, -0.16649488,  0.53002024,  0.6666014 ,  0.00932745, 0.43282092, -0.6462231 , -0.87291753, -0.16774514, -0.6297623 ,  0.77678794};
+    y.tensor = {0, 0, 0, 0, 0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2};
 
-    // Plot the dataset.
-    // Plot plt;
-
-    // plt.set_x_limit(-1, 1);
-    // plt.set_y_limit(-1, 1);
-
-    // for (int i = 0; i < X.getHeight() * X.getWidth(); i += 2) {
-    //     plt.draw_circle(X.tensor[i], X.tensor[i + 1], Plot::getColor(y.tensor[static_cast<int>(i / 2)]));
-    // }
-    // plt.show();
-
-
-    // Setup the statistic system.
-    Statistic stat;
-
-    // Create layer.
-    Layer_Dense dense1(NB_INPUTS, NB_NEURON, WEIGHT_L1, WEIGHT_L2, BIAS_L1, BIAS_L2);
+    Layer_Dense dense1(2, NB_NEURON, 0, 5e-4, 0, 5e-4);
     Layer_Dense dense2(NB_NEURON, NB_LABEL);
 
-    std::cout << "Utilisation de: \"Activation_Softmax_Loss_CategoricalCrossentropy\"" << std::endl;
-    std::cout << "La fonction de perte et la dernière fonction d'activation sont combinées." << std::endl;
+    dense1.setWeights({0.00154947, 0.00378163, -0.00887786, -0.01980796, -0.00347912,  0.00156349});
+    dense2.setWeights({0.01230291,  0.0120238,  -0.00387327, -0.00302303, -0.01048553, -0.01420018, -0.0170627,   0.01950775, -0.00509652});
 
-
-    // Activation function.
     Activation_ReLU activation1;
 
     // Loss function.
@@ -61,7 +42,6 @@ int main() {
     double data_loss = 0.0, regularization_loss = 0.0, loss_val = 0.0, accuracy = 0.0;
 
     // Number of epoch.
-    time_t start = std::time(NULL);
     for (int epoch = 0; epoch < NB_EPOCH; epoch++) {
         // Forward.
         dense1.forward(X);
@@ -74,7 +54,7 @@ int main() {
         accuracy = Loss::accuracy(loss_activation.getOutput(), y);
 
         // Get all the statistics.
-        if (epoch % 100 == 0) {
+        if (true || epoch % 100 == 0) {
             std::cout << "Epoch " << epoch;
             std::cout << ", acc: " << accuracy;
             std::cout << ", loss: " << loss_val;
@@ -82,7 +62,6 @@ int main() {
             std::cout << ", regu_loss: " << regularization_loss;
             std::cout << "), lr: " << optimizer.getCurrentLr() << std::endl;
         }
-        stat.update(loss_val, accuracy, optimizer.getCurrentLr());
 
         // Backward.
         loss_activation.backward(loss_activation.getOutput(), y);
@@ -97,32 +76,7 @@ int main() {
         optimizer.post_update_params();
 
     }
-    time_t end = std::time(NULL);
 
-    std::cout << "Temps d'exécution: " << end - start << " sec." << std::endl;
-    
-    // Plot all the stats.
-    stat.plot(false);
 
-    // Test our model.
-    TensorInline X_test({NB_POINT * NB_LABEL, NB_INPUTS}), y_test({1, NB_POINT * NB_LABEL});
-
-    #ifdef TEST
-    std::cout << "Test: " << std::endl;
-    for (int i = 0; i < 10; i++) {
-        std::tie(X_test, y_test) = Dataset::spiral_data(NB_POINT, NB_LABEL);
-
-        // Forward.
-        dense1.forward(X_test);
-        activation1.forward(dense1.getOutput());
-        dense2.forward(activation1.getOutput());
-
-        double loss_val_test = loss_activation.forward(dense2.getOutput(), y_test);
-        double accuracy_test = Loss::accuracy(loss_activation.getOutput(), y_test);
-        std::cout << "Itérations n° " << i; 
-        std::cout << ", loss: " << loss_val_test;
-        std::cout << ", acc: " << accuracy_test << std::endl;
-    }
-    #endif
-    return 0;
+   return 0;   
 }

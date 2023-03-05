@@ -32,12 +32,10 @@ void Layer_Dense::backward(const TensorInline &dvalues) {
     // Gradients on parameters.
     this->dweights = TensorInline::dot(this->inputs.transposate(), dvalues);
     this->dbiases = TensorInline({1, dvalues.getWidth()});
-
-    
-    int cpt = -1;
-    for (int i = 0; i < dvalues.getHeight() * dvalues.getWidth(); i++) {
-        if (i % dvalues.getHeight() == 0) { cpt += 1; }
-        this->dbiases.tensor[cpt] += dvalues.tensor[i];
+    for (int i = 0; i < dvalues.getHeight() * dvalues.getWidth(); i += dvalues.getWidth()) {
+        for (int j = 0; j < dvalues.getWidth(); j++) {
+            this->dbiases.tensor[j] += dvalues.tensor[i + j];
+        }
     }
 
     // Regularization.
@@ -52,7 +50,7 @@ void Layer_Dense::backward(const TensorInline &dvalues) {
     }
 
     if (this->weight_reg_L2 > 0) {
-        this->dweights += (this->weights * 2 * this->weight_reg_L2);
+        this->dweights += (this->weights * 2.0 * this->weight_reg_L2);
     }
 
     if (this->bias_reg_L1 > 0) {
@@ -66,10 +64,9 @@ void Layer_Dense::backward(const TensorInline &dvalues) {
     }
 
     if (this->bias_reg_L2 > 0) {
-        this->dbiases += (this->biases * 2 * this->bias_reg_L2);
+        this->dbiases += (this->biases * 2.0 * this->bias_reg_L2);
     }
 
-    
     // Gradients on values.
     this->dinputs = TensorInline::dot(dvalues, this->weights.transposate());
 }

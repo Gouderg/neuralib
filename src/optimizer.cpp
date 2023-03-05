@@ -70,7 +70,6 @@ void Optimizer_RMSprop::update_params(Layer_Dense &layer) {
 void Optimizer_Adam::update_params(Layer_Dense &layer) {
 
     TensorInline w, b, w_mom, b_mom, w_cache, b_cache;
-
     layer.setWeightMomentum(layer.getWeightMomentum() * this->beta1 + layer.getDweights() * (1.0 - this->beta1));
     layer.setBiasMomentum(layer.getBiasMomentum() * this->beta1 + layer.getDbiases() * (1.0 - this->beta1));
 

@@ -33,7 +33,7 @@ double Loss::regularization_loss(const Layer_Dense& layer) {
 }
 
 std::vector<double> Loss::forward(const TensorInline &y_pred, const TensorInline& y_true) {
-    std::vector<double> a(y_true.getHeight(), 0);
+    std::vector<double> a(y_true.getHeight(), 0.0);
     return a;
 }
 
@@ -76,14 +76,14 @@ std::vector<double> Loss_CategoricalCrossEntropy::forward(const TensorInline &y_
             y_pred_clipped.tensor[i] = 1e-15;
         }
 
-        if ((y_pred_clipped.tensor[i] > 1 - 1e-15)) {
-            y_pred_clipped.tensor[i] = 1 - 1e-15;
+        if ((y_pred_clipped.tensor[i] > 1.0 - 1e-15)) {
+            y_pred_clipped.tensor[i] = 1.0 - 1e-15;
         }
         
     }
 
     // Probabilities for target values only if categoricals values.
-    std::vector<double> correct_confidences(y_true.getWidth(), 0);
+    std::vector<double> correct_confidences(y_true.getWidth(), 0.0);
 
     if (y_true.getHeight() == 1) {
         for (int i = 0; i < y_true.getWidth(); i++) {
@@ -105,11 +105,11 @@ std::vector<double> Loss_CategoricalCrossEntropy::forward(const TensorInline &y_
 
 void Loss_CategoricalCrossEntropy::backward(const TensorInline &dvalues, const TensorInline &y_true) {
 
-    int samples = dvalues.getHeight();
-    int labels = dvalues.getWidth();
-    this->dinputs = TensorInline({samples, labels});
+    double samples = dvalues.getHeight();
+    double labels = dvalues.getWidth();
+    this->dinputs = TensorInline({static_cast<int>(samples), static_cast<int>(labels)});
 
-    TensorInline y_flat_diag({samples, labels});
+    TensorInline y_flat_diag({static_cast<int>(samples), static_cast<int>(labels)});
     if (y_true.getHeight() == 1) {
         for (int i = 0; i < samples; i ++) {
             y_flat_diag.tensor[i * y_flat_diag.getWidth() + y_true.tensor[i]] = 1.0;

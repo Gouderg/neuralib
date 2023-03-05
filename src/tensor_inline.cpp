@@ -44,7 +44,7 @@ TensorInline TensorInline::operator + (TensorInline const &t2) const{
     }
 
     // Other cases.
-    if (this->height != t2.getHeight() || this->width != t2.getWidth()) { return *this; }
+    if (this->height != t2.getHeight() || this->width != t2.getWidth()) { exit(1); return *this; }
 
     for (int i = 0; i < this->height; i++) {
         for (int j = 0; j < this->width; j++) {
@@ -78,7 +78,7 @@ void TensorInline::operator += (TensorInline const &t2) {
     }
 
     // Other cases.
-    if (this->height != t2.getHeight() || this->width != t2.getWidth()) { return ; }
+    if (this->height != t2.getHeight() || this->width != t2.getWidth()) { exit(1); return ; }
 
     for (int i = 0; i < this->height; i++) {
         for (int j = 0; j < this->width; j++) {
@@ -172,7 +172,7 @@ TensorInline TensorInline::operator * (TensorInline const &t2) const {
     }
 
     // Other cases.
-    if (this->height != t2.getHeight() || this->width != t2.getWidth()) { return *this; }
+    if (this->height != t2.getHeight() || this->width != t2.getWidth()) { exit(1); return *this; }
 
     for (int i = 0; i < this->height; i++) {
         for (int j = 0; j < this->width; j++) {
@@ -206,7 +206,7 @@ void TensorInline::operator *= (TensorInline const &t2) {
     }
 
     // Other cases.
-    if (this->height != t2.getHeight() || this->width != t2.getWidth()) { return ; }
+    if (this->height != t2.getHeight() || this->width != t2.getWidth()) { exit(1); return ; }
     
     for (int i = 0; i < this->height; i++) {
         for (int j = 0; j < this->width; j++) {
@@ -236,7 +236,7 @@ TensorInline TensorInline::operator / (TensorInline const &t2) const {
     }
 
     // Other cases.
-    if (this->height != t2.getHeight() || this->width != t2.getWidth()) { return *this; }
+    if (this->height != t2.getHeight() || this->width != t2.getWidth()) { exit(1); return *this; }
 
     for (int i = 0; i < this->height; i++) {
         for (int j = 0; j < this->width; j++) {
@@ -276,7 +276,7 @@ void TensorInline::operator /= (TensorInline const &t2) {
     }
 
     // Other cases.
-    if (this->height != t2.getHeight() || this->width != t2.getWidth()) { return ; }
+    if (this->height != t2.getHeight() || this->width != t2.getWidth()) { exit(1); return ; }
     
     for (int i = 0; i < this->height; i++) {
         for (int j = 0; j < this->width; j++) {

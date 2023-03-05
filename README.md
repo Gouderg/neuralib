@@ -15,7 +15,7 @@
 - [X] Create and plot dataset (gnuplot) 
 - [ ] set(CMAKE_CXX_FLAGS "-Wall -Wextra")
 - [ ] Do a makefile with specific flag who fit with AMD and Intel.
-- [ ] Add Unit test for tensor class gtest
+- [X] Add Unit test for tensor class cxxtest
 
 ## Equation use in the projet
 
