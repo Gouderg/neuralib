@@ -13,17 +13,17 @@
 - [X] Add Accuracy Graphics class
 - [X] Add Loss Graphics class
 - [X] Create and plot dataset (gnuplot) 
-- [ ] set(CMAKE_CXX_FLAGS "-Wall -Wextra")
-- [ ] Do a makefile with specific flag who fit with AMD and Intel.
 - [X] Add Unit test for tensor class cxxtest
 
-## Equation use in the projet
+- [ ] Add system to throw error and hanle assertion.
+- [ ] Binomial Unite test
 
-### Layer dense - Forward pass
+## Todo Clean code
 
-$$
-    output = inputs \times weights + biases
-$$
+- [ ] Do a makefile with specific flag who fit with AMD and Intel.
+- [ ] set(CMAKE_CXX_FLAGS "-Wall -Wextra")
+
+
 
 ## Setup the project
 
@@ -39,6 +39,8 @@ cd build
 cmake ..
 make
 ```
+
+To build all unite t
 
 
 

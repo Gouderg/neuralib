@@ -396,6 +396,23 @@ double TensorInline::sum(TensorInline const &t) {
     return std::accumulate(t.tensor.begin(), t.tensor.end(), 0.0);
 }
 
+// Binomial distribution.
+TensorInline TensorInline::binomial(const TensorInlineBinomialParams p) {
+    if (p.trials < 0) { std::cout << "Nombre d'essais invalide !" << std::endl;}
+
+    // Init binomial distribution.
+    std::default_random_engine generator;
+    std::binomial_distribution<int> distribution(p.trials, p.rate);
+
+    TensorInline binome({p.height, p.width});
+    for (int i = 0; i < p.height * p.width; i++) {
+        binome.tensor[i] = distribution(generator);
+    }
+
+    return binome;;
+}
+
+
 // Cout.
 std::ostream& operator<<(std::ostream& out, const TensorInline& t) {
 

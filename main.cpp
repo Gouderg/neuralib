@@ -1,6 +1,7 @@
 #include "header/dataset.hpp"
 #include "header/plot.hpp"
 #include "header/layer_dense.hpp"
+#include "header/layer_dropout.hpp"
 #include "header/activation_relu.hpp"
 #include "header/activation_softmax.hpp"
 #include "header/loss.hpp"
@@ -40,6 +41,9 @@ int main() {
     Layer_Dense dense1(NB_INPUTS, NB_NEURON, WEIGHT_L1, WEIGHT_L2, BIAS_L1, BIAS_L2);
     Layer_Dense dense2(NB_NEURON, NB_LABEL);
 
+    // Dropout layer.
+    Layer_Dropout dropout1(DROPOUT_RATE);
+
     std::cout << "Utilisation de: \"Activation_Softmax_Loss_CategoricalCrossentropy\"" << std::endl;
     std::cout << "La fonction de perte et la dernière fonction d'activation sont combinées." << std::endl;
 
@@ -63,10 +67,12 @@ int main() {
     // Number of epoch.
     time_t start = std::time(NULL);
     for (int epoch = 0; epoch < NB_EPOCH; epoch++) {
+
         // Forward.
         dense1.forward(X);
         activation1.forward(dense1.getOutput());
-        dense2.forward(activation1.getOutput());
+        dropout1.forward(activation1.getOutput());
+        dense2.forward(dropout1.getOutput());
 
         data_loss = loss_activation.forward(dense2.getOutput(), y);
         regularization_loss = loss_activation.getLoss().regularization_loss(dense1) + loss_activation.getLoss().regularization_loss(dense2);
@@ -87,7 +93,8 @@ int main() {
         // Backward.
         loss_activation.backward(loss_activation.getOutput(), y);
         dense2.backward(loss_activation.getDinputs());
-        activation1.backward(dense2.getDinputs());
+        dropout1.backward(dense2.getDinputs());
+        activation1.backward(dropout1.getDinputs());
         dense1.backward(activation1.getDinputs());
 
         // Update weights and biases.

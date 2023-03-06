@@ -23,6 +23,14 @@ struct TensorInlineParams {
     double valueToSet = 0.0;
 };
 
+
+struct TensorInlineBinomialParams {
+    int trials;
+    double rate;
+    int height;
+    int width;
+};
+
 class TensorInline {
 
     public:
@@ -93,6 +101,9 @@ class TensorInline {
 
         // Sum all terms of the tensor.
         static double sum(TensorInline const &t);
+
+        // Binomial distribution.
+        static TensorInline binomial(const TensorInlineBinomialParams p);
 
         // Cout.
         friend std::ostream& operator <<(std::ostream&, const TensorInline&);

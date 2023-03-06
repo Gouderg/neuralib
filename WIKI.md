@@ -277,3 +277,32 @@ $$
         -1 & \text{si } w_m < 0 \\
 \end{cases}
 $$
+
+## **Dropout**
+
+Ce type de couche désactive certains neurones, tandis que les autres passent sans être modifiés.
+Une couche de dropout permet aux neurones de ne pas être trop interdépendant. Cela prévient aussi de la co-adoption
+Le dropout peut également aider avec le bruit et d'autres perturbations dans les données d'entraînement, car plus de neurones travaillant ensemble signifient que le modèle peut apprendre des fonctions plus complexes
+
+
+On va désactivé des neurones selon une loi de bernouilli.
+
+### Forward pass
+
+$$
+P(r_i = 0) = q = 1 - p = 1 - P(r_i = 1)
+$$
+
+### Backward pass
+
+$$
+    Dr_i = \begin{cases}
+            \frac{z_i}{1-q} & r_i = 1 \\
+            0 & r_i = 0 \\
+        \end{cases} 
+        \rightarrow
+        \frac{\partial}{\partial z_i} Dr_i = \begin{cases}
+            \frac{1}{1-q} & r_i = 1 \\
+            0 & r_i = 0 \\
+        \end{cases} =  \frac{r_i}{1-q}
+$$
