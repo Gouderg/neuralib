@@ -2,13 +2,13 @@
 #define CONSTANTS_H
 
 // Dataset.
-const int NB_POINT = 1000;
+const int NB_POINT = 100;
 const int NB_LABEL = 3;
 const int NB_INPUTS = 2;
 
 // Size of the network.
-const int NB_EPOCH = 10000;
-const int NB_NEURON = 64;
+const int NB_EPOCH = 10;
+const int NB_NEURON = 32;
 
 // Uniform distribution parameters.
 const double MEAN = 0.0;

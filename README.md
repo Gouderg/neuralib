@@ -16,7 +16,7 @@
 - [X] Add Unit test for tensor class cxxtest
 
 - [ ] Add system to throw error and hanle assertion.
-- [ ] Binomial Unite test
+- [ ] Binomial Unit test
 
 ## Todo Clean code
 
@@ -40,7 +40,7 @@ cmake ..
 make
 ```
 
-To build all unite t
+To build all unit test, just write make at the source of the project
 
 
 

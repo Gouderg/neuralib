@@ -1,6 +1,5 @@
 # A makefile to perform all the unit test.
-
-all: unitApp clean
+test: unitApp clean
 
 # A rule that runs the unit tests
 unitApp: runner
@@ -12,7 +11,7 @@ runner: runner.cpp src/tensor_inline.cpp
 		g++ -o $@ -fopenmp $^
 
 # How to generate the test runner
-runner.cpp: unitTest/tensorinline_basic_operation.h unitTest/tensorinline_complex_operation.h
+runner.cpp: tests/test_tensorinline_basic_operation.h tests/test_tensorinline_complex_operation.h
 		cxxtestgen -o $@ --error-printer $^
 
 clean:

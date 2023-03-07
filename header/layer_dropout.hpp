@@ -6,13 +6,17 @@
 class Layer_Dropout {
 
     public:
-        
+        // Constructor.
         Layer_Dropout(const double rate);
 
+        // Getter.
         const TensorInline& getOutput() const { return this->output; }
         const TensorInline& getDinputs() const{ return this->dinputs; }
 
+        // Forward.
         void forward(const TensorInline &inputs);
+        
+        // Backward.
         void backward(const TensorInline &dvalues);
 
 

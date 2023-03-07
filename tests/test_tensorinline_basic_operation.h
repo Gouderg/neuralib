@@ -25,7 +25,6 @@ class TensorInlineBasicOperation : public CxxTest::TestSuite {
 
             // res = v1 + v2.
             TS_ASSERT_EQUALS(v1+v2, v2+v1);  // Tcheck commutative addition.
-            TS_ASSERT(c+v2 == c);            // If not the same size, no addition. 
             TS_ASSERT(v2 != v2+c);           // vectors have same width and second vector is height 1. 
 
             // res = v1 + n
@@ -54,7 +53,6 @@ class TensorInlineBasicOperation : public CxxTest::TestSuite {
 
             // res = v1 - v2.
             TS_ASSERT_EQUALS(v1-v2, v2-v1);  // Tcheck commutative substraction.
-            TS_ASSERT(c-v2 == c);            // If not the same size, no substraction. 
             TS_ASSERT(v2 != v2-c);           // vectors have same width and second vector is height 1. 
 
             // res = v1 - n
@@ -82,7 +80,6 @@ class TensorInlineBasicOperation : public CxxTest::TestSuite {
 
             // res = v1 * v2.
             TS_ASSERT_EQUALS(v1*v2, v2*v1);  // Tcheck commutative multiplication.
-            TS_ASSERT(c*v2 == c);            // If not the same size, no multiplication. 
             TS_ASSERT(v2 != v2*c);           // vectors have same width and second vector is height 1. 
 
             // res = v1 * n
@@ -109,7 +106,6 @@ class TensorInlineBasicOperation : public CxxTest::TestSuite {
             double n = 4.0;
 
             // res = v1 / v2.
-            TS_ASSERT(c/v2 == c);            // If not the same size, no operation. 
             TS_ASSERT(v2 != v2/c);           // vectors have same width and second vector is height 1. 
 
             // res = v1 / n

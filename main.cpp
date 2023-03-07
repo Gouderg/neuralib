@@ -12,7 +12,7 @@
 
 #include <ctime>
 
-#define TEST
+// #define TEST
 
 int main() {
 
@@ -108,13 +108,13 @@ int main() {
 
     std::cout << "Temps d'exécution: " << end - start << " sec." << std::endl;
     
+    #ifdef TEST
     // Plot all the stats.
     stat.plot(false);
 
     // Test our model.
     TensorInline X_test({NB_POINT * NB_LABEL, NB_INPUTS}), y_test({1, NB_POINT * NB_LABEL});
 
-    #ifdef TEST
     std::cout << "Test: " << std::endl;
     for (int i = 0; i < 10; i++) {
         std::tie(X_test, y_test) = Dataset::spiral_data(NB_POINT, NB_LABEL);
@@ -131,5 +131,6 @@ int main() {
         std::cout << ", acc: " << accuracy_test << std::endl;
     }
     #endif
+
     return 0;
 }

@@ -11,6 +11,7 @@
 #include <cmath>
 #include <omp.h>
 #include <sys/sysinfo.h>
+#include <cassert>
 
 #include "constants.hpp"
 
@@ -31,6 +32,11 @@ struct TensorInlineBinomialParams {
     int width;
 };
 
+// typedef enum {
+//     binomial_trial = "p.trials must be positive"
+
+// } TensorInlineError;
+
 class TensorInline {
 
     public:
@@ -43,14 +49,14 @@ class TensorInline {
         TensorInline(TensorInlineParams p);
 
         // Getter.
-        const int getWidth() const { return this->width; }
-        const int getHeight() const { return this->height; }
-        std::vector<double> getTensor() const { return this->tensor; }
+        const int getWidth() const noexcept { return this->width; }
+        const int getHeight() const noexcept { return this->height; }
+        std::vector<double> getTensor() const noexcept { return this->tensor; }
 
         // Setter.
-        void setWidth(const int w) { this->width = w; }
-        void setHeight(const int h) { this->height = h; }
-        void setTensor(const std::vector<double> t) { this->tensor = t; }  
+        void setWidth(const int w) noexcept { this->width = w; }
+        void setHeight(const int h) noexcept { this->height = h; }
+        void setTensor(const std::vector<double> t) noexcept { this->tensor = t; }  
 
         /** Basics operations */
 

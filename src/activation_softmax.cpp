@@ -49,15 +49,19 @@ void Activation_Softmax::backward(const TensorInline &dvalues) {
             test2.tensor[j * width + j] = test.tensor[j];
         }
 
-        TensorInline jacobian_matrix({width, width});
-        jacobian_matrix = test2 - TensorInline::dot(test, test.transposate());
+        try {
+            TensorInline jacobian_matrix({width, width});
+            jacobian_matrix = test2 - TensorInline::dot(test, test.transposate());
 
-        std::vector<double> out(dvalues.tensor.begin() + i, dvalues.tensor.begin() + i + width + 1);
+            std::vector<double> out(dvalues.tensor.begin() + i, dvalues.tensor.begin() + i + width + 1);
 
-        TensorInline res = TensorInline::dot(jacobian_matrix, out);
+            TensorInline res = TensorInline::dot(jacobian_matrix, out);
+            
+            this->dinputs.tensor.insert(this->dinputs.tensor.end(), res.tensor.begin(), res.tensor.end());      
 
-        this->dinputs.tensor.insert(this->dinputs.tensor.end(), res.tensor.begin(), res.tensor.end());       
-        
+        } catch (const std::invalid_argument & error) {
+            std::cout << "Error: Activation_Softmax::backward - " << error.what() << std::endl;
+            exit(1);
+        }        
     }
-
 }
