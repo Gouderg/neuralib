@@ -32,11 +32,6 @@ struct TensorInlineBinomialParams {
     int width;
 };
 
-// typedef enum {
-//     binomial_trial = "p.trials must be positive"
-
-// } TensorInlineError;
-
 class TensorInline {
 
     public:

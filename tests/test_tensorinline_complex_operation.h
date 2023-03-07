@@ -75,16 +75,7 @@ class TensorInlineComplexeOperation: public CxxTest::TestSuite {
             std::vector<double> v4 = {4, 4, 4};
             TensorInline v5({2, 3, false, -48});
 
-            TS_ASSERT_THROWS(TensorInline::dot(v1, v1), std::invalid_argument); // Wrong dimensions.
             TS_ASSERT_EQUALS(TensorInline::dot(v1, v2), v3); 
             TS_ASSERT_EQUALS(TensorInline::dot(v1, v4), v5); 
-        }
-
-        void testBinomial(void) {        
-            TS_ASSERT_THROWS(TensorInline::binomial({-1, 0.3, 2, 2}), std::invalid_argument);   // Negative trials.
-            TS_ASSERT_THROWS(TensorInline::binomial({1, 3, 3, 3}), std::invalid_argument);      // Out of range probability.
-            TS_ASSERT_THROWS(TensorInline::binomial({1, 0.3, -3, 3}), std::invalid_argument);   // Invalid height.
-            TS_ASSERT_THROWS(TensorInline::binomial({1, 0.3, 3, -3}), std::invalid_argument);   // Invalid width.
-        }
-           
+        }       
 };

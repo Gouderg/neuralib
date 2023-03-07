@@ -41,7 +41,7 @@ TensorInline TensorInline::operator + (TensorInline const &t2) const{
     }
 
     // Other cases.
-    assert(this->height == t2.getHeight() && this->width == t2.getWidth());
+    assert(this->height == t2.getHeight() && this->width == t2.getWidth() && "Wrong dimensions for +");
 
 
     for (int i = 0; i < this->height; i++) {
@@ -76,7 +76,7 @@ void TensorInline::operator += (TensorInline const &t2) {
     }
 
     // Other cases.
-    assert(this->height == t2.getHeight() && this->width == t2.getWidth());
+    assert(this->height == t2.getHeight() && this->width == t2.getWidth() && "Wrong dimensions for +=");
 
 
     for (int i = 0; i < this->height; i++) {
@@ -107,7 +107,7 @@ TensorInline TensorInline::operator - (TensorInline const &t2) const {
     }
 
     // Other cases.
-    assert(this->height == t2.getHeight() && this->width == t2.getWidth());
+    assert(this->height == t2.getHeight() && this->width == t2.getWidth() && "Wrong dimensions for -");
 
 
     for (int i = 0; i < this->height; i++) {
@@ -142,7 +142,7 @@ void TensorInline::operator -= (TensorInline const &t2) {
     }
 
     // Other cases.
-    assert(this->height == t2.getHeight() && this->width == t2.getWidth());
+    assert(this->height == t2.getHeight() && this->width == t2.getWidth() && "Wrong dimensions for -=");
 
     
     for (int i = 0; i < this->height; i++) {
@@ -173,7 +173,7 @@ TensorInline TensorInline::operator * (TensorInline const &t2) const {
     }
 
     // Other cases.
-    assert(this->height == t2.getHeight() && this->width == t2.getWidth());
+    assert(this->height == t2.getHeight() && this->width == t2.getWidth() && "Wrong dimensions for *");
 
 
     for (int i = 0; i < this->height; i++) {
@@ -208,7 +208,7 @@ void TensorInline::operator *= (TensorInline const &t2) {
     }
 
     // Other cases.
-    assert(this->height == t2.getHeight() && this->width == t2.getWidth());
+    assert(this->height == t2.getHeight() && this->width == t2.getWidth() && "Wrong dimensions for *=");
 
     
     for (int i = 0; i < this->height; i++) {
@@ -239,7 +239,7 @@ TensorInline TensorInline::operator / (TensorInline const &t2) const {
     }
 
     // Other cases.
-    assert(this->height == t2.getHeight() && this->width == t2.getWidth());
+    assert(this->height == t2.getHeight() && this->width == t2.getWidth() && "Wrong dimensions for /");
 
 
     for (int i = 0; i < this->height; i++) {
@@ -256,7 +256,7 @@ TensorInline TensorInline::operator / (double const &n) const {
     TensorInline t3 = *this;
 
     // Division by 0.
-    assert(n != 0);
+    assert(n != 0 && "Divide by 0");
 
     for (int i = 0; i < t3.getHeight() * getWidth(); i++) {
         t3.tensor[i] /= n;
@@ -280,7 +280,7 @@ void TensorInline::operator /= (TensorInline const &t2) {
     }
 
     // Other cases.
-    assert(this->height == t2.getHeight() && this->width == t2.getWidth());
+    assert(this->height == t2.getHeight() && this->width == t2.getWidth() && "Wrong dimensions for /=");
     
     for (int i = 0; i < this->height; i++) {
         for (int j = 0; j < this->width; j++) {
@@ -294,7 +294,7 @@ void TensorInline::operator /= (TensorInline const &t2) {
 void TensorInline::operator /= (double const &n) {
     
     // Division by 0.
-    assert(n != 0);
+    assert(n != 0 && "Divide by 0");
 
     for (int i = 0; i < this->height * this->width; i++) {
         this->tensor[i] /= n;
@@ -314,9 +314,7 @@ bool TensorInline::operator != (TensorInline const &t2) const {
 TensorInline TensorInline::dot(const TensorInline& t1, const TensorInline& t2) {
 
     // Check conditions.
-    if (t1.getWidth() != t2.getHeight()) {
-        throw std::invalid_argument("Wrong dimensions for dot product");
-    }
+    assert(t1.getWidth() == t2.getHeight() && "Wrong dimensions for dot product."); 
 
     // Output vector.
     TensorInline t3 ({t1.getHeight(), t2.getWidth(), false, 0.0});
@@ -339,9 +337,7 @@ TensorInline TensorInline::dot(const TensorInline& t1, const TensorInline& t2) {
 TensorInline TensorInline::dot(const TensorInline& t1, const std::vector<double>& t2) {
 
     // Check conditions.
-    if (t1.getWidth() != static_cast<int>(t2.size())) {
-        throw std::invalid_argument("Wrong dimensions for dot product");
-    }
+    assert(t1.getWidth() == static_cast<int>(t2.size()) && "Wrong dimensions for dot product.");
 
     // Output vector.
     TensorInline t3 ({t1.getHeight(), static_cast<int>(t2.size()), false, 0.0});
@@ -401,18 +397,10 @@ double TensorInline::sum(TensorInline const &t) {
 // Binomial distribution.
 TensorInline TensorInline::binomial(const TensorInlineBinomialParams p) {
 
-    if(p.trials < 0)
-        throw std::invalid_argument("p.trials must be positive");
-
-    if (p.rate < 0 || p.rate > 1)
-        throw std::invalid_argument("p.rate must be in range [0; 1]");
-    
-    if (p.height < 0)
-        throw std::invalid_argument("p.height must be positive");
-
-    if (p.width < 0)    
-        throw std::invalid_argument("p.height must be positive");
-
+    assert(p.trials >= 0 && "p.trials must be positive");
+    assert(p.rate >= 0 && p.rate <= 1 && "p.rate must be in range [0; 1]");
+    assert(p.height > 0 && "p.height must be positive");
+    assert(p.width > 0 && "p.height must be positive");
 
     // Init binomial distribution.
     std::default_random_engine generator;

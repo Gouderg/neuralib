@@ -23,61 +23,50 @@ Layer_Dense::Layer_Dense(const int n_inputs, const int n_neurons, double weight_
 void Layer_Dense::forward(const TensorInline& inputs) {
     
     this->inputs = inputs;
-
-    try {
-        this->output = TensorInline::dot(inputs, this->weights) + this->biases;
-    } catch (const std::invalid_argument & error) {
-        std::cout << "Error: Layer_Dense::forward - " << error.what() << std::endl;
-        exit(1);
-    }
+    this->output = TensorInline::dot(inputs, this->weights) + this->biases;
 }
 
 void Layer_Dense::backward(const TensorInline &dvalues) {
     
-    try {
-        // Gradients on parameters.
-        this->dweights = TensorInline::dot(this->inputs.transposate(), dvalues);
-        this->dbiases = TensorInline({1, dvalues.getWidth()});
-        for (int i = 0; i < dvalues.getHeight() * dvalues.getWidth(); i += dvalues.getWidth()) {
-            for (int j = 0; j < dvalues.getWidth(); j++) {
-                this->dbiases.tensor[j] += dvalues.tensor[i + j];
-            }
+    // Gradients on parameters.
+    this->dweights = TensorInline::dot(this->inputs.transposate(), dvalues);
+    this->dbiases = TensorInline({1, dvalues.getWidth()});
+    for (int i = 0; i < dvalues.getHeight() * dvalues.getWidth(); i += dvalues.getWidth()) {
+        for (int j = 0; j < dvalues.getWidth(); j++) {
+            this->dbiases.tensor[j] += dvalues.tensor[i + j];
         }
-
-        // Regularization.
-        if (this->weight_reg_L1 > 0) {
-            TensorInline w = TensorInline({this->weights.getHeight(), this->weights.getWidth(), false, 1.0});
-            for (int i = 0; i < w.getHeight() * w.getWidth(); i++) {
-                if (this->weights.tensor[i] < 0) {
-                    w.tensor[i] = -1.0;
-                }
-            }
-            this->dweights += (w * this->weight_reg_L1); 
-        }
-
-        if (this->weight_reg_L2 > 0) {
-            this->dweights += (this->weights * 2.0 * this->weight_reg_L2);
-        }
-
-        if (this->bias_reg_L1 > 0) {
-            TensorInline b = TensorInline({this->biases.getHeight(), this->biases.getWidth(), false, 1.0});
-            for (int i = 0; i < b.getHeight() * b.getWidth(); i++) {
-                if (this->biases.tensor[i] < 0) {
-                    b.tensor[i] = -1.0;
-                }
-            }
-            this->dbiases += (b * this->bias_reg_L1); 
-        }
-
-        if (this->bias_reg_L2 > 0) {
-            this->dbiases += (this->biases * 2.0 * this->bias_reg_L2);
-        }
-
-        // Gradients on values.
-
-        this->dinputs = TensorInline::dot(dvalues, this->weights.transposate());
-    } catch (const std::invalid_argument & error) {
-        std::cout << "Error: Layer_Dense::backward - " << error.what() << std::endl;
-        exit(1);
     }
+
+    // Regularization.
+    if (this->weight_reg_L1 > 0) {
+        TensorInline w = TensorInline({this->weights.getHeight(), this->weights.getWidth(), false, 1.0});
+        for (int i = 0; i < w.getHeight() * w.getWidth(); i++) {
+            if (this->weights.tensor[i] < 0) {
+                w.tensor[i] = -1.0;
+            }
+        }
+        this->dweights += (w * this->weight_reg_L1); 
+    }
+
+    if (this->weight_reg_L2 > 0) {
+        this->dweights += (this->weights * 2.0 * this->weight_reg_L2);
+    }
+
+    if (this->bias_reg_L1 > 0) {
+        TensorInline b = TensorInline({this->biases.getHeight(), this->biases.getWidth(), false, 1.0});
+        for (int i = 0; i < b.getHeight() * b.getWidth(); i++) {
+            if (this->biases.tensor[i] < 0) {
+                b.tensor[i] = -1.0;
+            }
+        }
+        this->dbiases += (b * this->bias_reg_L1); 
+    }
+
+    if (this->bias_reg_L2 > 0) {
+        this->dbiases += (this->biases * 2.0 * this->bias_reg_L2);
+    }
+
+    // Gradients on values.
+
+    this->dinputs = TensorInline::dot(dvalues, this->weights.transposate());
 }
