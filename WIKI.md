@@ -51,7 +51,7 @@ La fonction de perte categorical cross entropy est une fonction de coût couramm
 
 On écrit sa fonction comme suit:
 
-$$\Large
+$$\large
 L_i = -\sum_j y_{i,j} log(\hat{y}_{i,j})
 $$
 
