@@ -1,7 +1,7 @@
 # Wiki personnel pour revenir facilement aux notions abordées.
 
 
-## **Définition d'un réseau de neurones**
+## **<div align="center">Définition d'un réseau de neurones</div>**
 
 Un réseau de neurones est un type de modèle informatique inspiré de la façon dont fonctionne le cerveau humain. Il est composé de plusieurs couches de "neurones" connectés entre eux qui travaillent ensemble pour effectuer des tâches telles que la reconnaissance d'images ou de la génération de texte.
 
@@ -10,13 +10,14 @@ Chacun des neurones dans un réseau de neurones est relié à plusieurs autres n
 Les réseaux de neurones peuvent être "entraînés" en utilisant des données d'entraînement et des algorithmes de rétropropagation pour ajuster les poids de manière à améliorer les performances du modèle.
 
 
-## **Fonction d'activation**
+## **<div align="center">Fonction d'activation</div>**
 
 Une fonction d'activation est une fonction mathématique utilisée dans les réseaux de neurones pour décider si un neurone doit être activé ou non. Elle prend en entrée la somme pondérée des entrées d'un neurone et produit une sortie qui peut être utilisée comme entrée pour les neurones suivants dans la réseau.
 
 Il existe différentes fonctions d'activation comme la fonction sigmoïde, la fonction ReLU et la fonction tangente hyperbolique.
 
-### **Fonction d'activation ReLU**
+<details>
+    <summary>Fonction d'activation ReLU</summary>
 
 Elle permet de ne garder que les valeurs positives en sortie des neurones. Elle améliore la convergence du réseau et évite le problème du gradient vanishing.
 
@@ -27,7 +28,9 @@ x & \text{si } x > 0 \\
 \end{cases}
 $$
 
-### **Fonction d'activation Softmax**
+</details>
+<details>
+    <summary>Fonction d'activation Sofmax</summary>
 
 La fonction d'activation softmax est souvent utilisée dans les réseaux de neurones pour les tâches de classification multiclasse. Elle prends en entrée un vecteur de valeurs réelles et produit en sortie un vecteur de probabilités, c'est-à-dire une distribution de probabilité sur les classes possibles. Chaque élément de la sortie est compris entre 0 et 1 et la somme des éléments vaut 1.
 
@@ -36,11 +39,13 @@ $$f_i(x) = \frac{e^{x_i}}{\sum^{k}_{j = 1} e^{x_j}}$$
 
 On l'utilise généralement pour un problème de classification.
 
+</details>
 
-## **Fonction de perte et rétropropagation**
+## **<div align="center">Fonction de perte et rétropropagation</div>**
 
-
-### **Fonction de perte Categorical cross-entropy**
+<!-- TODO: Faire une description -->
+<details>
+    <summary>Fonction de perte Categorical cross-entropy</summary>
 
 La fonction de perte categorical cross entropy est une fonction de coût couramment utilisée pour les tâches de classification multiclasse. Elle mesure la différence entre la distribution de probabilité prédite par le modèle et la distribution de probabilité réelle pour chaque classe.
 
@@ -52,13 +57,19 @@ $$
 
 On l'utilise souvent en conjonction avec la fonction d'activation softmax.
 
-### **Softmax et Categorical cross-entropy.**
+</details>
+<details>
+    <summary>Softmax et Categorical cross-entropy.</summary>
 
 La fonction d'activation softmax et la fonction de perte categorical cross-entropy peut être simplifier et on peut les calculer plus vite. Voici les équations.
 
 <!-- TODO: Expliqué comment on fait et pourquoi on le fait. -->
+</details>
 
-### **Comment interpréter les courbes de Loss ?**
+## **<div align="center">Analyse des données</div>**
+
+<details>
+    <summary>Comment interpréter les courbes de Loss ?</summary>
 
 Une courbe de perte (loss) est un graphique qui représente l'évolution de la fonction de coût (ou perte) au cours des itérations d'entraînement d'un modèle d'apprentissage automatique. Il est utilisé pour visualiser la performance d'un modèle et pour déterminer si celui-ci est surajusté ou sous-ajusté.
 
@@ -72,24 +83,74 @@ Voici quelques interprétations courantes pour une courbe de perte :
 L'interprétation de la courbe de perte dépend de la fonction de coût utilisée pour entraîner le modèle, il est donc important de s'assurer que la fonction de coût est appropriée pour la tâche d'apprentissage. La courbe de perte n'est qu'une partie de l'évaluation de la performance d'un modèle, il est nécessaire d'utiliser d'autres métriques, comme la précision, pour évaluer complètement un modèle.
 
 ![Learning rate courbe](img/Learning_rate.png)
+</details>
+
+<details>
+    <summary>Overfitting</summary>
+
+Mémoriser les données sans les comprendre. Le modèle prédit très bien les données qu'il a déjà vu mais généralise très mal pour les données inconnues.
+
+Pour éviter cela, il vaut mieux avoir un jeu de test pour valider si le modèle.
+
+S'il y a une différence de plus de 10% en accuracy c'est que le modèle a fait du sur-apprentissage.
+
+Les causes peuvent être une learning rate trop grande, trop d'epochs ou le modèle est trop gros.
+
+=> Modèle n'apprends pas : Essayer un modèle plus gros
+=> Modèle apprends : Essayer un modèle plus petit
+
+L'idéal est d'avoir une courbe de loss lors avec le jeu de test identique à la training loss même si cela veut dire une plus grande loss et une plus faible accurracy. Des performances similaires signifie une meilleure généralisation.
+</details>
+
+<details>
+    <summary>Validation data</summary>
+
+Pour le créer deux options:
+
+- Diviser le training dataset en training dataset et en validation dataset. (Si assez gros)
+- Cross Validation: Diviser le training dataset en plusieurs parties et à chaque epoch choisir une partie différente comme validation dataset.
+
+Lors d'une cross validation, on laisse le réseau s'entraîner plusieurs fois pour tester différents hyperparamètres.
+</details>
+
+<details>
+    <summary>Training dataset</summary>
+
+Il est généralement nécessaire de réaliser du preprocessing. Les réseaux de neurones marchent mieux avec des valeurs comprises en 0 et 1 ou -1 et 1. Centré les valeurs en 0 permet d'éviter atténuer les weights biasind dans certaines directions. C'est mieux d'utiliser une range entre -1 et 1.
+
+On utilise cette range car sinon avec des nombres trop grands, la valeurs de nos poids va devenir instable ou overflow.
 
 
-## **Descente de gradient**
+POur des valeurs comprises entre 0 et 255, on divise tout le dataset et on obtient des valeurs entre 0 et 1.
+Si on soustrait 127.5, puis on divise par 127.5, on obtient des valeurs entre -1 et 1.
+
+
+On essaie de d'appliquer le même coef donc on prends le max du training dataset. Si on utilise des capteurs, il faut garder ce coef car sinon lors des prédictions, le modèle ne reconnaitra pas les valeurs sans être scalé.
+
+On peut aussi utiliser de la data augmentation si le jeu de donnée est trop petit. Cela consiste à déformer les images pour en avoir de nouvelles tant que cela reste des cas possibles dans la réalitée.
+
+Combien d'éléments par classe ? => entre 1000 et 10000 par classes.
+</details>
+
+
+## **<div align="center">Descente de gradient</div>**
 
 Une descente de gradient est un algorithme qui permet de trouver le minimun de n'importe quelle fonction convexe en convergeant progressivement vers elle. La descente de gradient est un algorithme d'optimisation utilisé pour minimiser une fonction de coût. Il est utilisé pour ajuster les paramètres d'un modèle de manière à minimiser l'erreur entre les prédictions du modèle et les valeurs réelles.
 
 Le principe de base de la descente de gradient consiste à mettre à jour les paramètres en suivant la direction opposée au gradient de la fonction de coût par rapport aux paramètres. Le gradient est un vecteur qui indique la direction de la plus forte augmentation de la fonction de coût, donc en allant dans la direction opposée, on s'attend à ce que la fonction de coût diminue.
 
-### **Comment fonctionne le decay et le momentum**
+<details>
+    <summary> Comment fonctionne le decay et le momentum </summary>
 
 Le momentum est une technique utilisée pour améliorer la convergence de l'algorithme de descente de gradient. Il est basé sur l'idée que si un modèle se déplace dans une direction particulière, il est probable qu'il continue à se déplacer dans cette direction. Pour utiliser le momentum, on utilise une moyenne pondérée des gradients passés pour mettre à jour les paramètres. Cela permet de lisser les fluctuations dans les gradients, ce qui peut aider à éviter de se retrouver bloqué dans des minima locaux et accélérer la convergence vers un minimum global.
 
 Le decay, aussi appelé régularisation par pénalité de décroissance, est une technique utilisée pour réduire l'overfitting en limitant la taille des paramètres d'un modèle. Il est utilisé pour "pénaliser" les paramètres qui ont des valeurs trop élevées. Il est généralement implémenté en ajoutant une termes à la fonction de coût qui est proportionnel à la valeur des paramètres ou de leur carrés. Cela permet de réduire la complexité du modèle et d'améliorer sa performance sur des données de test.
 
 En résumé, le momentum permet de stabiliser et d'accélérer la descente de gradient tandis que la régularisation par decay permet de limiter la complexité du modèle pour éviter l'overfitting.
+</details>
 
-
-### **Optimiseur SGD**
+<details>
+    <summary> Optimiseur SGD </summary>
 
 L'optimiseur SGD (Stochastic Gradient Descent) est une variante de la descente de gradient qui utilise un échantillon aléatoire à chaque étape d'optimisation pour accélérer les calculs. Il est souvent utilisé pour entraîner des modèles de grande taille qui ne peuvent pas être entièrement chargés en mémoire.
 
@@ -108,8 +169,10 @@ où
 * $η$ est la vitesse d'apprentissage, c'est un paramètre qui contrôle la vitesse à laquelle les paramètres sont mis à jour.
 
 Il est important de noter que la vitesse d'apprentissage $η$ doit être choisie avec soin pour éviter la divergence ou une convergence trop lente. Il est également souvent nécessaire de diminuer la vitesse d'apprentissage au fil du temps pour permettre une convergence
+</details>
 
-### **Optimiseur Adagrad**
+<details>
+    <summary> Optimiseur Adagrad </summary>
 
 Adagrad (Adaptative Gradient Algorithm) est un optimiseur qui utilise une méthode d'adaptation automatique de la vitesse d'apprentissage pour chaque paramètre. Il est souvent utilisé pour entraîner des modèles avec un grand nombre de paramètres ou des données de grande taille.
 
@@ -133,8 +196,10 @@ où
 Cependant, il a tendance à diminuer la vitesse d'apprentissage trop rapidement pour les paramètres qui ont des gradients plus fréquents, ce qui peut entraîner une convergence trop lente ou une divergence dans certaines situations. Il est donc souvent nécessaire d'utiliser des techniques de régularisation pour éviter ces problèmes.
 
 En résumé, Adagrad est un optimiseur qui utilise une méthode d'adaptation automatique de la vitesse d'apprentissage pour chaque paramètre, mais il peut avoir des problèmes de convergence pour certains cas.
+</details>
 
-### **Optimiseur RMSprop**
+<details>
+    <summary>Optimiseur RMSprop</summary>
 
 RMSprop (Root Mean Square Propagation) est un optimiseur qui est similaire à Adagrad. Il utilise également une méthode d'adaptation automatique de la vitesse d'apprentissage pour chaque paramètre, mais il utilise une moyenne glissante pour le vecteur de cache. Cela permet de réguler les variations de la vitesse d'apprentissage pour éviter les oscillations et améliorer la stabilité de l'optimisation.
 
@@ -155,8 +220,10 @@ où
 * $\beta$ est un coefficient de moyennage glissant qui permet de réguler les variations de la vitesse d'apprentissage.
 
 Il est important de noter que RMSprop utilise un terme de moyennage glissant pour le vecteur de cache, cela permet de réguler les variations de la vitesse d'apprentissage et d'éviter les oscillations, ce qui permet d'accélérer la convergence vers un minimum global. Il est souvent utilisé pour entraîner des modèles avec un grand nombre de paramètres ou des données de grande taille.
+</details>
 
-### **Optimiseur Adam**
+<details>
+    <summary>Optimiseur Adam </summary>
 
 Adam (Adaptive Moment Estimation) est un optimiseur qui combine les avantages de RMSprop et de la méthode d'estimation des moments (momentum method). Il utilise également une méthode d'adaptation automatique de la vitesse d'apprentissage pour chaque paramètre, mais il utilise également une méthode d'estimation des moments pour améliorer la stabilité de l'optimisation.
 
@@ -182,54 +249,15 @@ où
 Adam utilise les vecteurs de cache $m$ et $v$ pour stocker les moments premiers et secondes des gradients pour chaque paramètre, respectivement. Il utilise également les termes de correction de biais pour éviter les biais dus aux termes de moyennage glissant pour les moments premiers et secondes. Cela permet à Adam de combiner les avantages de RMSprop et de la méthode d'estimation des moments pour améliorer la stabilité de l'optimisation.
 
 En résumé, Adam est un optimiseur qui utilise une méthode d'adaptation automatique de la vitesse d'apprentissage pour chaque paramètre, une moyenne glissante pour les moments premiers et secondes des gradients, et une correction de bias pour éviter les biais dus aux termes de moyennage glissant. Il est souvent utilisé pour entraîner des modèles complexes avec un grand nombre de paramètres ou des données de grande taille. Il est important de noter que Adam est un optimiseur très populaire et qu'il est souvent utilisé par défaut dans les bibliothèques de deep learning car il est généralement efficace pour une grande variété de tâches d'apprentissage automatique.
+</details>
 
-## **Valeur par défaut pour les optimiseurs**
-
+<details>
+    <summary>Valeur par défaut pour les optimiseurs</summary>
 
 * Learning rate (η): valeur de 0,01 à 0,1 pour les optimiseurs tels que SGD, Adagrad, RMSprop et Adam.
 * Moyennage glissant (beta1 et beta2): valeurs de 0,9 pour beta1 et 0,999 pour beta2 pour Adam.
 * Epsilon : valeur de 10^-8 pour Adam et RMSprop.
-
-## **Overfitting**
-
-Mémoriser les données sans les comprendre. Le modèle prédit très bien les données qu'il a déjà vu mais généralise très mal pour les données inconnues.
-
-Pour éviter cela, il vaut mieux avoir un jeu de test pour valider si le modèle.
-
-S'il y a une différence de plus de 10% en accuracy c'est que le modèle a fait du sur-apprentissage.
-
-Les causes peuvent être une learning rate trop grande, trop d'epochs ou le modèle est trop gros.
-
-=> Modèle n'apprends pas : Essayer un modèle plus gros
-=> Modèle apprends : Essayer un modèle plus petit
-
-L'idéal est d'avoir une courbe de loss lors avec le jeu de test identique à la training loss même si cela veut dire une plus grande loss et une plus faible accurracy. Des performances similaires signifie une meilleure généralisation.
-
-## **Validation data**
-
-Pour le créer deux options:
-
-- Diviser le training dataset en training dataset et en validation dataset. (Si assez gros)
-- Cross Validation: Diviser le training dataset en plusieurs parties et à chaque epoch choisir une partie différente comme validation dataset.
-
-Lors d'une cross validation, on laisse le réseau s'entraîner plusieurs fois pour tester différents hyperparamètres.
-
-## **Training dataset**
-
-Il est généralement nécessaire de réaliser du preprocessing. Les réseaux de neurones marchent mieux avec des valeurs comprises en 0 et 1 ou -1 et 1. Centré les valeurs en 0 permet d'éviter atténuer les weights biasind dans certaines directions. C'est mieux d'utiliser une range entre -1 et 1.
-
-On utilise cette range car sinon avec des nombres trop grands, la valeurs de nos poids va devenir instable ou overflow.
-
-
-POur des valeurs comprises entre 0 et 255, on divise tout le dataset et on obtient des valeurs entre 0 et 1.
-Si on soustrait 127.5, puis on divise par 127.5, on obtient des valeurs entre -1 et 1.
-
-
-On essaie de d'appliquer le même coef donc on prends le max du training dataset. Si on utilise des capteurs, il faut garder ce coef car sinon lors des prédictions, le modèle ne reconnaitra pas les valeurs sans être scalé.
-
-On peut aussi utiliser de la data augmentation si le jeu de donnée est trop petit. Cela consiste à déformer les images pour en avoir de nouvelles tant que cela reste des cas possibles dans la réalitée.
-
-Combien d'éléments par classe ? => entre 1000 et 10000 par classes.
+</details>
 
 ## **L1 & L2 regularization**
 
