@@ -45,4 +45,23 @@ class TestLossBinaryCrossEntropy: public CxxTest::TestSuite {
 
             TS_ASSERT((tested_ouput - expected_output).abs() <= 1e-7);
         }
+
+        void testLossBinaryCrossEntropyAccuracy(void) {
+            TS_TRACE("Starting Loss_BinaryCrossentropyAccuracy test");
+
+            TensorInline y_test({12, 1});
+            y_test.tensor = {0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1};
+
+            TensorInline y_true({12, 1});
+            y_true.tensor = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0};
+
+            double accuracy = Loss_BinaryCrossentropy::accuracy(y_test, y_true);
+        
+            TS_ASSERT_EQUALS(accuracy, 1.0);
+
+            y_test.tensor = {0.1, 0.8, 0.2, 0.3, 0.9, 0.2, 0.2, 0.1, 0.2, 0.9, 2.0, 0.0};
+            accuracy =  Loss_BinaryCrossentropy::accuracy(y_test, y_true);
+            TS_ASSERT_EQUALS(accuracy, 0.5);
+
+        }
 };

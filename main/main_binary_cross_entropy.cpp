@@ -6,10 +6,11 @@
 int main_binary_crossentropy() {
 
     // Get the dataset.
-    TensorInline X({NB_POINT * NB_LABEL, NB_INPUTS}), y({1, NB_POINT * NB_LABEL});
+    TensorInline X({NB_POINT * NB_LABEL_BINARY, NB_INPUTS}), y({1, NB_POINT * NB_LABEL_BINARY});
     
     // Get the dataset.
-    std::tie(X, y) = Dataset::spiral_data(NB_POINT, NB_LABEL);
+    std::tie(X, y) = Dataset::spiral_data(NB_POINT, NB_LABEL_BINARY);
+    y.reshape(-1, 1);
 
     #ifdef PLOT
     // Plot the dataset.
@@ -29,7 +30,7 @@ int main_binary_crossentropy() {
 
     // Create layer.
     Layer_Dense dense1(NB_INPUTS, NB_NEURON, WEIGHT_L1, WEIGHT_L2, BIAS_L1, BIAS_L2);
-    Layer_Dense dense2(NB_NEURON, NB_LABEL);
+    Layer_Dense dense2(NB_NEURON, NB_LABEL_BINARY);
 
 
     std::cout << "Utilisation de: \"Binary Logistic Regression\"" << std::endl;
@@ -100,20 +101,21 @@ int main_binary_crossentropy() {
     stat.plot(false);
 
     // Test our model.
-    TensorInline X_test({NB_POINT * NB_LABEL, NB_INPUTS}), y_test({1, NB_POINT * NB_LABEL});
+    TensorInline X_test({NB_POINT * NB_LABEL_BINARY, NB_INPUTS}), y_test({1, NB_POINT * NB_LABEL_BINARY});
 
     std::cout << "Test: " << std::endl;
     for (int i = 0; i < 10; i++) {
-        std::tie(X_test, y_test) = Dataset::spiral_data(NB_POINT, NB_LABEL);
+        std::tie(X_test, y_test) = Dataset::spiral_data(NB_POINT, NB_LABEL_BINARY);
+        y_test.reshape(-1, 1);
+
 
         // Forward.
-        dense1.forward(X);
+        dense1.forward(X_test);
         activation1.forward(dense1.getOutput());
         dense2.forward(activation1.getOutput());
         activation2.forward(dense2.getOutput());
-        double loss_val_test = loss_function.calculate(activation2.getOutput(), y);
 
-
+        double loss_val_test = loss_function.calculate(activation2.getOutput(), y_test);
         double accuracy_test = Loss_BinaryCrossentropy::accuracy(activation2.getOutput(), y_test);
         std::cout << "Itérations n° " << i; 
         std::cout << ", loss: " << loss_val_test;

@@ -6,10 +6,10 @@
 int main_categorical_crossentropy() {
 
     // Get the dataset.
-    TensorInline X({NB_POINT * NB_LABEL, NB_INPUTS}), y({1, NB_POINT * NB_LABEL});
+    TensorInline X({NB_POINT * NB_LABEL_CATEGORICAL, NB_INPUTS}), y({1, NB_POINT * NB_LABEL_CATEGORICAL});
     
     // Get the dataset.
-    std::tie(X, y) = Dataset::spiral_data(NB_POINT, NB_LABEL);
+    std::tie(X, y) = Dataset::spiral_data(NB_POINT, NB_LABEL_CATEGORICAL);
 
     #ifdef PLOT
     // Plot the dataset.
@@ -29,7 +29,7 @@ int main_categorical_crossentropy() {
 
     // Create layer.
     Layer_Dense dense1(NB_INPUTS, NB_NEURON, WEIGHT_L1, WEIGHT_L2, BIAS_L1, BIAS_L2);
-    Layer_Dense dense2(NB_NEURON, NB_LABEL);
+    Layer_Dense dense2(NB_NEURON, NB_LABEL_CATEGORICAL);
 
     // Dropout layer.
     Layer_Dropout dropout1(DROPOUT_RATE);
@@ -103,11 +103,11 @@ int main_categorical_crossentropy() {
     stat.plot(false);
 
     // Test our model.
-    TensorInline X_test({NB_POINT * NB_LABEL, NB_INPUTS}), y_test({1, NB_POINT * NB_LABEL});
+    TensorInline X_test({NB_POINT * NB_LABEL_CATEGORICAL, NB_INPUTS}), y_test({1, NB_POINT * NB_LABEL_CATEGORICAL});
 
     std::cout << "Test: " << std::endl;
     for (int i = 0; i < 10; i++) {
-        std::tie(X_test, y_test) = Dataset::spiral_data(NB_POINT, NB_LABEL);
+        std::tie(X_test, y_test) = Dataset::spiral_data(NB_POINT, NB_LABEL_CATEGORICAL);
 
         // Forward.
         dense1.forward(X_test);

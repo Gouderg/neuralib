@@ -139,4 +139,19 @@ class TensorInlineBasicOperation : public CxxTest::TestSuite {
             TensorInline res2({2, 2, false, 0.25});
             TS_ASSERT_EQUALS(v1, res2);
         }
+
+        void testReshape(void) {
+            TS_TRACE("Starting reshape test");
+
+            TensorInline v1({4, 5});
+
+            v1.reshape(2, 10);
+            TS_ASSERT(v1.getHeight() == 2 && v1.getWidth() == 10);
+            
+            v1.reshape(-1, 1);
+            TS_ASSERT(v1.getHeight() == 20 && v1.getWidth() == 1);
+
+            v1.reshape(1, -1);
+            TS_ASSERT(v1.getHeight() == 1 && v1.getWidth() == 20);
+        }
 };

@@ -6,5 +6,6 @@ void Activation_Sigmoid::forward(const TensorInline & inputs) {
 }
 
 void Activation_Sigmoid::backward(const TensorInline & dvalues) {
+    this->dinputs = TensorInline({dvalues.getHeight(), dvalues.getWidth()});
     this->dinputs = dvalues * (1.0 - this->output) * this->output;
 }

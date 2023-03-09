@@ -3,7 +3,8 @@
 
 // Dataset.
 const int NB_POINT = 100;
-const int NB_LABEL = 2;
+const int NB_LABEL_CATEGORICAL = 3;
+const int NB_LABEL_BINARY = 2;
 const int NB_INPUTS = 2;
 
 // Size of the network.

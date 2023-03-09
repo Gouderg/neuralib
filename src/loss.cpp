@@ -3,7 +3,7 @@
 double Loss::calculate(const TensorInline& output, const TensorInline& y) {
 
     std::vector<double> samples_losses = forward(output, y);
-
+    
     return std::reduce(samples_losses.begin(), samples_losses.end()) / samples_losses.size();
 }
 

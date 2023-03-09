@@ -26,26 +26,29 @@ TensorInline::TensorInline(TensorInlineParams p) {
     }
 }
 
-void reshape(const int new_height, const int new_width) {
+void TensorInline::reshape(const int new_height, const int new_width) {
+    
     assert(new_height >= -1 && "Reshape height < -1");
     assert(new_width >= -1 && "Reshape width < -1");
-    if (new_height == -1 && new_width == -1) { return; }
+    
+    if (new_height == -1 && new_width == -1) { 
+        assert(0 && "Reshape bad inputs.");
+    }
 
-    // Si on tombe sur un -1, on prends la deuxième valeur et on la case n fois.
-    // Il faut que la deuxième valeur soit divisible par le nombre total de valeur.
+    if (new_height == -1) {
+        if (((this->width * this->height) % new_width) != 0) { assert(0 && "Bad shape"); }
+        this->height = (this->width * this->height) / new_width;
+        this->width = new_width;
 
-
-    /*
-        old_w = 4
-        old_h = 3
-        w = -1
-        h = 3
-
-        if (old_w * old_h) % h  == 0
-
-        new_h = 3
-        new_w = old_w * old_h) // h
-    */
+    } else if (new_width == -1) {
+        if (((this->width * this->height) % new_height) != 0) { assert(0 && "Bad shape"); } 
+        this->width = (this->width * this->height) / new_height;
+        this->height = new_height;
+    } else {
+        if ((new_height * new_width) != (this->width * this->height)) { assert(0 && "Bad shape"); }
+        this->width = new_width;
+        this->height = new_height;
+    }
 }
 
 // Addition.
