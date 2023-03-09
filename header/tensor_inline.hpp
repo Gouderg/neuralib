@@ -58,30 +58,35 @@ class TensorInline {
         // Addition.
         TensorInline operator + (TensorInline const &t2) const;
         TensorInline operator + (double const &n) const;
+        friend TensorInline operator + (const double &n, TensorInline const &t2);
         void operator += (TensorInline const &t2);
         void operator += (double const &n);
 
         // Substraction.
         TensorInline operator - (TensorInline const &t2) const;
         TensorInline operator - (double const &n) const;
+        friend TensorInline operator - (const double &n, TensorInline const &t2);
         void operator -= (TensorInline const &t2);
         void operator -= (double const &n);
 
         // Multiplication.
         TensorInline operator * (TensorInline const &t2) const;
         TensorInline operator * (double const &n) const;
+        friend TensorInline operator * (const double &n, TensorInline const &t2);
         void operator *= (TensorInline const &t2);
         void operator *= (double const &n);
 
         // Division.
         TensorInline operator / (TensorInline const &t2) const;
         TensorInline operator / (double const &n) const;
+        friend TensorInline operator / (const double &n, TensorInline const &t2);
         void operator /= (TensorInline const &t2);
         void operator /= (double const &n);
 
         // Comparaison.
         bool operator == (TensorInline const &t2) const;
         bool operator != (TensorInline const &t2) const;
+        bool operator <= (const double &n) const;
 
 
         /** Special operations */
@@ -102,6 +107,9 @@ class TensorInline {
 
         // Sum all terms of the tensor.
         static double sum(TensorInline const &t);
+
+        // Exponential of all term.
+        static TensorInline exp(const TensorInline & t1);
 
         // Binomial distribution.
         static TensorInline binomial(const TensorInlineBinomialParams p);

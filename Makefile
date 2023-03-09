@@ -7,11 +7,11 @@ unitApp: runner
 		./runner 
 
 # How to build the test runner
-runner: runner.cpp src/tensor_inline.cpp
+runner: runner.cpp src/tensor_inline.cpp src/loss.cpp src/loss_binary_crossentropy.cpp
 		g++ -o $@ -fopenmp $^
 
 # How to generate the test runner
-runner.cpp: tests/test_tensorinline_basic_operation.h tests/test_tensorinline_complex_operation.h
+runner.cpp: tests/test_tensorinline_basic_operation.h tests/test_tensorinline_complex_operation.h tests/test_loss_binary_crossentropy.h
 		cxxtestgen -o $@ --error-printer $^
 
 clean:

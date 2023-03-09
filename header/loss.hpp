@@ -40,4 +40,17 @@ class Loss_CategoricalCrossEntropy : public Loss {
         TensorInline dinputs;
 }; 
 
+class Loss_BinaryCrossentropy : public Loss {
+
+    public:
+        std::vector<double> forward(const TensorInline &y_pred, const TensorInline& y_true);
+    
+        void backward(const TensorInline &dvalues, const TensorInline &y_true);
+
+        const TensorInline& getDinputs() const { return this->dinputs; }
+        
+    private:
+        TensorInline dinputs;
+}; 
+
 #endif

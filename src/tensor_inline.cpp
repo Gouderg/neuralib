@@ -56,8 +56,18 @@ TensorInline TensorInline::operator + (TensorInline const &t2) const{
 TensorInline TensorInline::operator + (double const &n) const {
     TensorInline t3 = *this;
 
-    for (int i = 0; i < t3.getHeight() * getWidth(); i++) {
+    for (int i = 0; i < t3.getHeight() * t3.getWidth(); i++) {
         t3.tensor[i] += n;
+    }
+
+    return t3;
+}
+
+TensorInline operator + (const double &n, TensorInline const &t2) {
+    TensorInline t3 = t2;
+
+    for (int i = 0; i < t2.getHeight() * t2.getWidth(); i++) {
+        t3.tensor[i] = n + t2.tensor[i];
     }
 
     return t3;
@@ -129,6 +139,16 @@ TensorInline TensorInline::operator - (double const &n) const {
     return t3;
 }
 
+TensorInline operator - (const double &n, TensorInline const &t2) {
+    TensorInline t3 = t2;
+
+    for (int i = 0; i < t2.getHeight() * t2.getWidth(); i++) {
+        t3.tensor[i] = n - t2.tensor[i];
+    }
+
+    return t3;
+}
+
 void TensorInline::operator -= (TensorInline const &t2) {
 
     // Broadcasting operation.
@@ -190,6 +210,16 @@ TensorInline TensorInline::operator * (double const &n) const {
 
     for (int i = 0; i < t3.getHeight() * getWidth(); i++) {
         t3.tensor[i] *= n;
+    }
+
+    return t3;
+}
+
+TensorInline operator * (const double &n, TensorInline const &t2) {
+    TensorInline t3 = t2;
+
+    for (int i = 0; i < t2.getHeight() * t2.getWidth(); i++) {
+        t3.tensor[i] = n * t2.tensor[i];
     }
 
     return t3;
@@ -265,6 +295,16 @@ TensorInline TensorInline::operator / (double const &n) const {
     return t3;
 }
 
+TensorInline operator / (const double &n, TensorInline const &t2) {
+    TensorInline t3 = t2;
+
+    for (int i = 0; i < t2.getHeight() * t2.getWidth(); i++) {
+        t3.tensor[i] = t2.tensor[i] != 0 ? n / t2.tensor[i] : t2.tensor[i];
+    }
+
+    return t3;
+}
+
 void TensorInline::operator /= (TensorInline const &t2) {
 
     // Broadcasting operation.
@@ -309,6 +349,14 @@ bool TensorInline::operator == (TensorInline const &t2) const {
 bool TensorInline::operator != (TensorInline const &t2) const {
     return !(this->tensor == t2.tensor) || this->width != t2.getWidth() || this->height != t2.getHeight();
 }
+
+bool TensorInline::operator <= (const double &n) const {
+    for (int i = 0; i < this->width * this->height; i++) {
+        if (this->tensor[i] > n)
+            return false;
+    }
+    return true;
+};
 
 // Dot product.
 TensorInline TensorInline::dot(const TensorInline& t1, const TensorInline& t2) {
@@ -392,6 +440,15 @@ TensorInline TensorInline::transposate() const {
 
 double TensorInline::sum(TensorInline const &t) {
     return std::accumulate(t.tensor.begin(), t.tensor.end(), 0.0);
+}
+
+// Exponential.
+TensorInline TensorInline::exp(const TensorInline & t1) {
+    TensorInline t = t1;
+    for (int i = 0; i < static_cast<int>(t1.tensor.size()); i++) {
+        t.tensor[i] = std::exp(t1.tensor[i]);
+    }
+    return t;
 }
 
 // Binomial distribution.

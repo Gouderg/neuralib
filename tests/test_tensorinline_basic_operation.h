@@ -14,6 +14,9 @@ class TensorInlineBasicOperation : public CxxTest::TestSuite {
 
             TS_ASSERT(a == b);  // Same vector.
             TS_ASSERT(c != d);  // Same value, different size.
+            
+            TS_ASSERT(a <= 3.0);    // Should be true.
+            TS_ASSERT(!(c <= 0.0)); // Should be false.
         }
 
         void testAddition(void) {
@@ -30,6 +33,9 @@ class TensorInlineBasicOperation : public CxxTest::TestSuite {
             // res = v1 + n
             TensorInline res({2, 2, false, 6});
             TS_ASSERT_EQUALS(v1 + n, res);
+
+            // res = n + v1 
+            TS_ASSERT_EQUALS(n + v1, res);
 
             // v1 += v2
             v1 += v2;
@@ -59,6 +65,10 @@ class TensorInlineBasicOperation : public CxxTest::TestSuite {
             TensorInline res({2, 2, false, -2});
             TS_ASSERT_EQUALS(v1 - n, res);
 
+            // res3 = n - v1
+            TensorInline res3({2, 2, false, 2});
+            TS_ASSERT_EQUALS(n - v1, res3);
+
             // v1 -= v2
             v1 -= v2;
             TensorInline res1({2, 2, false, 0});
@@ -86,6 +96,9 @@ class TensorInlineBasicOperation : public CxxTest::TestSuite {
             TensorInline res({2, 2, false, 8});
             TS_ASSERT_EQUALS(v1 * n, res);
 
+            // res = n * v1
+            TS_ASSERT_EQUALS(n * v1, res);
+
             // v1 *= v2
             v1 += v2;
             TensorInline res1({2, 2, false, 4});
@@ -111,6 +124,10 @@ class TensorInlineBasicOperation : public CxxTest::TestSuite {
             // res = v1 / n
             TensorInline res({2, 2, false, 0.5});
             TS_ASSERT_EQUALS(v1 / n, res);
+
+            // res3 = n / v1
+            TensorInline res3({2, 2, false, 2});
+            TS_ASSERT_EQUALS(n / v1, res3);
 
             // v1 /= v2
             v1 /= v2;

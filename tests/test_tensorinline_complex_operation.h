@@ -1,8 +1,6 @@
 #include <cxxtest/TestSuite.h>
 #include "../header/tensor_inline.hpp"
 
-#define CXXTEST_HAVE_EH
-
 class TensorInlineComplexeOperation: public CxxTest::TestSuite {
 
     public:
@@ -77,5 +75,14 @@ class TensorInlineComplexeOperation: public CxxTest::TestSuite {
 
             TS_ASSERT_EQUALS(TensorInline::dot(v1, v2), v3); 
             TS_ASSERT_EQUALS(TensorInline::dot(v1, v4), v5); 
+        }
+
+        void testExponential(void) {
+            TS_TRACE("Starting exponential test");
+
+            TensorInline v1({2, 3, false, 0.0});
+            TensorInline res({2, 3, false, 1.0});
+
+            TS_ASSERT(TensorInline::exp(v1) == res);
         }       
 };
