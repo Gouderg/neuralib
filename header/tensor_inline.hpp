@@ -111,6 +111,9 @@ class TensorInline {
         // Exponential of all term.
         static TensorInline exp(const TensorInline & t1);
 
+        // Clipped the value between the range.
+        static TensorInline clipped(const TensorInline & t1, const double range_min, const double range_max);
+
         // Binomial distribution.
         static TensorInline binomial(const TensorInlineBinomialParams p);
 

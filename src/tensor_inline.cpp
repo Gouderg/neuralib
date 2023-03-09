@@ -451,6 +451,23 @@ TensorInline TensorInline::exp(const TensorInline & t1) {
     return t;
 }
 
+// Clipped the value in range.
+TensorInline TensorInline::clipped(const TensorInline & t1, const double range_min, const double range_max) {
+    TensorInline t_clip = t1;
+
+    for (int i = 0; i < t_clip.getHeight() * t_clip.getWidth(); i++) {        
+        if ((t_clip.tensor[i] < range_min)) {
+            t_clip.tensor[i] = range_min;
+        }
+
+        if ((t_clip.tensor[i] > range_max)) {
+            t_clip.tensor[i] = range_max;
+        }
+    }
+
+    return t_clip;
+}
+
 // Binomial distribution.
 TensorInline TensorInline::binomial(const TensorInlineBinomialParams p) {
 

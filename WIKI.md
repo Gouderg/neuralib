@@ -62,7 +62,7 @@ $$\large
 $$
 
 
-![Courbe de la Sigmoïde](img/sigmoide_curve.png)
+![Courbe de la Sigmoïde](img/sigmoid_curve.png)
 
 </details>
 
