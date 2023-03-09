@@ -16,10 +16,24 @@
 - [X] Add Unit test for tensor class cxxtest
 - [X] Add system to throw error and hanle assertion.
 - [X] Binomial Unit test
+- [X] Add a clipped function.
+- [X] Create a folder for all the main.
 
 - [ ] Add test to all function in the code.
-- [X] Add a clipped function.
-- [ ] Create a folder for all the main.
+    - [X] Activation ReLU
+    - [ ] Activation Softmax
+    - [X] Activation Sigmoid
+    - [ ] Layer Dense
+    - [ ] Layer_Dropout
+    - [ ] Loss_CategoricalCrossentropy
+    - [X] Loss_BinaryCrossentropy
+    - [ ] Activation_Softmax_Loss_CategoricalCrossentropy
+    - [ ] Optimizer_SGD
+    - [ ] Optimizer_Adagrad
+    - [ ] Optimizer_RMSProp
+    - [ ] Optimizer_Adam
+- [ ] Add reshape function
+- [ ] 
 
 
 ## Todo Clean code

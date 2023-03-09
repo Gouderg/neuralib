@@ -26,6 +26,28 @@ TensorInline::TensorInline(TensorInlineParams p) {
     }
 }
 
+void reshape(const int new_height, const int new_width) {
+    assert(new_height >= -1 && "Reshape height < -1");
+    assert(new_width >= -1 && "Reshape width < -1");
+    if (new_height == -1 && new_width == -1) { return; }
+
+    // Si on tombe sur un -1, on prends la deuxième valeur et on la case n fois.
+    // Il faut que la deuxième valeur soit divisible par le nombre total de valeur.
+
+
+    /*
+        old_w = 4
+        old_h = 3
+        w = -1
+        h = 3
+
+        if (old_w * old_h) % h  == 0
+
+        new_h = 3
+        new_w = old_w * old_h) // h
+    */
+}
+
 // Addition.
 TensorInline TensorInline::operator + (TensorInline const &t2) const{
     TensorInline t3({ this->height, t2.getWidth() });

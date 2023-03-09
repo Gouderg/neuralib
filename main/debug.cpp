@@ -1,19 +1,9 @@
-#include "header/dataset.hpp"
-#include "header/plot.hpp"
-#include "header/layer_dense.hpp"
-#include "header/activation_relu.hpp"
-#include "header/activation_softmax.hpp"
-#include "header/loss.hpp"
-#include "header/activation_softmax_loss_categoricalcrossentropy.hpp"
-#include "header/optimizer.hpp"
-#include "header/statistic.hpp"
-#include <ctime>
-#include "header/constants.hpp"
+#include "main.hpp"
 
 #define MAIN1
 
 
-int main() {
+int main_debug() {
 
     // Get the dataset.
     TensorInline X({NB_POINT * NB_LABEL, 2}), y({1, NB_POINT * NB_LABEL});

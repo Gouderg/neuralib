@@ -12,7 +12,12 @@ include_directories(${Boost_INCLUDE_DIR})
 link_directories(${Boost_LIBRARY_DIRS})
 
 file(GLOB SOURCES src/*)
+file(GLOB SOURCES_MAIN main/*.cpp)
+list(APPEND SOURCES ${SOURCES_MAIN})
+
 file(GLOB HEADERS header/*)
+file(GLOB HEADERS_MAIN main/main.hpp)
+list(APPEND HEADERS ${HEADERS_MAIN})
 
 add_executable(neuralib main.cpp)
 target_link_libraries(neuralib ${SOURCES} ${HEADERS} ${Boost_LIBRARIES})

@@ -36,3 +36,7 @@ void Loss_BinaryCrossentropy::backward(const TensorInline &dvalues, const Tensor
 
     this->dinputs /= samples;
 }
+
+double Loss_BinaryCrossentropy::accuracy(const TensorInline &output, const TensorInline &y_true) {
+    
+}

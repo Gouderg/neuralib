@@ -48,6 +48,9 @@ class Loss_BinaryCrossentropy : public Loss {
         void backward(const TensorInline &dvalues, const TensorInline &y_true);
 
         const TensorInline& getDinputs() const { return this->dinputs; }
+
+        // Calculate the accuracy
+        static double accuracy(const TensorInline &inputs, const TensorInline &y);
         
     private:
         TensorInline dinputs;

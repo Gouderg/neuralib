@@ -53,6 +53,9 @@ class TensorInline {
         void setHeight(const int h) noexcept { this->height = h; }
         void setTensor(const std::vector<double> t) noexcept { this->tensor = t; }  
 
+        // Reshape.
+        void reshape(const int new_height, const int new_width);
+
         /** Basics operations */
 
         // Addition.
