@@ -26,6 +26,12 @@ TensorInline::TensorInline(TensorInlineParams p) {
     }
 }
 
+TensorInline::TensorInline(const TensorInline &p) {
+    this->tensor = p.tensor;
+    this->width = p.getWidth();
+    this->height = p.getHeight();
+}
+
 void TensorInline::reshape(const int new_height, const int new_width) {
     
     assert(new_height >= -1 && "Reshape height < -1");
@@ -477,7 +483,7 @@ TensorInline TensorInline::exp(const TensorInline & t1) {
 }
 
 // Clipped the value in range.
-TensorInline TensorInline::clipped(const TensorInline & t1, const double range_min, const double range_max) {
+TensorInline TensorInline::clip(const TensorInline & t1, const double range_min, const double range_max) {
     TensorInline t_clip = t1;
 
     for (int i = 0; i < t_clip.getHeight() * t_clip.getWidth(); i++) {        
@@ -519,6 +525,7 @@ std::ostream& operator<<(std::ostream& out, const TensorInline& t) {
 
     const int w = t.getWidth();
     for (int i = 0; i < t.getHeight(); i++) {
+        out << i << ": ";
         for (int j = 0; j < w; j++) {
             out << t.tensor[i * w + j] << " ";
         }

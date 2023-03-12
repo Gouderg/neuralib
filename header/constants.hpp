@@ -8,8 +8,8 @@ const int NB_LABEL_BINARY = 2;
 const int NB_INPUTS = 2;
 
 // Size of the network.
-const int NB_EPOCH = 1000;
-const int NB_NEURON = 128;
+const int NB_EPOCH = 10001;
+const int NB_NEURON = 64;
 
 // Uniform distribution parameters.
 const double MEAN = 0.0;

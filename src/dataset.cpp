@@ -22,7 +22,7 @@ std::tuple<TensorInline, TensorInline> Dataset::spiral_data(const int samples, c
         if (i % (samples * 2) == 0) {
             color += 1;
             cpt = 0;
-            t = color * 4; 
+            t = color * 4.0; 
         }
 
         t_random = t + (d(gen)) * 0.2;
@@ -33,6 +33,5 @@ std::tuple<TensorInline, TensorInline> Dataset::spiral_data(const int samples, c
         t += step_T;
         cpt += 1;
     }
-    std::cout << std::endl;
     return std::make_tuple(X, y);
 }

@@ -94,7 +94,7 @@ class TensorInlineComplexeOperation: public CxxTest::TestSuite {
             TensorInline res({2, 2, false, 2.0});
             double range = 2.0;
 
-            TS_ASSERT_EQUALS(TensorInline::clipped(v1, range, 10.0 - range), v1);    // Clipped.
-            TS_ASSERT_EQUALS(TensorInline::clipped(v2, range, 10.0 - range), res);   // Not clipped.
+            TS_ASSERT_EQUALS(TensorInline::clip(v1, range, 10.0 - range), v1);    // Clipped.
+            TS_ASSERT_EQUALS(TensorInline::clip(v2, range, 10.0 - range), res);   // Not clipped.
         }       
 };

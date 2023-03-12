@@ -42,6 +42,8 @@ class TensorInline {
         // Constructor.
         TensorInline(){};
         TensorInline(TensorInlineParams p);
+        TensorInline(const TensorInline &p);
+        
 
         // Getter.
         const int getWidth() const noexcept { return this->width; }
@@ -115,7 +117,7 @@ class TensorInline {
         static TensorInline exp(const TensorInline & t1);
 
         // Clipped the value between the range.
-        static TensorInline clipped(const TensorInline & t1, const double range_min, const double range_max);
+        static TensorInline clip(const TensorInline & t1, const double range_min, const double range_max);
 
         // Binomial distribution.
         static TensorInline binomial(const TensorInlineBinomialParams p);

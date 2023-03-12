@@ -63,7 +63,7 @@ int main_categorical_crossentropy() {
         activation1.forward(dense1.getOutput());
         dropout1.forward(activation1.getOutput());
         dense2.forward(dropout1.getOutput());
-
+        
         data_loss = loss_activation.forward(dense2.getOutput(), y);
         regularization_loss = loss_activation.getLoss().regularization_loss(dense1) + loss_activation.getLoss().regularization_loss(dense2);
         loss_val = data_loss + regularization_loss;

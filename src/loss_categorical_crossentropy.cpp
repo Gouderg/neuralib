@@ -3,7 +3,7 @@
 std::vector<double> Loss_CategoricalCrossEntropy::forward(const TensorInline &y_pred, const TensorInline& y_true) {
 
     // Clip data to prevent division by 0.
-    TensorInline y_pred_clipped = TensorInline::clipped(y_pred, 1e-15, 1 - 1e-15);
+    TensorInline y_pred_clipped = TensorInline::clip(y_pred, 1e-15, 1 - 1e-15);
 
     // Probabilities for target values only if categoricals values.
     std::vector<double> correct_confidences(y_true.getWidth(), 0.0);
