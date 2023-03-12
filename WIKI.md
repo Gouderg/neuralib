@@ -39,9 +39,7 @@ La fonction d'activation softmax est souvent utilisée dans les réseaux de neur
 
 On écrit sa fonction comme suit:
 
-$$\large
-    f_i(x) = \frac{e^{x_i}}{\sum^{k}_{j = 1} e^{x_j}}
-$$
+$$\large f_i(x) = \frac{e^{x_i}}{\sum^{k}_{j = 1} e^{x_j}} $$
 
 On l'utilise généralement pour un problème de classification.
 
@@ -54,15 +52,11 @@ On l'utilise généralement pour un problème de classification.
 La fonction d'activation sigmoïde est utilisée avec les régresseurs car elle "écrase" une plage de sorties allant de l'infini négatif à l'infini positif pour qu'elles soient comprises entre 0 et 1. Les bornes représentent les deux classes possibles.
 
 
-$$\large
-    \sigma (x) = \frac{1}{1 + e^{-x}}
-$$
+$$\large \sigma (x) = \frac{1}{1 + e^{-x}} $$
 
 Backward pass:
 
-$$\large
-    \frac{d}{dz_{i,j}} = \sigma_{i, j} * (1 - \sigma_{i, j})
-$$
+$$\large \frac{d}{dz_{i,j}} = \sigma_{i, j} * (1 - \sigma_{i, j}) $$
 
 
 ![Courbe de la Sigmoïde](img/sigmoid_curve.png)
@@ -92,15 +86,11 @@ On l'utilise souvent en conjonction avec la fonction d'activation softmax.
 Chaque neurone représente séparément deux classes - 0 pour l'une des classes et un 1 pour l'autre. Un modèle avec ce type de couche de sortie est appelé régression logistique binaire. Ce neurone unique pourrait représenter deux classes comme chat contre chien, mais il pourrait aussi représenter chat contre pas chat ou n'importe quelle combinaison de 2 classes, et vous pourriez en avoir plusieurs. Par exemple, un modèle peut avoir deux neurones de sortie binaires. L'un de ces neurones pourrait faire la distinction entre personne/non personne, et l'autre neurone pourrait décider entre intérieur/extérieur. La régression logistique binaire est un type d'algorithme de régresseur.
 
 
-$$\large
-    L_{i,j} = -y_{i, j} * log(\hat{y}_{i,j}) - (1 - y_{i,j}) * log(1-\hat{y}_{i,j})
-$$
+$$\large L_{i,j} = -y_{i, j} * log(\hat{y}_{i,j}) - (1 - y_{i,j}) * log(1-\hat{y}_{i,j}) $$
 
 Backward pass:
 
-$$\large
-    \frac{\partial L_i}{\partial \hat{y}_{i,j}} = -\frac{1}{J} * (\frac{y_{i,j}}{\hat{y}_{i,j}} - \frac{1-y_{i,j}}{1 - \hat{y}_{i,j}})
-$$
+$$\large \frac{\partial L_i}{\partial \hat{y}_{i,j}} = -\frac{1}{J} * (\frac{y_{i,j}}{\hat{y}_{i,j}} - \frac{1-y_{i,j}}{1 - \hat{y}_{i,j}}) $$
 
 </details>
 
@@ -322,20 +312,14 @@ On ajoute une constante pour controler l'impact de la pénalisation sur la loss.
 
 ### L1 regularization for forward pass:
 
-$$\large
-    \begin{align} 
-        L_{1_w} = \lambda \sum |w_m| && L_{1_b} = \lambda \sum |b_m|
-    \end{align}
-$$
+$$\large \begin{align} L_{1_w} = \lambda \sum |w_m| && L_{1_b} = \lambda \sum |b_m| \end{align} $$
 
 ### L1 backward pass
 
-$$
-    \frac{\partial L_{w_1}}{\partial w} = \lambda w_m 
-    \begin{cases}
-        1 & \text{si } w_m > 0 \\
-        -1 & \text{si } w_m < 0 \\
-    \end{cases}
+$$ \frac{\partial L_{w_1}}{\partial w} = \lambda w_m \begin{cases}
+1 & \text{si } w_m > 0 \\
+1 & \text{si } w_m < 0 \\
+\end{cases}
 $$
 
 </details>
@@ -345,18 +329,12 @@ $$
 
 ### L2 regularization forward pass
 
-$$\large
-    \begin{align} 
-        L_{2_w} = \lambda \sum w_m² && L_{2_b} = \lambda \sum b_m²
-    \end{align}
-$$
+$$\large \begin{align}  L_{2_w} = \lambda \sum w_m² && L_{2_b} = \lambda \sum b_m² \end{align} $$
 
 
 ### L2 backward pass
 
-$$
-    \frac{\partial L_{w_2}}{\partial w} = 2\lambda w_m
-$$
+$$ \frac{\partial L_{w_2}}{\partial w} = 2\lambda w_m $$
 
 La nouvelle notation de la loss va devenir:
 
@@ -376,21 +354,17 @@ On va désactivé des neurones selon une loi de bernouilli.
 
 ### Forward pass
 
-$$
-    P(r_i = 0) = q = 1 - p = 1 - P(r_i = 1)
-$$
+$$ P(r_i = 0) = q = 1 - p = 1 - P(r_i = 1) $$
 
 ### Backward pass
 
+$$ Dr_i = \begin{cases}
+\frac{z_i}{1-q} & r_i = 1 \\
+0 & r_i = 0 \\
+\end{cases}  \rightarrow \frac{\partial}{\partial z_i} Dr_i = \begin{cases}
+\frac{1}{1-q} & r_i = 1 \\
+0 & r_i = 0 \\
+\end{cases} =  \frac{r_i}{1-q}
 $$
-    Dr_i = \begin{cases}
-            \frac{z_i}{1-q} & r_i = 1 \\
-            0 & r_i = 0 \\
-        \end{cases} 
-        \rightarrow
-        \frac{\partial}{\partial z_i} Dr_i = \begin{cases}
-            \frac{1}{1-q} & r_i = 1 \\
-            0 & r_i = 0 \\
-        \end{cases} =  \frac{r_i}{1-q}
-$$
+
 </details>
