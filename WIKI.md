@@ -38,8 +38,11 @@ $$
 La fonction d'activation softmax est souvent utilisée dans les réseaux de neurones pour les tâches de classification multiclasse. Elle prends en entrée un vecteur de valeurs réelles et produit en sortie un vecteur de probabilités, c'est-à-dire une distribution de probabilité sur les classes possibles. Chaque élément de la sortie est compris entre 0 et 1 et la somme des éléments vaut 1.
 
 On écrit sa fonction comme suit:
+
 $$\large
-f_i(x) = \frac{e^{x_i}}{\sum^{k}_{j = 1} e^{x_j}}
+
+    f_i(x) = \frac{e^{x_i}}{\sum^{k}_{j = 1} e^{x_j}}
+
 $$
 
 On l'utilise généralement pour un problème de classification.
@@ -52,13 +55,19 @@ On l'utilise généralement pour un problème de classification.
     <summary>Fonction d'activation Sigmoïde</summary>
 La fonction d'activation sigmoïde est utilisée avec les régresseurs car elle "écrase" une plage de sorties allant de l'infini négatif à l'infini positif pour qu'elles soient comprises entre 0 et 1. Les bornes représentent les deux classes possibles.
 
+
 $$\large
-\sigma (x) = \frac{1}{1 + e^{-x}}
+
+    \sigma (x) = \frac{1}{1 + e^{-x}}
+
 $$
 
 Backward pass:
+
 $$\large
-\frac{d}{dz_{i,j}} = \sigma_{i, j} * (1 - \sigma_{i, j})
+
+    \frac{d}{dz_{i,j}} = \sigma_{i, j} * (1 - \sigma_{i, j})
+
 $$
 
 
@@ -90,13 +99,17 @@ Chaque neurone représente séparément deux classes - 0 pour l'une des classes 
 
 
 $$\large
-L_{i,j} = -y_{i, j} * log(\hat{y}_{i,j}) - (1 - y_{i,j}) * log(1-\hat{y}_{i,j})
+    
+    L_{i,j} = -y_{i, j} * log(\hat{y}_{i,j}) - (1 - y_{i,j}) * log(1-\hat{y}_{i,j})
+
 $$
 
 Backward pass:
 
 $$\large
-\frac{\partial L_i}{\partial \hat{y}_{i,j}} = -\frac{1}{J} * (\frac{y_{i,j}}{\hat{y}_{i,j}} - \frac{1-y_{i,j}}{1 - \hat{y}_{i,j}})
+
+    \frac{\partial L_i}{\partial \hat{y}_{i,j}} = -\frac{1}{J} * (\frac{y_{i,j}}{\hat{y}_{i,j}} - \frac{1-y_{i,j}}{1 - \hat{y}_{i,j}})
+
 $$
 </details>
 
@@ -200,7 +213,7 @@ L'algorithme de SGD est défini comme suit :
 * Initialiser les paramètres w avec des valeurs aléatoires
 * Pour chaque itération i:
     * Choisir un échantillon aléatoire (x, y) de la base de données d'entraînement
-    * Calculer la perte par rapport à l'échantillon choisi : $ L = \frac{1}{2}(f(x;w)-y)^2 $
+    * Calculer la perte par rapport à l'échantillon choisi : $L = \frac{1}{2}(f(x;w)-y)^2$
     * Calculer les gradients par rapport aux paramètres w : $\frac{\partial L}{\partial w}$
     * Mettre à jour les paramètres en utilisant la formule suivante : $w = w - \eta \frac{\partial L}{\partial w}$
 
@@ -319,6 +332,7 @@ On ajoute une constante pour controler l'impact de la pénalisation sur la loss.
 ### L1 regularization for forward pass:
 
 $$\large
+
     \begin{align} 
         L_{1_w} = \lambda \sum |w_m| && L_{1_b} = \lambda \sum |b_m|
     \end{align}
@@ -327,11 +341,13 @@ $$
 ### L1 backward pass
 
 $$
+
     \frac{\partial L_{w_1}}{\partial w} = \lambda w_m 
     \begin{cases}
         1 & \text{si } w_m > 0 \\
         -1 & \text{si } w_m < 0 \\
-\end{cases}
+    \end{cases}
+
 $$
 </details>
 
@@ -341,20 +357,26 @@ $$
 ### L2 regularization forward pass
 
 $$\large
+
     \begin{align} 
         L_{2_w} = \lambda \sum w_m² && L_{2_b} = \lambda \sum b_m²
     \end{align}
+
 $$
 
 
 ### L2 backward pass
 
 $$
+
     \frac{\partial L_{w_2}}{\partial w} = 2\lambda w_m
+
 $$
 
-La nouvelle notation de la loss va devenir: 
+La nouvelle notation de la loss va devenir:
+
 $Loss = DataLoss + L_{1_w} + L_{1_b} + L_{2_w} + L_{2_b}$
+
 </details>
 
 ## **<div align="center">Dropout</div>**
@@ -370,12 +392,15 @@ On va désactivé des neurones selon une loi de bernouilli.
 ### Forward pass
 
 $$
+
 P(r_i = 0) = q = 1 - p = 1 - P(r_i = 1)
+
 $$
 
 ### Backward pass
 
 $$
+
     Dr_i = \begin{cases}
             \frac{z_i}{1-q} & r_i = 1 \\
             0 & r_i = 0 \\
@@ -385,5 +410,6 @@ $$
             \frac{1}{1-q} & r_i = 1 \\
             0 & r_i = 0 \\
         \end{cases} =  \frac{r_i}{1-q}
+
 $$
 </details>
