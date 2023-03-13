@@ -204,6 +204,17 @@ On peut aussi utiliser de la data augmentation si le jeu de donnée est trop pet
 Combien d'éléments par classe ? => entre 1000 et 10000 par classes.
 </details>
 
+<details>
+    <summary>Régression</summary>
+
+Il faut beaucoup jouer avec le learning rate.
+
+Si on reste bloquer à un point, on peut changer le coefficient de valeur aléatoire pour l'initialisation des points dans les Layer dense. (Passer de 0.01 à 0.1)
+
+Voir l'initialisation des poids avec le [glorot uniform](https://cs230.stanford.edu/section/4/#xavier-initialization).
+
+</details>
+
 
 ## **<div align="center">Descente de gradient</div>**
 

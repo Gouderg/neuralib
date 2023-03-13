@@ -155,6 +155,19 @@ class TensorInlineBasicOperation : public CxxTest::TestSuite {
             TS_ASSERT(v1.getHeight() == 1 && v1.getWidth() == 20);
         }
 
+        void testShape(void) {
+            TS_TRACE("Starting reshape test");
+            TensorInline v1({4, 5});
+
+            TS_ASSERT_EQUALS(v1.shape(), "(4, 5)");
+
+            TensorInline v2({2, 14});
+            TS_ASSERT_EQUALS(v2.shape(), "(2, 14)");
+
+            v2.reshape(-1, 1);
+            TS_ASSERT_EQUALS(v2.shape(), "(28, 1)");
+        }
+
         void testRecopy(void) {
             TS_TRACE("Starting contructor copy test");
 

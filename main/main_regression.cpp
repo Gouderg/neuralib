@@ -1,7 +1,7 @@
 #include "main.hpp"
 
+#define PLOT
 #define TEST
-// #define PLOT
 
 int main_regression() {
 
@@ -20,7 +20,6 @@ int main_regression() {
 
     plt.draw_line(y.tensor, "red");
 
-    plt.show();
     #endif
 
     // Setup the statistic system.
@@ -70,7 +69,6 @@ int main_regression() {
         regularization_loss = loss_function.regularization_loss(dense1) + loss_function.regularization_loss(dense2) + loss_function.regularization_loss(dense3);
         loss_val = data_loss + regularization_loss;
 
-        accuracy_precision = TensorInline::standard_deviation(y) / STRICT_ACCURACY_METRICS;
         accuracy = Loss_MeanSquaredError::accuracy(activation3.getOutput(), y, accuracy_precision);
         
         // Get all the statistics.
@@ -127,13 +125,7 @@ int main_regression() {
 
     Plot plt_test;
 
-    plt_test.set_x_limit(-1, 1);
-    plt_test.set_y_limit(-1, 1);
-
-    plt_test.draw_line(y_test.tensor, "red");
-    plt_test.draw_line(activation3.getOutput().tensor, "blue");
-
-    plt_test.show();
+    plt_test.draw_line(activation3.getOutput().tensor, "red");
     
     #endif
 

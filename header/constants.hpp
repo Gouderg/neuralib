@@ -16,8 +16,8 @@ const double MEAN = 0.0;
 const double STD_DEVIATION = 1.0;
 
 // Optimizer.
-const double LEARNING_RATE = 0.001;
-const double DECAY = 5e-7;
+const double LEARNING_RATE = 0.005;
+const double DECAY = 1e-3;
 const double MOMENTUM_EPSILON = 0.0; 
 
 // Regularization Loss.

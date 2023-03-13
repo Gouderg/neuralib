@@ -57,6 +57,7 @@ class TensorInline {
 
         // Reshape.
         void reshape(const int new_height, const int new_width);
+        std::string shape();
 
         /** Basics operations */
 

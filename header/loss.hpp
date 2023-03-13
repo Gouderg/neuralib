@@ -79,6 +79,9 @@ class Loss_MeanAbsoluteError : public Loss {
     
         void backward(const TensorInline &dvalues, const TensorInline &y_true);
 
+        // Calculate the accuracy
+        static double accuracy(const TensorInline &inputs, const TensorInline &y, const double accuracy_precision);
+
         const TensorInline& getDinputs() const { return this->dinputs; }
     
     private:

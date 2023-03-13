@@ -27,3 +27,17 @@ void Loss_MeanAbsoluteError::backward(const TensorInline &dvalues, const TensorI
 
     this->dinputs /= samples;
 }
+
+double Loss_MeanAbsoluteError::accuracy(const TensorInline &output, const TensorInline &y_true, const double accuracy_precision) {
+    
+    TensorInline predictions = output;
+    double accuracy = 0.0;
+
+
+    for (int i = 0; i < output.getHeight() * output.getWidth(); i++) {
+        accuracy += (std::abs(output.tensor[i] - y_true.tensor[i]) < accuracy_precision) ? 1.0 : 0.0;
+    }
+
+    return accuracy / (predictions.getHeight() * predictions.getWidth());
+
+}

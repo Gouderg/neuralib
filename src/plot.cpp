@@ -58,6 +58,7 @@ void Plot::draw_line(std::vector<double> y, std::string color) {
 
 }
 
+
 void Plot::setMultiplot(const int row, const int column) {
     gp.clearTmpfiles();
     gp << "set size 1200,800\n";

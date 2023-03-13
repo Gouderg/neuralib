@@ -28,16 +28,17 @@
     - [ ] Layer_Dropout
     - [ ] Loss_CategoricalCrossentropy
     - [X] Loss_BinaryCrossentropy
-    - [ ] Loss_MeanSquaredError
-    - [ ] Loss_MeanAbsoluteError
+    - [X] Loss_MeanSquaredError
+    - [X] Loss_MeanAbsoluteError
     - [ ] Activation_Softmax_Loss_CategoricalCrossentropy
     - [ ] Optimizer_SGD
     - [ ] Optimizer_Adagrad
     - [ ] Optimizer_RMSProp
     - [ ] Optimizer_Adam
 - [X] Add reshape function
-- [ ] Add cout shape
+- [X] Add cout shape
 - [ ] Refacto Loss (Ajouter des assert dans le forward et le backward)
+- [ ] Améliorer le système d'affichage de graph
 
 
 ## Todo Clean code

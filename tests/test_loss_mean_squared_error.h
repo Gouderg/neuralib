@@ -59,4 +59,18 @@ class TestLossMeanSquaredError: public CxxTest::TestSuite {
             
             TS_ASSERT((loss.getDinputs() - expected_output).abs() <= 1e-7);
         }
+
+        void testLossMeanSquaredErrorAccuracy(void) {
+            TS_TRACE("Starting Loss_MeanSquaredErrorAccuracy test");
+
+            TensorInline y_true({6, 2});
+            y_true.tensor = {1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6};
+
+            TensorInline outputs({6, 2});
+            outputs.tensor = {1, 2, -3, -4, -5, 6, -1, 2, -3, 4, -5, 6};
+
+            double accuracy_precision = TensorInline::standard_deviation(y_true) / STRICT_ACCURACY_METRICS;
+
+            TS_ASSERT_EQUALS(Loss_MeanSquaredError::accuracy(outputs, y_true, accuracy_precision), 0.5);
+        }
 };
