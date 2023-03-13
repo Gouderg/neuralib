@@ -35,3 +35,15 @@ std::tuple<TensorInline, TensorInline> Dataset::spiral_data(const int samples, c
     }
     return std::make_tuple(X, y);
 }
+
+std::tuple<TensorInline, TensorInline> Dataset::sine_data(const int samples) {
+    TensorInline X({samples, 1});
+    TensorInline y({samples, 1});
+
+    for (int i = 0; i < samples; i++) {
+        X.tensor[i] = i / static_cast<double>(samples);
+        y.tensor[i] = sin(2.0 * M_PI * X.tensor[i]);
+    }
+
+    return std::make_tuple(X, y);
+}

@@ -96,5 +96,32 @@ class TensorInlineComplexeOperation: public CxxTest::TestSuite {
 
             TS_ASSERT_EQUALS(TensorInline::clip(v1, range, 10.0 - range), v1);    // Clipped.
             TS_ASSERT_EQUALS(TensorInline::clip(v2, range, 10.0 - range), res);   // Not clipped.
-        }       
+        }    
+
+        void testSign(void) {
+            TS_TRACE("Starting sign test");
+            double res1 = 3.0 / 1000.0;
+            double res2 = 0e-100 / 1000.0;
+            double res3 = -4.0 / 1000.0;
+
+            TS_ASSERT_EQUALS(TensorInline::sign(res1), 1);
+            TS_ASSERT_EQUALS(TensorInline::sign(res2), 0);
+            TS_ASSERT_EQUALS(TensorInline::sign(res3), -1);
+        }
+
+        void testStandardDeviation(void) {
+            TS_TRACE("Starting standard deviation test");
+
+            TensorInline v1({4, 1, false, 1.0});
+
+            TensorInline v2({16, 1, false, 0.0});
+            v2.tensor = {1, 3, 3, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2};
+
+            TensorInline v3({4, 1, false, 1.0});
+            v3.tensor = {1, 1, 3, 3};
+
+            TS_ASSERT_EQUALS(TensorInline::standard_deviation(v1), 0);
+            TS_ASSERT_EQUALS(TensorInline::standard_deviation(v2), 0.5);
+            TS_ASSERT_EQUALS(TensorInline::standard_deviation(v3), 1.0);
+        }
 };

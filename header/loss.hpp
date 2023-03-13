@@ -54,6 +54,35 @@ class Loss_BinaryCrossentropy : public Loss {
         
     private:
         TensorInline dinputs;
-}; 
+};
+
+class Loss_MeanSquaredError : public Loss {
+
+    public:
+        std::vector<double> forward(const TensorInline &y_pred, const TensorInline& y_true);
+    
+        void backward(const TensorInline &dvalues, const TensorInline &y_true);
+
+        const TensorInline& getDinputs() const { return this->dinputs; }
+
+        // Calculate the accuracy
+        static double accuracy(const TensorInline &inputs, const TensorInline &y, const double accuracy_precision);
+
+    private:
+        TensorInline dinputs;
+};
+
+class Loss_MeanAbsoluteError : public Loss {
+    
+    public:
+        std::vector<double> forward(const TensorInline &y_pred, const TensorInline& y_true);
+    
+        void backward(const TensorInline &dvalues, const TensorInline &y_true);
+
+        const TensorInline& getDinputs() const { return this->dinputs; }
+    
+    private:
+        TensorInline dinputs;
+};
 
 #endif

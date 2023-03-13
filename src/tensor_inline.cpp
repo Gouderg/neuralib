@@ -499,6 +499,30 @@ TensorInline TensorInline::clip(const TensorInline & t1, const double range_min,
     return t_clip;
 }
 
+// Return the sign of the value.
+int TensorInline::sign(const double n) {
+    if (n == 0.0) 
+        return 0;
+    
+    if (n < 0)
+        return -1;
+    
+    return 1;
+}
+
+// Standard deviation from a vector.
+double TensorInline::standard_deviation(const TensorInline & t1) {
+    std::vector<double> v = t1.tensor;
+    
+    double sum = std::accumulate(v.begin(), v.end(), 0.0);
+    double mean = sum / v.size();
+    std::vector<double> diff(v.size());
+    std::transform(v.begin(), v.end(), diff.begin(), [mean](double x) { return x - mean; });
+    double sq_sum = std::inner_product(diff.begin(), diff.end(), diff.begin(), 0.0);
+    
+    return std::sqrt(sq_sum / v.size());
+}
+
 // Binomial distribution.
 TensorInline TensorInline::binomial(const TensorInlineBinomialParams p) {
 
@@ -525,7 +549,6 @@ std::ostream& operator<<(std::ostream& out, const TensorInline& t) {
 
     const int w = t.getWidth();
     for (int i = 0; i < t.getHeight(); i++) {
-        out << i << ": ";
         for (int j = 0; j < w; j++) {
             out << t.tensor[i * w + j] << " ";
         }

@@ -12,8 +12,9 @@
 class Dataset {
 
     public:
+        
         static std::tuple<TensorInline, TensorInline> spiral_data(const int samples, const int classes);
-
+        static std::tuple<TensorInline, TensorInline> sine_data(const int samples);
 };
 
 #endif

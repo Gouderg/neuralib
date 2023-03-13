@@ -4,6 +4,7 @@
 #include "../header/activation_relu.hpp"
 #include "../header/activation_sigmoid.hpp"
 #include "../header/activation_softmax.hpp"
+#include "../header/activation_linear.hpp"
 #include "../header/dataset.hpp"
 #include "../header/plot.hpp"
 #include "../header/layer_dense.hpp"
@@ -18,6 +19,7 @@
 
 int main_binary_crossentropy();
 int main_categorical_crossentropy();
+int main_regression();
 int main_debug();
 
 #endif

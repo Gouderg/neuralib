@@ -23,17 +23,21 @@
     - [X] Activation ReLU
     - [ ] Activation Softmax
     - [X] Activation Sigmoid
+    - [X] Activation Linear
     - [ ] Layer Dense
     - [ ] Layer_Dropout
     - [ ] Loss_CategoricalCrossentropy
     - [X] Loss_BinaryCrossentropy
+    - [ ] Loss_MeanSquaredError
+    - [ ] Loss_MeanAbsoluteError
     - [ ] Activation_Softmax_Loss_CategoricalCrossentropy
     - [ ] Optimizer_SGD
     - [ ] Optimizer_Adagrad
     - [ ] Optimizer_RMSProp
     - [ ] Optimizer_Adam
-- [ ] Add reshape function
-- [ ] 
+- [X] Add reshape function
+- [ ] Add cout shape
+- [ ] Refacto Loss (Ajouter des assert dans le forward et le backward)
 
 
 ## Todo Clean code

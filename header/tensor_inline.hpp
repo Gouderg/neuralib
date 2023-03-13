@@ -119,6 +119,12 @@ class TensorInline {
         // Clipped the value between the range.
         static TensorInline clip(const TensorInline & t1, const double range_min, const double range_max);
 
+        // Return the sign of the value.
+        static int sign(const double n);
+
+        // Return the standard deviation of a vector.
+        static double standard_deviation(const TensorInline & t1);
+
         // Binomial distribution.
         static TensorInline binomial(const TensorInlineBinomialParams p);
 

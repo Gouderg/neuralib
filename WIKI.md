@@ -63,6 +63,12 @@ $$\large \frac{d}{dz_{i,j}} = \sigma_{i, j} * (1 - \sigma_{i, j}) $$
 
 </details>
 
+<details>
+    <summary> Activation linéaire</summary>
+
+C'est une fonction qui n'est pas très utile. La forward pass est $y=x$ et la backward pass (dérivé) est 1 * les valeurs de la chain rule.
+</details>
+
 ## **<div align="center">Fonction de perte et rétropropagation</div>**
 
 Une fonction de perte est une mesure des performances d'un modèle d'apprentissage automatique sur une tâche donnée et est utilisée pour calculer l'erreur entre la sortie prévue et la sortie réelle. Différents types de fonctions de perte sont utilisés pour diverses tâches, et l'objectif de la formation d'un modèle est de minimiser la fonction de perte afin d'améliorer les performances. La rétropropagation est un algorithme clé utilisé pour entraîner les réseaux de neurones, en calculant le gradient de la fonction de perte par rapport aux poids et aux biais du réseau. Ce gradient est ensuite utilisé pour mettre à jour les poids et les biais afin de minimiser la fonction de perte à l'aide d'un algorithme d'optimisation, tel que la descente de gradient stochastique. La rétropropagation permet à un réseau de neurones d'apprendre et d'améliorer ses performances sur une tâche en ajustant ses paramètres internes en fonction de l'erreur entre la sortie prédite et la sortie réelle.
@@ -86,11 +92,11 @@ On l'utilise souvent en conjonction avec la fonction d'activation softmax.
 Chaque neurone représente séparément deux classes - 0 pour l'une des classes et un 1 pour l'autre. Un modèle avec ce type de couche de sortie est appelé régression logistique binaire. Ce neurone unique pourrait représenter deux classes comme chat contre chien, mais il pourrait aussi représenter chat contre pas chat ou n'importe quelle combinaison de 2 classes, et vous pourriez en avoir plusieurs. Par exemple, un modèle peut avoir deux neurones de sortie binaires. L'un de ces neurones pourrait faire la distinction entre personne/non personne, et l'autre neurone pourrait décider entre intérieur/extérieur. La régression logistique binaire est un type d'algorithme de régresseur.
 
 
-$$\large L_{i,j} = -y_{i, j} * log(\hat{y}_{i,j}) - (1 - y_{i,j}) * log(1-\hat{y}_{i,j}) $$
+$$\largeL_{i,j} = -y_{i, j} * log(\hat{y}_{i,j}) - (1 - y_{i,j}) * log(1-\hat{y}_{i,j})$$
 
 Backward pass:
 
-$$\large \frac{\partial L_i}{\partial \hat{y}_{i,j}} = -\frac{1}{J} * (\frac{y_{i,j}}{\hat{y}_{i,j}} - \frac{1-y_{i,j}}{1 - \hat{y}_{i,j}}) $$
+$$\large\frac{\partial L_i}{\partial \hat{y}_{i,j}} = -\frac{1}{J} * (\frac{y_{i,j}}{\hat{y}_{i,j}} - \frac{1-y_{i,j}}{1 - \hat{y}_{i,j}})$$
 
 </details>
 
@@ -100,6 +106,36 @@ $$\large \frac{\partial L_i}{\partial \hat{y}_{i,j}} = -\frac{1}{J} * (\frac{y_{
 La fonction d'activation softmax et la fonction de perte categorical cross-entropy peut être simplifier et on peut les calculer plus vite. Voici les équations.
 
 <!-- TODO: Expliqué comment on fait et pourquoi on le fait. -->
+</details>
+
+<details>
+    <summary> Mean Squared Error loss (L2)</summary>
+
+C'est une fonction de perte pour prédire une régression. L'idée ici est de pénaliser plus durement quand on s'éloigne de la cible visée.
+
+$$\large L_i=\frac{1}{J}\sum_j(y_{i, j} - \hat{y_{i, j}})²$$
+
+Backward pass:
+
+$$\large\frac{\partial L_i}{\partial \hat{y}_{i,j}} = -\frac{2}{J} * (y_{i,j} -  \hat{y}_{i,j})$$
+
+</details>
+
+<details>
+    <summary> Mean Absolute Error loss (L1)</summary>
+
+C'est une fonction de perte pour prédire une régression. Cette fonction, utilisée comme une perte, pénalise linéairement l'erreur. Il produit des résultats plus clairsemés et est robuste aux valeurs aberrantes, ce qui peut être à la fois avantageux et désavantageux. En réalité, la perte L1 (MAE) est utilisée moins fréquemment que la perte L2 (MSE)
+
+$$\large L_i=\frac{1}{J}\sum_j| y_{i, j} - \hat{y_{i, j}} |$$
+
+Backward pass:
+
+$$\large\frac{\partial L_i}{\partial \hat{y}_{i,j}} = \frac{1}{J} * \begin{cases} 
+1 & y_{i,j} - \hat{y}_{i,j} > 0 \\
+-1 & y_{i,j} - \hat{y}_{i,j} < 0 \\
+\end{cases}
+$$
+
 </details>
 
 ## **<div align="center">Analyse des données</div>**

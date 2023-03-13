@@ -29,4 +29,8 @@ const double BIAS_L2 = 5e-4;
 // Dropout.
 const double DROPOUT_RATE = 0.1;
 
+// Accuracy
+
+const double STRICT_ACCURACY_METRICS = 250.0;
+
 #endif
