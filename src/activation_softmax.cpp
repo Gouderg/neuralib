@@ -35,7 +35,8 @@ void Activation_Softmax::backward(const TensorInline &dvalues) {
 
     int width = dvalues.getWidth();
     int height = dvalues.getHeight();
-    this->dinputs = TensorInline({0, 0});
+    this->dinputs = TensorInline({1, 1});
+    this->dinputs.tensor = {};
 
     for (int i = 0; i < height; i += width) {
         
