@@ -67,6 +67,5 @@ void Layer_Dense::backward(const TensorInline &dvalues) {
     }
 
     // Gradients on values.
-
     this->dinputs = TensorInline::dot(dvalues, this->weights.transposate());
 }

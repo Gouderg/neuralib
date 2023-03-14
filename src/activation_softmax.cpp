@@ -35,28 +35,28 @@ void Activation_Softmax::backward(const TensorInline &dvalues) {
 
     int width = dvalues.getWidth();
     int height = dvalues.getHeight();
-    this->dinputs = TensorInline({1, 1});
+    this->dinputs = TensorInline({height, width});
     this->dinputs.tensor = {};
 
-    for (int i = 0; i < height; i += width) {
+    for (int i = 0; i < height * width; i += width) {
         
-        TensorInline test ({width, 1});
+        TensorInline single_dvalues ({width, 1});
         for (int j = 0; j < width; j ++) {
-            test.tensor[j] = this->output.tensor[i+j];
+            single_dvalues.tensor[j] = dvalues.tensor[i+j];
         }
 
-        TensorInline test2 ({width, width});
+        TensorInline single_output_diag ({width, width});
+        TensorInline single_output ({width, 1});
         for (int j = 0; j < width; j ++) {
-            test2.tensor[j * width + j] = test.tensor[j];
+            single_output_diag.tensor[j * width + j] = this->output.tensor[i+j];
+            single_output.tensor[j] = this->output.tensor[i+j];
         }
 
         TensorInline jacobian_matrix({width, width});
-        jacobian_matrix = test2 - TensorInline::dot(test, test.transposate());
+        jacobian_matrix = single_output_diag - TensorInline::dot(single_output, single_output.transposate());
 
-        std::vector<double> out(dvalues.tensor.begin() + i, dvalues.tensor.begin() + i + width + 1);
+        TensorInline res = TensorInline::dot(jacobian_matrix, single_dvalues);
 
-        TensorInline res = TensorInline::dot(jacobian_matrix, out);
-            
         this->dinputs.tensor.insert(this->dinputs.tensor.end(), res.tensor.begin(), res.tensor.end());
     }
 }

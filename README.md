@@ -21,11 +21,11 @@
 
 - [ ] Add test to all function in the code.
     - [X] Activation ReLU
-    - [ ] Activation Softmax
+    - [X] Activation Softmax
     - [X] Activation Sigmoid
     - [X] Activation Linear
-    - [ ] Layer Dense
-    - [ ] Layer_Dropout
+    - [X] Layer Dense
+    - [X] Layer_Dropout
     - [ ] Loss_CategoricalCrossentropy
     - [X] Loss_BinaryCrossentropy
     - [X] Loss_MeanSquaredError
