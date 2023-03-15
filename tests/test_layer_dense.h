@@ -30,7 +30,8 @@ class TestLayerDense: public CxxTest::TestSuite {
         }
 
         void testLayerDenseBackward(void) {
-
+            TS_TRACE("Starting layer dense backward test");
+            
             Layer_Dense dense1(2, 2, 3.0);
             TensorInline weights({2, 2});
             weights.tensor = { 0.07863279, -0.04664191, -0.09444463, -0.04100497};

@@ -6,15 +6,19 @@ std::vector<double> Loss_CategoricalCrossEntropy::forward(const TensorInline &y_
     TensorInline y_pred_clipped = TensorInline::clip(y_pred, 1e-15, 1 - 1e-15);
 
     // Probabilities for target values only if categoricals values.
-    std::vector<double> correct_confidences(y_true.getWidth(), 0.0);
+    std::vector<double> correct_confidences(y_true.getHeight() == 1 ? y_true.getWidth() : y_true.getHeight(), 0.0);
+
+    int w = y_true.getWidth();
 
     if (y_true.getHeight() == 1) {
         for (int i = 0; i < y_true.getWidth(); i++) {
             correct_confidences[i] = y_pred_clipped.tensor[i * y_pred_clipped.getWidth() + y_true.tensor[i]];
         }
     } else {
-        for (int i = 0; i < y_true.getHeight() * y_true.getWidth(); i++) {
-            correct_confidences[i] += y_pred_clipped.tensor[i] * y_true.tensor[i];
+        for (int i = 0; i < y_true.getHeight(); i++) {
+            for (int j = 0; j < w; j++) {
+                correct_confidences[i] += y_pred_clipped.tensor[i * w + j] * y_true.tensor[i * w + j];
+            }
         }
     }
 
@@ -41,7 +45,7 @@ void Loss_CategoricalCrossEntropy::backward(const TensorInline &dvalues, const T
         y_flat_diag = y_true;
     }
 
-    for (int i = 0; i < samples * labels; i ++) {
-        this->dinputs.tensor[i] = (-y_flat_diag.tensor[i] / dvalues.tensor[i] / samples);
+    for (int i = 0; i < samples * labels; i++) {
+        this->dinputs.tensor[i] = (-1 * y_flat_diag.tensor[i] / dvalues.tensor[i] / samples);
     }
 }
