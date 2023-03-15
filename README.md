@@ -26,11 +26,11 @@
     - [X] Activation Linear
     - [X] Layer Dense
     - [X] Layer_Dropout
-    - [ ] Loss_CategoricalCrossentropy
+    - [X] Loss_CategoricalCrossentropy
     - [X] Loss_BinaryCrossentropy
     - [X] Loss_MeanSquaredError
     - [X] Loss_MeanAbsoluteError
-    - [ ] Activation_Softmax_Loss_CategoricalCrossentropy
+    - [X] Activation_Softmax_Loss_CategoricalCrossentropy
     - [ ] Optimizer_SGD
     - [ ] Optimizer_Adagrad
     - [ ] Optimizer_RMSProp

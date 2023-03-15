@@ -19,13 +19,20 @@ void Activation_Softmax_Loss_CategoricalCrossentropy::backward(const TensorInlin
     this->dinputs = dvalues;
 
     // if labels are one-hot encoded.
-    std::vector<double> y_flat;
-    if (y_true.getHeight() == 2) {
-        for (int i = 0; i < y_true.getHeight() * y_true.getWidth(); i += y_true.getWidth()) {
-            y_flat.push_back(std::max_element(y_true.tensor.begin() + i ,y_true.tensor.end() + i + y_true.getWidth()) - (y_true.tensor.begin() + i));
-        }
-    } else {
+    std::vector<double> y_flat (y_true.getHeight() == 1 ? y_true.getWidth() : y_true.getHeight(), 0.0);
+    
+
+    if (y_true.getHeight() == 1) {
         y_flat = y_true.tensor;
+    } else {
+        int w = y_true.getWidth();
+        for (int i = 0; i < y_true.getHeight(); i++) {
+            for (int j = 0; j < w; j++) {
+                if (y_true.tensor[i * w + j]) {
+                    y_flat[i] = j;
+                }
+            }
+        }
     }
 
     // Compute the gradient (-1 on the good label).
