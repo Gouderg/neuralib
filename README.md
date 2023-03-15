@@ -31,10 +31,10 @@
     - [X] Loss_MeanSquaredError
     - [X] Loss_MeanAbsoluteError
     - [X] Activation_Softmax_Loss_CategoricalCrossentropy
-    - [ ] Optimizer_SGD
-    - [ ] Optimizer_Adagrad
-    - [ ] Optimizer_RMSProp
-    - [ ] Optimizer_Adam
+    - [X] Optimizer_SGD
+    - [X] Optimizer_Adagrad
+    - [X] Optimizer_RMSProp
+    - [X] Optimizer_Adam
 - [X] Add reshape function
 - [X] Add cout shape
 - [ ] Refacto Loss (Ajouter des assert dans le forward et le backward)
