@@ -3,3 +3,5 @@ neuralib
 build/
 src/*.o
 opti
+runner
+runner.cpp
