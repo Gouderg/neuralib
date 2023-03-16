@@ -26,9 +26,9 @@ int main_regression() {
     Statistic stat;
 
     // Create layer.
-    Layer_Dense dense1(1, NB_NEURON);
-    Layer_Dense dense2(NB_NEURON, NB_NEURON);
-    Layer_Dense dense3(NB_NEURON, 1);
+    Layer_Dense dense1({1, NB_NEURON});
+    Layer_Dense dense2({NB_NEURON, NB_NEURON});
+    Layer_Dense dense3({NB_NEURON, 1});
 
 
 

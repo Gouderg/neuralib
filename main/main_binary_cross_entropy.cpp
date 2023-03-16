@@ -29,8 +29,8 @@ int main_binary_crossentropy() {
     Statistic stat;
 
     // Create layer.
-    Layer_Dense dense1(NB_INPUTS, NB_NEURON, WEIGHT_L1, WEIGHT_L2, BIAS_L1, BIAS_L2);
-    Layer_Dense dense2(NB_NEURON, 1);
+    Layer_Dense dense1({NB_INPUTS, NB_NEURON, WEIGHT_L1, WEIGHT_L2, BIAS_L1, BIAS_L2});
+    Layer_Dense dense2({NB_NEURON, 1});
 
 
     std::cout << "Utilisation de: \"Binary Logistic Regression\"" << std::endl;

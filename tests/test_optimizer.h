@@ -14,12 +14,12 @@ class TestOptimizer: public CxxTest::TestSuite {
             Optimizer_SGD optimizer_without_momentum = Optimizer_SGD(1.5, 0.2, 0.0);
             Optimizer_SGD optimizer_with_momentum = Optimizer_SGD(1.5, 0.2, 1.5);
 
-            Layer_Dense dense_without_momentum(2, 2);
+            Layer_Dense dense_without_momentum({2, 2});
             TensorInline weights({2, 2});
             weights.tensor = {0.17640524, 0.04001572, 0.0978738, 0.22408931};
             dense_without_momentum.setWeights(weights);
 
-            Layer_Dense dense_with_momentum(2, 2);
+            Layer_Dense dense_with_momentum({2, 2});
             TensorInline weights2({2, 2});
             weights2.tensor = {0.1867558, -0.09772779, 0.09500884, -0.01513572};
             dense_with_momentum.setWeights(weights2);
@@ -71,12 +71,12 @@ class TestOptimizer: public CxxTest::TestSuite {
             Optimizer_Adagrad optimizer_without_cache = Optimizer_Adagrad(1.5, 0.2, 0.0);
             Optimizer_Adagrad optimizer_with_cache = Optimizer_Adagrad(1.5, 0.2, 1.5);
 
-            Layer_Dense dense_without_cache(2, 2);
+            Layer_Dense dense_without_cache({2, 2});
             TensorInline weights({2, 2});
             weights.tensor = {0.17640524, 0.04001572, 0.0978738, 0.22408931};
             dense_without_cache.setWeights(weights);
 
-            Layer_Dense dense_with_cache(2, 2);
+            Layer_Dense dense_with_cache({2, 2});
             TensorInline weights2({2, 2});
             weights2.tensor = {0.1867558, -0.09772779, 0.09500884, -0.01513572};
             dense_with_cache.setWeights(weights2);
@@ -128,7 +128,7 @@ class TestOptimizer: public CxxTest::TestSuite {
 
             Optimizer_RMSprop optimizer_with_cache = Optimizer_RMSprop(1.5, 0.2, 1.5, 0.04);
 
-            Layer_Dense dense_with_cache(2, 2);
+            Layer_Dense dense_with_cache({2, 2});
             TensorInline weights2({2, 2});
             weights2.tensor = {0.17640524, 0.04001572, 0.0978738, 0.22408931};
             dense_with_cache.setWeights(weights2);
@@ -166,7 +166,7 @@ class TestOptimizer: public CxxTest::TestSuite {
 
             Optimizer_Adam optimizer_with_cache = Optimizer_Adam(1.5, 0.2, 1.5, 0.09, 0.002);
 
-            Layer_Dense dense(2, 2);
+            Layer_Dense dense({2, 2});
             TensorInline weights2({2, 2});
             weights2.tensor = {0.17640524, 0.04001572, 0.0978738, 0.22408931};
             dense.setWeights(weights2);
