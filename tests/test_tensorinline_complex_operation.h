@@ -124,4 +124,23 @@ class TensorInlineComplexeOperation: public CxxTest::TestSuite {
             TS_ASSERT_EQUALS(TensorInline::standard_deviation(v2), 0.5);
             TS_ASSERT_EQUALS(TensorInline::standard_deviation(v3), 1.0);
         }
+
+        void testMean(void) {
+            TS_TRACE("Starting mean test");
+
+            TensorInline v1({4, 1, false, 1.0});
+            double res1 = 1.0;
+
+            TensorInline v2({16, 1, false, 0.0});
+            v2.tensor = {1, 3, 3, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2};
+            double res2 = 2.0;
+
+            TensorInline v3({4, 1, false, 0.0});
+            v3.tensor = {1, 1, -2, 3};
+            double res3 = 0.75;
+
+            TS_ASSERT_EQUALS(TensorInline::mean(v1),res1);
+            TS_ASSERT_EQUALS(TensorInline::mean(v2),res2);
+            TS_ASSERT_EQUALS(TensorInline::mean(v3),res3);
+        }
 };

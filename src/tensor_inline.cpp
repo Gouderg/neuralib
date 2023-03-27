@@ -548,6 +548,16 @@ TensorInline TensorInline::binomial(const TensorInlineBinomialParams p) {
     return binome;
 }
 
+double TensorInline::mean(const TensorInline& t) {
+    double mean = 0;
+
+    for (auto &elt : t.tensor) {
+        mean += elt;
+    }
+
+    return mean / t.tensor.size();
+}
+
 
 // Cout.
 std::ostream& operator<<(std::ostream& out, const TensorInline& t) {

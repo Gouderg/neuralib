@@ -129,6 +129,9 @@ class TensorInline {
         // Binomial distribution.
         static TensorInline binomial(const TensorInlineBinomialParams p);
 
+        // Mean.
+        static double mean(const TensorInline & t);
+
         // Cout.
         friend std::ostream& operator <<(std::ostream&, const TensorInline&);
 

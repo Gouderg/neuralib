@@ -39,8 +39,8 @@
 - [X] Add cout shape
 - [ ] Refacto Loss (Ajouter des assert dans le forward et le backward)
 - [ ] Améliorer le système d'affichage de graph
-- [ ] Add struct parameters for layer_dense class
-
+- [X] Add struct parameters for layer_dense class
+- [ ] Supprimer les méthodes accuracy dans les classes Loss
 
 
 ## Todo Clean code
