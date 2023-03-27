@@ -8,7 +8,7 @@ class TestLayerDense: public CxxTest::TestSuite {
         void testLayerDenseForward(void) {
             TS_TRACE("Starting layer dense forward test");
 
-            Layer_Dense dense1(6, 2, 3.0);
+            Layer_Dense dense1({6, 2, 3.0});
             TensorInline weights({6, 2});
             weights.tensor = { 0.17640524, 0.04001572, 0.0978738, 0.22408931, 0.1867558, -0.09772779, 0.09500884, -0.01513572, -0.01032189, 0.04105985, 0.01440436, 0.14542735};
 
@@ -32,7 +32,7 @@ class TestLayerDense: public CxxTest::TestSuite {
         void testLayerDenseBackward(void) {
             TS_TRACE("Starting layer dense backward test");
             
-            Layer_Dense dense1(2, 2, 3.0);
+            Layer_Dense dense1({2, 2, 3.0});
             TensorInline weights({2, 2});
             weights.tensor = { 0.07863279, -0.04664191, -0.09444463, -0.04100497};
             dense1.setWeights(weights);

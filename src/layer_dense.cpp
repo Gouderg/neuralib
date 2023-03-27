@@ -1,22 +1,22 @@
 #include "../header/layer_dense.hpp"
 
 // Constructor.
-Layer_Dense::Layer_Dense(const int n_inputs, const int n_neurons, double weight_reg_L1, double weight_reg_L2, double bias_reg_L1, double bias_reg_L2) {
+Layer_Dense::Layer_Dense(LayerDenseParameters p) {
     
     // Init layers.
-    this->weights = TensorInline({n_inputs, n_neurons, true});
-    this->biases = TensorInline({1, n_neurons});
+    this->weights = TensorInline({p.n_inputs, p.n_neurons, true});
+    this->biases = TensorInline({1, p.n_neurons});
 
     // Init optimizer layers with 0 with the same shape.
-    this->weight_momentum = TensorInline({n_inputs, n_neurons});
-    this->bias_momentum = TensorInline({1, n_neurons});
-    this->weight_cache = TensorInline({n_inputs, n_neurons});
-    this->bias_cache = TensorInline({1, n_neurons});
+    this->weight_momentum = TensorInline({p.n_inputs, p.n_neurons});
+    this->bias_momentum = TensorInline({1, p.n_neurons});
+    this->weight_cache = TensorInline({p.n_inputs, p.n_neurons});
+    this->bias_cache = TensorInline({1, p.n_neurons});
 
-    this->weight_reg_L1 = weight_reg_L1;
-    this->weight_reg_L2 = weight_reg_L2;
-    this->bias_reg_L1 = bias_reg_L1;
-    this->bias_reg_L2 = bias_reg_L2;
+    this->weight_reg_L1 = p.weight_reg_L1;
+    this->weight_reg_L2 = p.weight_reg_L2;
+    this->bias_reg_L1 = p.bias_reg_L1;
+    this->bias_reg_L2 = p.bias_reg_L2;
 
 }
 

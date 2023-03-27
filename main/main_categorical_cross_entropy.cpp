@@ -28,8 +28,8 @@ int main_categorical_crossentropy() {
     Statistic stat;
 
     // Create layer.
-    Layer_Dense dense1(NB_INPUTS, NB_NEURON, WEIGHT_L1, WEIGHT_L2, BIAS_L1, BIAS_L2);
-    Layer_Dense dense2(NB_NEURON, NB_LABEL_CATEGORICAL);
+    Layer_Dense dense1({NB_INPUTS, NB_NEURON, WEIGHT_L1, WEIGHT_L2, BIAS_L1, BIAS_L2});
+    Layer_Dense dense2({NB_NEURON, NB_LABEL_CATEGORICAL});
 
     // Dropout layer.
     Layer_Dropout dropout1(DROPOUT_RATE);

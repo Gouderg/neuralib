@@ -4,13 +4,22 @@
 #include "../header/tensor_inline.hpp"
 #include "../header/layer.hpp"
 
-class Layer_Dense : public Layer{
+struct LayerDenseParameters {
+    const int n_inputs;
+    const int n_neurons;
+    const double weight_reg_L1 = 0.0;
+    const double weight_reg_L2 = 0.0;
+    const double bias_reg_L1 = 0.0;
+    const double bias_reg_L2 = 0.0;
+};
+
+class Layer_Dense : public Layer {
 
     public:
 
         // Constructor.
         Layer_Dense(){};
-        Layer_Dense(const int n_inputs, const int n_neurons, double weight_reg_L1 = 0.0, double weight_reg_L2 = 0.0, double bias_reg_L1 = 0.0, double bias_reg_L2 = 0.0);
+        Layer_Dense(LayerDenseParameters p);
         
         // Getter.
         const TensorInline& getWeights() const { return this->weights; }
