@@ -37,11 +37,14 @@
     - [X] Optimizer_Adam
 - [X] Add reshape function
 - [X] Add cout shape
-- [ ] Refacto Loss (Ajouter des assert dans le forward et le backward)
-- [ ] Améliorer le système d'affichage de graph
 - [X] Add struct parameters for layer_dense class
-- [ ] Supprimer les méthodes accuracy dans les classes Loss
+- [X] Refacto Loss (Ajouter des assert dans le forward et le backward)
 
+- [ ] Ajouter les predictions aux classes d'activations.
+- [ ] Faire la classe model
+- [ ] Supprimer les méthodes accuracy dans les classes Loss
+- [ ] Refaire des mains d'exemple avec la nouvelle base
+- [ ] Améliorer le système d'affichage de graph
 
 ## Todo Clean code
 
