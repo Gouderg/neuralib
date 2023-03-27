@@ -15,7 +15,7 @@ class TestLayerDropout: public CxxTest::TestSuite {
             TensorInline output({1, 8});
             output.tensor = {-1.11111111, -0.22222222, 0, 0.22222222, 1.11111111, 2.22222222, 0, 4.44444444};
         
-            dropout.forward(inputs);
+            dropout.forward(inputs, true);
             dropout.backward(inputs);
 
             TS_ASSERT((dropout.getOutput() - output).abs() <= 1e-7);

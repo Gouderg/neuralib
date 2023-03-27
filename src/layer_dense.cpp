@@ -20,7 +20,7 @@ Layer_Dense::Layer_Dense(const int n_inputs, const int n_neurons, double weight_
 
 }
 
-void Layer_Dense::forward(const TensorInline& inputs) {
+void Layer_Dense::forward(const TensorInline& inputs, const bool training) {
     
     this->inputs = inputs;
     this->output = TensorInline::dot(inputs, this->weights) + this->biases;

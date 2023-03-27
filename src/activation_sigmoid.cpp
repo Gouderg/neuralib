@@ -1,6 +1,6 @@
 #include "../header/activation_sigmoid.hpp"
 
-void Activation_Sigmoid::forward(const TensorInline & inputs) {
+void Activation_Sigmoid::forward(const TensorInline & inputs, const bool training) {
     this->inputs = inputs;
     this->output = 1.0 / (1.0 + TensorInline::exp(-1.0 * inputs));
 }

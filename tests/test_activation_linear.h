@@ -13,7 +13,7 @@ class TestActivationLinear: public CxxTest::TestSuite {
 
             Activation_Linear linear;
 
-            linear.forward(inputs);
+            linear.forward(inputs, false);
             TS_ASSERT_EQUALS(linear.getOutput(), inputs);
         }
 
@@ -27,7 +27,7 @@ class TestActivationLinear: public CxxTest::TestSuite {
 
             Activation_Linear linear;
 
-            linear.forward(inputs);
+            linear.forward(inputs, false);
             linear.backward(dvalues);
 
             TS_ASSERT_EQUALS(linear.getOutput(), inputs);

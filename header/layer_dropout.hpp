@@ -1,28 +1,25 @@
 #ifndef LAYER_DROPOUT_H
 #define LAYER_DROPOUT_H
 
-#include "tensor_inline.hpp"
+#include "../header/tensor_inline.hpp"
+#include "../header/layer.hpp"
 
-class Layer_Dropout {
+class Layer_Dropout : public Layer {
 
     public:
         // Constructor.
         Layer_Dropout(const double rate);
 
-        // Getter.
-        const TensorInline& getOutput() const { return this->output; }
-        const TensorInline& getDinputs() const{ return this->dinputs; }
-
         // Forward.
-        void forward(const TensorInline &inputs);
+        void forward(const TensorInline &inputs, const bool training = false);
         
         // Backward.
         void backward(const TensorInline &dvalues);
 
 
     private:
-        TensorInline inputs, output;
-        TensorInline dinputs, binary_mask;
+        TensorInline inputs;
+        TensorInline binary_mask;
         double rate;
 
 };

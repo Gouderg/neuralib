@@ -16,7 +16,7 @@ class TestActivationSigmoid: public CxxTest::TestSuite {
 
             Activation_Sigmoid sigmoid;
 
-            sigmoid.forward(inputs);
+            sigmoid.forward(inputs, false);
 
             TS_ASSERT_EQUALS(sigmoid.getOutput(), expected_output);
         }

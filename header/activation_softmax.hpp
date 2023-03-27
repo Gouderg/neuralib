@@ -4,24 +4,20 @@
 #include <cmath>
 
 #include "../header/tensor_inline.hpp"
+#include "../header/layer.hpp"
 
-class Activation_Softmax {
+class Activation_Softmax : public Layer {
     
     public:
 
-        // Getter.
-        const TensorInline& getOutput() const { return this->output; }
-        const TensorInline& getDinputs() const { return this->dinputs; }
-
-
         // Forward pass.
-        void forward(const TensorInline& inputs);
+        void forward(const TensorInline& inputs, const bool training = false);
 
         // Backward pass.
         void backward(const TensorInline &dvalues);
 
     private:
-        TensorInline output, inputs, dinputs;
+        TensorInline inputs;
 };
 
 #endif

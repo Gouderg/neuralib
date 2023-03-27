@@ -2,8 +2,9 @@
 #define LAYER_DENSE_H
 
 #include "../header/tensor_inline.hpp"
+#include "../header/layer.hpp"
 
-class Layer_Dense {
+class Layer_Dense : public Layer{
 
     public:
 
@@ -14,8 +15,6 @@ class Layer_Dense {
         // Getter.
         const TensorInline& getWeights() const { return this->weights; }
         const TensorInline& getBiases() const { return this->biases; }
-        const TensorInline& getOutput() const { return this->output; }
-        const TensorInline& getDinputs() const{ return this->dinputs; }
         const TensorInline& getDweights() const { return this->dweights; }
         const TensorInline& getDbiases() const { return this->dbiases; }
 
@@ -53,15 +52,15 @@ class Layer_Dense {
 
 
         // Forward pass.
-        void forward(const TensorInline& inputs);
+        void forward(const TensorInline& inputs, const bool training = false);
 
         // Backward pass.
         void backward(const TensorInline &dvalues);
 
 
     private:
-        TensorInline inputs, weights, biases, output;
-        TensorInline dinputs, dweights, dbiases;
+        TensorInline inputs, weights, biases;
+        TensorInline dweights, dbiases;
         TensorInline weight_momentum, bias_momentum, weight_cache, bias_cache;
 
         double weight_reg_L1, weight_reg_L2, bias_reg_L1, bias_reg_L2;

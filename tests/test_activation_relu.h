@@ -16,7 +16,7 @@ class TestActivationRelu: public CxxTest::TestSuite {
 
             Activation_ReLU relu;
 
-            relu.forward(inputs);
+            relu.forward(inputs, false);
             TS_ASSERT_EQUALS(relu.getOutput(), expected_output);
         }
 
@@ -33,7 +33,7 @@ class TestActivationRelu: public CxxTest::TestSuite {
 
             Activation_ReLU relu;
 
-            relu.forward(inputs);
+            relu.forward(inputs, false);
             relu.backward(dvalues);
 
             TS_ASSERT_EQUALS(relu.getDinputs(), expected_output);

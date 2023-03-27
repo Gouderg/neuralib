@@ -1,6 +1,6 @@
 #include "../header/activation_relu.hpp"
 
-void Activation_ReLU::forward(const TensorInline &inputs) {
+void Activation_ReLU::forward(const TensorInline &inputs, const bool training) {
     this->inputs = inputs;
 
     this->output = TensorInline({inputs.getHeight(), inputs.getWidth()});

@@ -1,6 +1,6 @@
 #include "../header/activation_softmax.hpp"
 
-void Activation_Softmax::forward(const TensorInline& inputs) {
+void Activation_Softmax::forward(const TensorInline& inputs, const bool training) {
 
     this->inputs = inputs;
 

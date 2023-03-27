@@ -10,19 +10,21 @@ class Layer {
         virtual void forward(const TensorInline& inputs, const bool training) = 0;
         virtual void backward(const TensorInline& dvalues) = 0;
 
+        // Getter.
+        const TensorInline& getOutput() const { return this->output; }
+        const TensorInline& getDinputs() const{ return this->dinputs; }
+
+    protected:
+        TensorInline output, dinputs;
+
 };
 
 class Layer_Input : public Layer {
 
     public:
-        void forward(const TensorInline& inputs, const bool training);
+        void forward(const TensorInline& inputs, const bool training = false);
 
         void backward(const TensorInline& dvalues) {};
-
-        const TensorInline& getOutput() const { return this->output; }
-
-    private:
-        TensorInline output;
 }; 
 
 #endif
