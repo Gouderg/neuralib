@@ -45,6 +45,7 @@
 - [ ] Supprimer les méthodes accuracy dans les classes Loss
 - [ ] Refaire des mains d'exemple avec la nouvelle base
 - [ ] Améliorer le système d'affichage de graph
+- [ ] Changer la structure des paquets
 
 ## Todo Clean code
 

@@ -15,6 +15,8 @@ class Loss {
         // Function for inheritance.
         virtual std::vector<double> forward(const TensorInline &y_pred, const TensorInline& y_true);
 
+        void backward(const TensorInline &dvalues, const TensorInline &y_true){};
+
         // Calculates the data and regularization losses given model output and ground truth values.
         double calculate(const TensorInline& output, const TensorInline& y);
 
@@ -22,6 +24,11 @@ class Loss {
 
         // Calculate the accuracy
         static double accuracy(const TensorInline &inputs, const TensorInline &y);
+
+        const TensorInline& getDinputs() const { return this->dinputs; }
+    
+    protected:
+        TensorInline dinputs;
 
 
 };
@@ -33,11 +40,6 @@ class Loss_CategoricalCrossEntropy : public Loss {
         std::vector<double> forward(const TensorInline &y_pred, const TensorInline& y_true);
     
         void backward(const TensorInline &dvalues, const TensorInline &y_true);
-
-        const TensorInline& getDinputs() const { return this->dinputs; }
-        
-    private:
-        TensorInline dinputs;
 }; 
 
 class Loss_BinaryCrossentropy : public Loss {
@@ -47,13 +49,7 @@ class Loss_BinaryCrossentropy : public Loss {
     
         void backward(const TensorInline &dvalues, const TensorInline &y_true);
 
-        const TensorInline& getDinputs() const { return this->dinputs; }
-
-        // Calculate the accuracy
         static double accuracy(const TensorInline &inputs, const TensorInline &y);
-        
-    private:
-        TensorInline dinputs;
 };
 
 class Loss_MeanSquaredError : public Loss {
@@ -63,13 +59,8 @@ class Loss_MeanSquaredError : public Loss {
     
         void backward(const TensorInline &dvalues, const TensorInline &y_true);
 
-        const TensorInline& getDinputs() const { return this->dinputs; }
-
-        // Calculate the accuracy
         static double accuracy(const TensorInline &inputs, const TensorInline &y, const double accuracy_precision);
 
-    private:
-        TensorInline dinputs;
 };
 
 class Loss_MeanAbsoluteError : public Loss {
@@ -79,13 +70,7 @@ class Loss_MeanAbsoluteError : public Loss {
     
         void backward(const TensorInline &dvalues, const TensorInline &y_true);
 
-        // Calculate the accuracy
         static double accuracy(const TensorInline &inputs, const TensorInline &y, const double accuracy_precision);
-
-        const TensorInline& getDinputs() const { return this->dinputs; }
-    
-    private:
-        TensorInline dinputs;
 };
 
 #endif

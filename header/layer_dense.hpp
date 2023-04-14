@@ -66,6 +66,8 @@ class Layer_Dense : public Layer {
         // Backward pass.
         void backward(const TensorInline &dvalues);
 
+        bool isTrainable() { return true; }
+
 
     private:
         TensorInline inputs, weights, biases;

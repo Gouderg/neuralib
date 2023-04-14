@@ -14,6 +14,8 @@ class Layer {
         const TensorInline& getOutput() const { return this->output; }
         const TensorInline& getDinputs() const{ return this->dinputs; }
 
+        bool isTrainable() { return false; }
+
     protected:
         TensorInline output, dinputs;
 
@@ -24,7 +26,7 @@ class Layer_Input : public Layer {
     public:
         void forward(const TensorInline& inputs, const bool training = false);
 
-        void backward(const TensorInline& dvalues) {};
+        void backward(const TensorInline& dvalues) { std::cout << "Hello" << std::endl; };
 }; 
 
 #endif
