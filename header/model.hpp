@@ -34,6 +34,8 @@ class Model {
         TensorInline forward(const TensorInline& X, const bool training);
         void backward(const TensorInline& output, const TensorInline& y);
 
+        void test(int &a) { a += 1;}
+
     private:
         std::vector<Layer*> layers;
         Loss* loss;
