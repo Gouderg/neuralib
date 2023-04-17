@@ -15,6 +15,7 @@
 
 #include "constants.hpp"
 
+// Number of processors allowed.
 const int nb_procs = std::max(omp_get_num_procs() - 1, 2);
 
 struct TensorInlineParams {
@@ -57,7 +58,7 @@ class TensorInline {
 
         // Reshape.
         void reshape(const int new_height, const int new_width);
-        std::string shape();
+        std::string shape() const ;
 
         /** Basics operations */
 

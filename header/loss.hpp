@@ -13,9 +13,9 @@ class Loss {
         virtual ~Loss(){}
 
         // Function for inheritance.
-        virtual std::vector<double> forward(const TensorInline &y_pred, const TensorInline& y_true);
+        virtual std::vector<double> forward(const TensorInline &y_pred, const TensorInline& y_true) = 0;
 
-        void backward(const TensorInline &dvalues, const TensorInline &y_true){};
+        virtual void backward(const TensorInline &dvalues, const TensorInline &y_true) = 0;
 
         // Calculates the data and regularization losses given model output and ground truth values.
         double calculate(const TensorInline& output, const TensorInline& y);
@@ -59,8 +59,6 @@ class Loss_MeanSquaredError : public Loss {
     
         void backward(const TensorInline &dvalues, const TensorInline &y_true);
 
-        static double accuracy(const TensorInline &inputs, const TensorInline &y, const double accuracy_precision);
-
 };
 
 class Loss_MeanAbsoluteError : public Loss {
@@ -69,8 +67,6 @@ class Loss_MeanAbsoluteError : public Loss {
         std::vector<double> forward(const TensorInline &y_pred, const TensorInline& y_true);
     
         void backward(const TensorInline &dvalues, const TensorInline &y_true);
-
-        static double accuracy(const TensorInline &inputs, const TensorInline &y, const double accuracy_precision);
 };
 
 #endif

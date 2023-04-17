@@ -14,6 +14,8 @@ class Activation_ReLU : public Layer {
         // Backward pass.
         void backward(const TensorInline &dvalues);
 
+        bool isTrainable() { return false; }
+
     private:
         TensorInline inputs;
 };

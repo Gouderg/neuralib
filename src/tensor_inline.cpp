@@ -19,7 +19,7 @@ TensorInline::TensorInline(TensorInlineParams p) {
         
         // Gaussian distribution.    
         for (int i = 0; i < p.height * p.width; i++) {
-            this->tensor.push_back(distribution(generator) * 0.01);
+            this->tensor.push_back(distribution(generator) * 0.1);  // normal value is 0.01 but if the accuracy not rise use 0.1
         }
     } else {
         this->tensor = std::vector<double> (p.height * p.width, p.valueToSet);
@@ -58,7 +58,7 @@ void TensorInline::reshape(const int new_height, const int new_width) {
 }
 
 
-std::string TensorInline::shape() {
+std::string TensorInline::shape() const {
     return "(" + std::to_string(this->height) + ", " + std::to_string(this->width) + ")";
 }
 

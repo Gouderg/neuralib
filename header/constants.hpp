@@ -2,13 +2,14 @@
 #define CONSTANTS_H
 
 // Dataset.
-const int NB_POINT = 100;
+const int NB_POINT = 2;
+const int NB_REGRESSION_POINT = 1000;
 const int NB_LABEL_CATEGORICAL = 3;
 const int NB_LABEL_BINARY = 2;
 const int NB_INPUTS = 2;
 
 // Size of the network.
-const int NB_EPOCH = 10001;
+const int NB_EPOCH = 10000;
 const int NB_NEURON = 64;
 
 // Uniform distribution parameters.
@@ -29,8 +30,7 @@ const double BIAS_L2 = 5e-4;
 // Dropout.
 const double DROPOUT_RATE = 0.1;
 
-// Accuracy
-
+// Accuracy.
 const double STRICT_ACCURACY_METRICS = 250.0;
 
 #endif

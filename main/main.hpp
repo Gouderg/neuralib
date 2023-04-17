@@ -14,6 +14,8 @@
 #include "../header/optimizer.hpp"
 #include "../header/statistic.hpp"
 #include "../header/constants.hpp"
+#include "../header/accuracy.hpp"
+#include "../header/model.hpp"
 
 #include <ctime>
 
@@ -21,5 +23,6 @@ int main_binary_crossentropy();
 int main_categorical_crossentropy();
 int main_regression();
 int main_debug();
+int main_model_regression();
 
 #endif

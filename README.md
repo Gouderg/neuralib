@@ -40,7 +40,6 @@
 - [X] Add struct parameters for layer_dense class
 - [X] Refacto Loss (Ajouter des assert dans le forward et le backward)
 
-- [ ] Ajouter les predictions aux classes d'activations.
 - [ ] Faire la classe model
 - [ ] Supprimer les méthodes accuracy dans les classes Loss
 - [ ] Refaire des mains d'exemple avec la nouvelle base

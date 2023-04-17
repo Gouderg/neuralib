@@ -36,7 +36,7 @@ double Accuracy_Regression::calculate(const TensorInline& predictions, const Ten
     for (int i = 0; i < predictions.getHeight() * predictions.getWidth(); i++) {
         accuracy += (std::abs(predictions.tensor[i] - y.tensor[i]) < this->precision) ? 1.0 : 0.0;
     }
-
+    
     return accuracy / (predictions.getHeight() * predictions.getWidth());
 }
 

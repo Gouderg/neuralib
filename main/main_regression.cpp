@@ -6,10 +6,10 @@
 int main_regression() {
 
     // Get the dataset.
-    TensorInline X({1000, 1}), y({1000, 1});
+    TensorInline X({NB_REGRESSION_POINT, 1}), y({NB_REGRESSION_POINT, 1});
     
     // Get the dataset.
-    std::tie(X, y) = Dataset::sine_data(1000);
+    std::tie(X, y) = Dataset::sine_data(NB_REGRESSION_POINT);
 
     #ifdef PLOT
     // Plot the dataset.
@@ -42,6 +42,10 @@ int main_regression() {
     // Loss function.
     Loss_MeanSquaredError loss_function;
 
+    // Accuracy function.
+    Accuracy_Regression accuracy_function(STRICT_ACCURACY_METRICS);
+    accuracy_function.init(y, true);
+
     // Optimizer.
     // Optimizer_SGD optimizer = Optimizer_SGD(1.0, 1e-3, 0.9);
     // Optimizer_Adagrad optimizer = Optimizer_Adagrad(1.0, 1e-4, 1e-7);
@@ -51,7 +55,6 @@ int main_regression() {
 
     // Init stat value.
     double data_loss = 0.0, regularization_loss = 0.0, loss_val = 0.0, accuracy = 0.0;
-    double accuracy_precision = TensorInline::standard_deviation(y) / STRICT_ACCURACY_METRICS;
 
     // Number of epoch.
     time_t start = std::time(NULL);
@@ -69,8 +72,9 @@ int main_regression() {
         regularization_loss = loss_function.regularization_loss(dense1) + loss_function.regularization_loss(dense2) + loss_function.regularization_loss(dense3);
         loss_val = data_loss + regularization_loss;
 
-        accuracy = Loss_MeanSquaredError::accuracy(activation3.getOutput(), y, accuracy_precision);
-        
+        accuracy = accuracy_function.calculate(activation3.getOutput(), y);
+
+
         // Get all the statistics.
         if (epoch % 100 == 0) {
             std::cout << "Epoch " << epoch;

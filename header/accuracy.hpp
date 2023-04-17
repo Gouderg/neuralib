@@ -8,7 +8,7 @@ class Accuracy {
     public:
         virtual double calculate(const TensorInline& predictions, const TensorInline& y) = 0;
         
-        virtual void init(const TensorInline& y) = 0;
+        virtual void init(const TensorInline& y, const bool reinit = false) = 0;
 
         virtual ~Accuracy(){};
 };
@@ -21,7 +21,7 @@ class Accuracy_Categorical : public Accuracy {
 
         double calculate(const TensorInline& predictions, const TensorInline& y);
 
-        void init(const TensorInline& y){}
+        void init(const TensorInline& y, const bool reinit = false){}
 
 
     private:

@@ -21,7 +21,6 @@ Layer_Dense::Layer_Dense(LayerDenseParameters p) {
 }
 
 void Layer_Dense::forward(const TensorInline& inputs, const bool training) {
-    
     this->inputs = inputs;
     this->output = TensorInline::dot(inputs, this->weights) + this->biases;
 }
