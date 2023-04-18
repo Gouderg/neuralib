@@ -38,23 +38,3 @@ void Loss_BinaryCrossentropy::backward(const TensorInline &dvalues, const Tensor
 
     this->dinputs /= samples;
 }
-
-double Loss_BinaryCrossentropy::accuracy(const TensorInline &output, const TensorInline &y_true) {
-    
-    TensorInline predictions = output;
-    double accuracy = 0.0;
-
-
-    for (int i = 0; i < output.getHeight() * output.getWidth(); i++) {
-        // Threshold the value.
-        predictions.tensor[i] = output.tensor[i] > 0.5 ? 1.0 : 0.0;
-
-        // Compare with y_true.
-        if (predictions.tensor[i] == y_true.tensor[i]) {
-            accuracy += 1.0;
-        }
-    }
-
-    return accuracy / (predictions.getHeight() * predictions.getWidth());
-
-}

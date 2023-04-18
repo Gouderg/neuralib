@@ -24,5 +24,6 @@ int main_categorical_crossentropy();
 int main_regression();
 int main_debug();
 int main_model_regression();
+int main_model_binary_cross_entropy();
 
 #endif

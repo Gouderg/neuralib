@@ -19,13 +19,17 @@ struct Data {
     TensorInline X, y;
 };
 
+enum PlotConfiguration {
+    none, line, circle
+};
+
 struct ModelParameters {
     Data data;
     Data validatation_data;
     const int epochs = 1;
     const int print_every = 1;
     const bool printStatistic = true;
-    const bool plotData = true;
+    const PlotConfiguration plotData = PlotConfiguration::line;
 };
 
 class Model {
@@ -39,6 +43,8 @@ class Model {
         
         TensorInline forward(const TensorInline& X, const bool training);
         void backward(const TensorInline& output, const TensorInline& y);
+
+        void plotDatasets(PlotConfiguration conf, const TensorInline& X, const TensorInline& y);
 
     private:
         std::vector<Layer*> layers;

@@ -2,7 +2,7 @@
 #define CONSTANTS_H
 
 // Dataset.
-const int NB_POINT = 2;
+const int NB_POINT = 500;
 const int NB_REGRESSION_POINT = 1000;
 const int NB_LABEL_CATEGORICAL = 3;
 const int NB_LABEL_BINARY = 2;

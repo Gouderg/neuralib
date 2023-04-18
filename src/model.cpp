@@ -60,9 +60,8 @@ void Model::backward(const TensorInline& output, const TensorInline& y) {
 void Model::train(ModelParameters p) {
 
     // Plot the dataset.
-    if (p.plotData) {
-        this->plt->draw_line(p.data.y.tensor, "red");
-    }
+    this->plotDatasets(p.plotData, p.data.X, p.data.y);
+
 
     // Get the time to compute the execution time.
     time_t start = std::time(NULL);
@@ -117,9 +116,7 @@ void Model::train(ModelParameters p) {
     accuracy_val = this->accuracy->calculate(output_val, p.validatation_data.y);
     
     std::cout << "Validation data, acc: " << accuracy_val << ", loss: " << loss_val << std::endl;
-    if (p.plotData) {
-        this->plt->draw_line(output_val.tensor, "blue");
-    }
+    this->plotDatasets(p.plotData, p.validatation_data.X, output_val);
 
     // Compute execution time.
     time_t end = std::time(NULL);
@@ -128,5 +125,19 @@ void Model::train(ModelParameters p) {
     // Plot all the stats.
     if (p.printStatistic) {
         this->stat->plot(false);
+    }
+}
+
+void Model::plotDatasets(PlotConfiguration conf, const TensorInline& X, const TensorInline& y) {
+    
+    if (conf == PlotConfiguration::line) {
+        this->plt->draw_line(y.tensor, "blue");
+    } 
+    
+    else if (conf == PlotConfiguration::circle) {
+        for (int i = 0; i < X.getHeight() * X.getWidth(); i += 2) {
+            this->plt->draw_circle(X.tensor[i], X.tensor[i + 1], Plot::getColor(y.tensor[static_cast<int>(i / 2)]));
+        }
+        this->plt->show();
     }
 }

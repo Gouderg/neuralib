@@ -42,6 +42,9 @@ int main_binary_crossentropy() {
     // Loss function.
     Loss_BinaryCrossentropy loss_function;
 
+    // Accuracy.
+    Accuracy_Binary accuracy_function;
+
     // Optimizer.
     // Optimizer_SGD optimizer = Optimizer_SGD(1.0, 1e-3, 0.9);
     // Optimizer_Adagrad optimizer = Optimizer_Adagrad(1.0, 1e-4, 1e-7);
@@ -66,7 +69,8 @@ int main_binary_crossentropy() {
         regularization_loss = loss_function.regularization_loss(dense1) + loss_function.regularization_loss(dense2);
         loss_val = data_loss + regularization_loss;
 
-        accuracy = Loss_BinaryCrossentropy::accuracy(activation2.getOutput(), y);
+        accuracy = accuracy_function.calculate(activation2.getOutput(), y);
+
         // Get all the statistics.
         if (epoch % 100 == 0) {
             std::cout << "Epoch " << epoch;
@@ -116,7 +120,7 @@ int main_binary_crossentropy() {
         activation2.forward(dense2.getOutput());
 
         double loss_val_test = loss_function.calculate(activation2.getOutput(), y_test);
-        double accuracy_test = Loss_BinaryCrossentropy::accuracy(activation2.getOutput(), y_test);
+        double accuracy_test = accuracy_function.calculate(activation2.getOutput(), y_test);
         std::cout << "Itérations n° " << i; 
         std::cout << ", loss: " << loss_val_test;
         std::cout << ", acc: " << accuracy_test << std::endl;

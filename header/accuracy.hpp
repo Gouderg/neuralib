@@ -33,12 +33,20 @@ class Accuracy_Regression : public Accuracy {
     public: 
         Accuracy_Regression(const double precision_init): precision(precision_init) {}
 
-        void init(const TensorInline& y) {};
         void init(const TensorInline& y, const bool reinit = false);
 
         double calculate(const TensorInline& predictions, const TensorInline& y);
     
     private:
         double precision;
+};
+
+class Accuracy_Binary : public Accuracy {
+    
+    public: 
+
+        void init(const TensorInline& y, const bool reinit = false) {};
+
+        double calculate(const TensorInline& predictions, const TensorInline& y);
 };
 #endif

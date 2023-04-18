@@ -45,3 +45,20 @@ void Accuracy_Regression::init(const TensorInline& y, const bool reinit) {
         this->precision = TensorInline::standard_deviation(y) / STRICT_ACCURACY_METRICS;
     }
 }
+
+double Accuracy_Binary::calculate(const TensorInline& predictions, const TensorInline& y) {
+
+    double accuracy = 0.0, predOne = 0.0;
+    double tensorSize = predictions.getHeight() * predictions.getWidth();
+
+    for (int i = 0; i < tensorSize; i++) {
+        // Threshold the value.
+        predOne = predictions.tensor[i] > 0.5 ? 1.0 : 0.0;
+
+        // Compare with y_true.
+        if (predOne == y.tensor[i]) {
+            accuracy += 1.0;
+        }
+    }
+    return accuracy / tensorSize;
+}
