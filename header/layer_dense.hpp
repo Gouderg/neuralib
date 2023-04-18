@@ -11,6 +11,7 @@ struct LayerDenseParameters {
     const double weight_reg_L2 = 0.0;
     const double bias_reg_L1 = 0.0;
     const double bias_reg_L2 = 0.0;
+    const double randomFactor = 0.01;
 };
 
 class Layer_Dense : public Layer {

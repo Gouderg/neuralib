@@ -15,6 +15,7 @@ const int NB_NEURON = 64;
 // Uniform distribution parameters.
 const double MEAN = 0.0;
 const double STD_DEVIATION = 1.0;
+const double RANDOM_REGRESSION_FACTOR = 0.1;
 
 // Optimizer.
 const double LEARNING_RATE = 0.005;

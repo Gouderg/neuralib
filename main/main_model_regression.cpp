@@ -14,11 +14,11 @@ int main_model_regression() {
     Model model;
 
     // Add all layers.
-    model.add(new Layer_Dense({1, NB_NEURON}));
+    model.add(new Layer_Dense({.n_inputs=1, .n_neurons=NB_NEURON, .randomFactor=RANDOM_REGRESSION_FACTOR}));
     model.add(new Activation_ReLU());
-    model.add(new Layer_Dense({NB_NEURON, NB_NEURON}));
+    model.add(new Layer_Dense({.n_inputs=NB_NEURON, .n_neurons=NB_NEURON, .randomFactor=RANDOM_REGRESSION_FACTOR}));
     model.add(new Activation_ReLU());
-    model.add(new Layer_Dense({NB_NEURON, 1}));
+    model.add(new Layer_Dense({.n_inputs=NB_NEURON, .n_neurons=1, .randomFactor=RANDOM_REGRESSION_FACTOR}));
     model.add(new Activation_Linear());           
 
     // Setup loss, optimizer and accuracy.
@@ -29,7 +29,10 @@ int main_model_regression() {
 
     model.set(&loss_function, &optimizer, &accuracy);
 
-    model.train({std::make_tuple(X, y), std::make_tuple(X_val, y_val), NB_EPOCH, 100});
+    model.train({.data={X, y}, 
+                 .validatation_data={X_val, y_val}, 
+                 .epochs=NB_EPOCH, 
+                 .print_every=100});
 
     return 0;
 }

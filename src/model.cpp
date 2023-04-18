@@ -59,29 +59,26 @@ void Model::backward(const TensorInline& output, const TensorInline& y) {
 
 void Model::train(ModelParameters p) {
 
-    TensorInline X({NB_REGRESSION_POINT, 1}), y({NB_REGRESSION_POINT, 1});
-    std::tie(X, y) = p.data; 
-
     // Plot the dataset.
     if (p.plotData) {
-        this->plt->draw_line(y.tensor, "red");
+        this->plt->draw_line(p.data.y.tensor, "red");
     }
 
     // Get the time to compute the execution time.
     time_t start = std::time(NULL);
 
     // Init accuracy.
-    this->accuracy->init(y, true);
+    this->accuracy->init(p.data.y, true);
 
     double loss = 0.0, data_loss = 0.0, regularization_loss = 0.0, accuracy = 0.0;
     double loss_val = 0.0, accuracy_val = 0.0; 
     for (int i = 0; i < p.epochs+1; i++) {
 
         // Forward.
-        TensorInline output = this->forward(X, true);
+        TensorInline output = this->forward(p.data.X, true);
 
         // Loss.
-        data_loss = this->loss->calculate(output, y);
+        data_loss = this->loss->calculate(output, p.data.y);
         regularization_loss = 0.0;
         for (auto layer : this->trainable_layers) {
             regularization_loss += this->loss->regularization_loss(*layer);
@@ -89,10 +86,10 @@ void Model::train(ModelParameters p) {
         loss = data_loss + regularization_loss;
 
         // Accuracy.
-        accuracy = this->accuracy->calculate(output, y);
+        accuracy = this->accuracy->calculate(output, p.data.y);
 
         // Backward.
-        this->backward(output, y);
+        this->backward(output, p.data.y);
 
         // Optimization.
         this->optimizer->pre_update_params();
@@ -114,13 +111,10 @@ void Model::train(ModelParameters p) {
     }
 
     // Validation data.
-    TensorInline X_val({NB_REGRESSION_POINT, 1}), y_val({NB_REGRESSION_POINT, 1});
-    std::tie(X_val, y_val) = p.data;
+    TensorInline output_val = this->forward(p.validatation_data.X, false);
 
-    TensorInline output_val = this->forward(X_val, false);
-
-    loss_val = this->loss->calculate(output_val, y_val);
-    accuracy_val = this->accuracy->calculate(output_val, y_val);
+    loss_val = this->loss->calculate(output_val, p.validatation_data.y);
+    accuracy_val = this->accuracy->calculate(output_val, p.validatation_data.y);
     
     std::cout << "Validation data, acc: " << accuracy_val << ", loss: " << loss_val << std::endl;
     if (p.plotData) {

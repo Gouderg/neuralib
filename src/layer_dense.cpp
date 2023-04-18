@@ -4,7 +4,11 @@
 Layer_Dense::Layer_Dense(LayerDenseParameters p) {
     
     // Init layers.
-    this->weights = TensorInline({p.n_inputs, p.n_neurons, true});
+    this->weights = TensorInline({.height=p.n_inputs, 
+                                  .width=p.n_neurons, 
+                                  .isRandom=true, 
+                                  .randomFactor=p.randomFactor});
+
     this->biases = TensorInline({1, p.n_neurons});
 
     // Init optimizer layers with 0 with the same shape.

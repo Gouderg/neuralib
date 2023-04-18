@@ -1,7 +1,7 @@
 #include "../header/tensor_inline.hpp"
 
 // Constructor.
-TensorInline::TensorInline(TensorInlineParams p) {
+TensorInline::TensorInline(TensorInlineParameters p) {
 
     assert(p.height > 0 && p.width > 0);
 
@@ -19,7 +19,7 @@ TensorInline::TensorInline(TensorInlineParams p) {
         
         // Gaussian distribution.    
         for (int i = 0; i < p.height * p.width; i++) {
-            this->tensor.push_back(distribution(generator) * 0.1);  // normal value is 0.01 but if the accuracy not rise use 0.1
+            this->tensor.push_back(distribution(generator) * p.randomFactor);  // normal value is 0.01 but if the accuracy not rise use 0.1
         }
     } else {
         this->tensor = std::vector<double> (p.height * p.width, p.valueToSet);
@@ -529,7 +529,7 @@ double TensorInline::standard_deviation(const TensorInline & t1) {
 }
 
 // Binomial distribution.
-TensorInline TensorInline::binomial(const TensorInlineBinomialParams p) {
+TensorInline TensorInline::binomial(const TensorInlineBinomialParameters p) {
 
     assert(p.trials >= 0 && "p.trials must be positive");
     assert(p.rate >= 0 && p.rate <= 1 && "p.rate must be in range [0; 1]");

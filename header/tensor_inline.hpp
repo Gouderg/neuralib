@@ -18,15 +18,16 @@
 // Number of processors allowed.
 const int nb_procs = std::max(omp_get_num_procs() - 1, 2);
 
-struct TensorInlineParams {
+struct TensorInlineParameters {
     int height;
     int width;
     bool isRandom = false;
     double valueToSet = 0.0;
+    const double randomFactor = 0.01;
 };
 
 
-struct TensorInlineBinomialParams {
+struct TensorInlineBinomialParameters {
     int trials;
     double rate;
     int height;
@@ -42,7 +43,7 @@ class TensorInline {
         
         // Constructor.
         TensorInline(){};
-        TensorInline(TensorInlineParams p);
+        TensorInline(TensorInlineParameters p);
         TensorInline(const TensorInline &p);
         
 
@@ -128,7 +129,7 @@ class TensorInline {
         static double standard_deviation(const TensorInline & t1);
 
         // Binomial distribution.
-        static TensorInline binomial(const TensorInlineBinomialParams p);
+        static TensorInline binomial(const TensorInlineBinomialParameters p);
 
         // Mean.
         static double mean(const TensorInline & t);

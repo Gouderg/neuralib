@@ -15,12 +15,15 @@
 #include "../header/plot.hpp"
 #include "../header/statistic.hpp"
 
+struct Data {
+    TensorInline X, y;
+};
+
 struct ModelParameters {
-    std::tuple<TensorInline, TensorInline> data;
-    std::tuple<TensorInline, TensorInline> validatation_data;
+    Data data;
+    Data validatation_data;
     const int epochs = 1;
     const int print_every = 1;
-    const bool useValidationData = true;
     const bool printStatistic = true;
     const bool plotData = true;
 };
