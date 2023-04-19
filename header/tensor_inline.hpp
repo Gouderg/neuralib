@@ -134,6 +134,9 @@ class TensorInline {
         // Mean.
         static double mean(const TensorInline & t);
 
+        // Round to the nearest integer.
+        static int round(const double n);
+
         // Cout.
         friend std::ostream& operator <<(std::ostream&, const TensorInline&);
 

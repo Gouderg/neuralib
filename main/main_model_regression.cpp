@@ -2,13 +2,10 @@
 
 
 int main_model_regression() {
-    // Init the dataset.
-    TensorInline X({NB_REGRESSION_POINT, 1}), y({NB_REGRESSION_POINT, 1});
-    TensorInline X_val({NB_REGRESSION_POINT, 1}), y_val({NB_REGRESSION_POINT, 1});
 
     // Get the dataset.
-    std::tie(X, y) = Dataset::sine_data(NB_REGRESSION_POINT);
-    std::tie(X_val, y_val) = Dataset::sine_data(NB_REGRESSION_POINT);
+    Data d = Dataset::sine_data(NB_REGRESSION_POINT);
+    Data d_val = Dataset::sine_data(NB_REGRESSION_POINT);
 
     // Create the model.
     Model model;
@@ -29,8 +26,8 @@ int main_model_regression() {
 
     model.set(&loss_function, &optimizer, &accuracy);
 
-    model.train({.data={X, y}, 
-                 .validatation_data={X_val, y_val}, 
+    model.train({.data=d, 
+                 .validatation_data=d_val, 
                  .epochs=NB_EPOCH, 
                  .print_every=100});
 

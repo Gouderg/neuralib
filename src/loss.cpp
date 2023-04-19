@@ -36,32 +36,3 @@ std::vector<double> Loss::forward(const TensorInline &y_pred, const TensorInline
     std::vector<double> a(y_true.getHeight(), 0.0);
     return a;
 }
-
-double Loss::accuracy(const TensorInline &inputs, const TensorInline &y) {
-    
-    // Get the indice of the best score.
-    std::vector<int> predictions;
-    for (int i = 0; i < inputs.getHeight() * inputs.getWidth(); i += inputs.getWidth()) {
-        predictions.push_back(std::max_element(inputs.tensor.begin() + i , inputs.tensor.begin() + i + inputs.getWidth()) - (inputs.tensor.begin() + i));
-    }
-
-    // get the indice of the best ground truth.
-    std::vector<double> y_flat;
-    if (y.getHeight() == 2 ) {
-        for (int i = 0; i < y.getHeight() * y.getWidth(); i += y.getWidth()) {
-            y_flat.push_back(std::max_element(y.tensor.begin() + i , y.tensor.begin() + i + y.getWidth()) - (y.tensor.begin() + i));
-        }
-    } else {
-        y_flat = y.tensor;
-    }
-
-    // Compute the mean.
-    double somme = 0.0;
-    for (int i = 0; i < static_cast<int>(predictions.size()); i++) {
-        if (predictions[i] == y_flat[i]) {
-            somme += 1.0;
-        }
-    }
-
-    return somme / predictions.size();
-}

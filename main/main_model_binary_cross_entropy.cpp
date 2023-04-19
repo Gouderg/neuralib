@@ -2,13 +2,9 @@
 
 int main_model_binary_cross_entropy() {
 
-    // Init the dataset.
-    TensorInline X({NB_POINT * NB_LABEL_BINARY, NB_INPUTS}), y({1, NB_POINT * NB_LABEL_BINARY});
-    TensorInline X_val({NB_POINT * NB_LABEL_BINARY, NB_INPUTS}), y_val({1, NB_POINT * NB_LABEL_BINARY});
-
     // Get the dataset.
-    std::tie(X, y) = Dataset::spiral_data(NB_POINT, NB_LABEL_BINARY);
-    std::tie(X_val, y_val) = Dataset::spiral_data(NB_POINT, NB_LABEL_BINARY);
+    Data d = Dataset::spiral_data(NB_POINT, NB_LABEL_BINARY);
+    Data d_val = Dataset::spiral_data(NB_POINT, NB_LABEL_BINARY);
 
     // Create the model.
     Model model;
@@ -27,8 +23,8 @@ int main_model_binary_cross_entropy() {
 
     model.set(&loss_function, &optimizer, &accuracy);
 
-    model.train({.data={X, y}, 
-                 .validatation_data={X_val, y_val}, 
+    model.train({.data=d, 
+                 .validatation_data=d_val, 
                  .epochs=NB_EPOCH, 
                  .print_every=100,
                  .plotData=PlotConfiguration::circle});

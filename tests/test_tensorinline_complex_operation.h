@@ -143,4 +143,15 @@ class TensorInlineComplexeOperation: public CxxTest::TestSuite {
             TS_ASSERT_EQUALS(TensorInline::mean(v2),res2);
             TS_ASSERT_EQUALS(TensorInline::mean(v3),res3);
         }
+
+        void testRound(void) {
+            TS_TRACE("Starting round test");
+
+            TS_ASSERT_EQUALS(TensorInline::round(0.1), 0);
+            TS_ASSERT_EQUALS(TensorInline::round(0.7), 1);
+            TS_ASSERT_EQUALS(TensorInline::round(1.1), 1);
+            TS_ASSERT_EQUALS(TensorInline::round(2.1), 2);
+            TS_ASSERT_EQUALS(TensorInline::round(-2.1), -2);
+            TS_ASSERT_EQUALS(TensorInline::round(-2.7), -3);
+        }
 };

@@ -4,12 +4,9 @@
 #define TEST
 
 int main_regression() {
-
-    // Get the dataset.
-    TensorInline X({NB_REGRESSION_POINT, 1}), y({NB_REGRESSION_POINT, 1});
     
     // Get the dataset.
-    std::tie(X, y) = Dataset::sine_data(NB_REGRESSION_POINT);
+    Data d = Dataset::sine_data(NB_REGRESSION_POINT);
 
     #ifdef PLOT
     // Plot the dataset.
@@ -18,7 +15,7 @@ int main_regression() {
     plt.set_x_limit(-1, 1);
     plt.set_y_limit(-1, 1);
 
-    plt.draw_line(y.tensor, "red");
+    plt.draw_line(d.y.tensor, "red");
 
     #endif
 
@@ -44,7 +41,7 @@ int main_regression() {
 
     // Accuracy function.
     Accuracy_Regression accuracy_function(STRICT_ACCURACY_METRICS);
-    accuracy_function.init(y, true);
+    accuracy_function.init(d.y, true);
 
     // Optimizer.
     // Optimizer_SGD optimizer = Optimizer_SGD(1.0, 1e-3, 0.9);
@@ -61,18 +58,18 @@ int main_regression() {
     for (int epoch = 0; epoch < NB_EPOCH; epoch++) {
 
         // Forward.
-        dense1.forward(X);
+        dense1.forward(d.X);
         activation1.forward(dense1.getOutput());
         dense2.forward(activation1.getOutput());
         activation2.forward(dense2.getOutput());
         dense3.forward(activation2.getOutput());
         activation3.forward(dense3.getOutput());
 
-        data_loss = loss_function.calculate(activation3.getOutput(), y);
+        data_loss = loss_function.calculate(activation3.getOutput(), d.y);
         regularization_loss = loss_function.regularization_loss(dense1) + loss_function.regularization_loss(dense2) + loss_function.regularization_loss(dense3);
         loss_val = data_loss + regularization_loss;
 
-        accuracy = accuracy_function.calculate(activation3.getOutput(), y);
+        accuracy = accuracy_function.calculate(activation3.getOutput(), d.y);
 
 
         // Get all the statistics.
@@ -87,7 +84,7 @@ int main_regression() {
         stat.update(loss_val, accuracy, optimizer.getCurrentLr());
 
         // Backward.
-        loss_function.backward(activation3.getOutput(), y);
+        loss_function.backward(activation3.getOutput(), d.y);
         activation3.backward(loss_function.getDinputs());
         dense3.backward(activation3.getDinputs());
         activation2.backward(dense3.getDinputs());
@@ -113,14 +110,12 @@ int main_regression() {
     stat.plot(false);
 
     // Test our model.
-    TensorInline X_test({1000, 1}), y_test({1000, 1});
-
     std::cout << "Test: " << std::endl;
 
-    std::tie(X_test, y_test) = Dataset::sine_data(1000);
+    Data d_test= Dataset::sine_data(1000);
 
     // Forward.
-    dense1.forward(X_test);
+    dense1.forward(d_test.X);
     activation1.forward(dense1.getOutput());
     dense2.forward(activation1.getOutput());
     activation2.forward(dense2.getOutput());

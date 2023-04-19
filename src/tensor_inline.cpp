@@ -558,6 +558,9 @@ double TensorInline::mean(const TensorInline& t) {
     return mean / t.tensor.size();
 }
 
+int TensorInline::round(const double n) {
+    return static_cast<int>(n < 0.0 ? n - 0.5 : n + 0.5);
+}
 
 // Cout.
 std::ostream& operator<<(std::ostream& out, const TensorInline& t) {

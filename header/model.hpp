@@ -14,10 +14,7 @@
 #include "../header/activation_linear.hpp"
 #include "../header/plot.hpp"
 #include "../header/statistic.hpp"
-
-struct Data {
-    TensorInline X, y;
-};
+#include "../header/dataset.hpp"
 
 enum PlotConfiguration {
     none, line, circle
@@ -54,7 +51,6 @@ class Model {
         Accuracy* accuracy;
 
         Statistic* stat;
-        Plot* plt;
 };
 
 #endif

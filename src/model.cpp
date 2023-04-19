@@ -4,11 +4,6 @@ Model::Model() {
     // Add Layer_Input in layers.
     this->layers.push_back(new Layer_Input());
 
-    // Setup diagramm class.
-    this->plt = new Plot();
-    this->plt->set_x_limit(-1, 1);
-    this->plt->set_y_limit(-1, 1);
-
     // Setup statistic metrics.
     this->stat = new Statistic();
 }
@@ -129,15 +124,21 @@ void Model::train(ModelParameters p) {
 }
 
 void Model::plotDatasets(PlotConfiguration conf, const TensorInline& X, const TensorInline& y) {
-    
+    Plot plt;
+
+    plt.set_x_limit(-1, 1);
+    plt.set_y_limit(-1, 1);
+
     if (conf == PlotConfiguration::line) {
-        this->plt->draw_line(y.tensor, "blue");
+        plt.draw_line(y.tensor, "blue");
     } 
     
     else if (conf == PlotConfiguration::circle) {
+        int color = 0;
         for (int i = 0; i < X.getHeight() * X.getWidth(); i += 2) {
-            this->plt->draw_circle(X.tensor[i], X.tensor[i + 1], Plot::getColor(y.tensor[static_cast<int>(i / 2)]));
+            color = TensorInline::round(y.tensor[static_cast<int>(i / 2)]);
+            plt.draw_circle(X.tensor[i], X.tensor[i + 1], Plot::getColor(color));
         }
-        this->plt->show();
+        plt.show();
     }
 }

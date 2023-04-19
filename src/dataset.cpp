@@ -1,6 +1,6 @@
 #include "../header/dataset.hpp"
 
-std::tuple<TensorInline, TensorInline> Dataset::spiral_data(const int samples, const int classes) {
+Data Dataset::spiral_data(const int samples, const int classes) {
     
     // Normal distribution. 
     std::random_device rd{};
@@ -8,7 +8,7 @@ std::tuple<TensorInline, TensorInline> Dataset::spiral_data(const int samples, c
     std::normal_distribution<> d{MEAN, STD_DEVIATION};
 
 
-    TensorInline X({samples * classes, 2});
+    TensorInline X({samples * classes, NB_INPUTS});
     TensorInline y({1, samples * classes});
 
     double r = 0.0; // Radius for the angle.
@@ -33,10 +33,10 @@ std::tuple<TensorInline, TensorInline> Dataset::spiral_data(const int samples, c
         t += step_T;
         cpt += 1;
     }
-    return std::make_tuple(X, y);
+    return {.X=X, .y=y};
 }
 
-std::tuple<TensorInline, TensorInline> Dataset::sine_data(const int samples) {
+Data Dataset::sine_data(const int samples) {
     TensorInline X({samples, 1});
     TensorInline y({samples, 1});
 
@@ -45,5 +45,5 @@ std::tuple<TensorInline, TensorInline> Dataset::sine_data(const int samples) {
         y.tensor[i] = sin(2.0 * M_PI * X.tensor[i]);
     }
 
-    return std::make_tuple(X, y);
+    return {.X=X, .y=y};
 }

@@ -5,11 +5,9 @@
 
 int main_categorical_crossentropy() {
 
-    // Get the dataset.
-    TensorInline X({NB_POINT * NB_LABEL_CATEGORICAL, NB_INPUTS}), y({1, NB_POINT * NB_LABEL_CATEGORICAL});
     
     // Get the dataset.
-    std::tie(X, y) = Dataset::spiral_data(NB_POINT, NB_LABEL_CATEGORICAL);
+    Data d = Dataset::spiral_data(NB_POINT, NB_LABEL_CATEGORICAL);
 
     #ifdef PLOT
     // Plot the dataset.
@@ -18,8 +16,8 @@ int main_categorical_crossentropy() {
     plt.set_x_limit(-1, 1);
     plt.set_y_limit(-1, 1);
 
-    for (int i = 0; i < X.getHeight() * X.getWidth(); i += 2) {
-        plt.draw_circle(X.tensor[i], X.tensor[i + 1], Plot::getColor(y.tensor[static_cast<int>(i / 2)]));
+    for (int i = 0; i < d.X.getHeight() * d.X.getWidth(); i += 2) {
+        plt.draw_circle(d.X.tensor[i], d.X.tensor[i + 1], Plot::getColor(d.y.tensor[static_cast<int>(i / 2)]));
     }
     plt.show();
     #endif
@@ -44,6 +42,10 @@ int main_categorical_crossentropy() {
     // Loss function.
     Activation_Softmax_Loss_CategoricalCrossentropy loss_activation;
 
+    // Accuracy.
+    Accuracy_Categorical accuracy_function(false);
+    accuracy_function.init(d.y);
+
     // Optimizer.
     // Optimizer_SGD optimizer = Optimizer_SGD(1.0, 1e-3, 0.9);
     // Optimizer_Adagrad optimizer = Optimizer_Adagrad(1.0, 1e-4, 1e-7);
@@ -59,15 +61,15 @@ int main_categorical_crossentropy() {
     for (int epoch = 0; epoch < NB_EPOCH; epoch++) {
 
         // Forward.
-        dense1.forward(X);
-        activation1.forward(dense1.getOutput());
-        dropout1.forward(activation1.getOutput());
-        dense2.forward(dropout1.getOutput());
+        dense1.forward(d.X, true);
+        activation1.forward(dense1.getOutput(), true);
+        dropout1.forward(activation1.getOutput(), true);
+        dense2.forward(dropout1.getOutput(), true);
         
-        data_loss = loss_activation.forward(dense2.getOutput(), y);
+        data_loss = loss_activation.forward(dense2.getOutput(), d.y);
         regularization_loss = loss_activation.getLoss().regularization_loss(dense1) + loss_activation.getLoss().regularization_loss(dense2);
         loss_val = data_loss + regularization_loss;
-        accuracy = Loss::accuracy(loss_activation.getOutput(), y);
+        accuracy = accuracy_function.calculate(loss_activation.getOutput(), d.y);
 
         // Get all the statistics.
         if (epoch % 100 == 0) {
@@ -81,7 +83,7 @@ int main_categorical_crossentropy() {
         stat.update(loss_val, accuracy, optimizer.getCurrentLr());
 
         // Backward.
-        loss_activation.backward(loss_activation.getOutput(), y);
+        loss_activation.backward(loss_activation.getOutput(), d.y);
         dense2.backward(loss_activation.getDinputs());
         dropout1.backward(dense2.getDinputs());
         activation1.backward(dropout1.getDinputs());
@@ -103,19 +105,18 @@ int main_categorical_crossentropy() {
     stat.plot(false);
 
     // Test our model.
-    TensorInline X_test({NB_POINT * NB_LABEL_CATEGORICAL, NB_INPUTS}), y_test({1, NB_POINT * NB_LABEL_CATEGORICAL});
 
     std::cout << "Test: " << std::endl;
     for (int i = 0; i < 10; i++) {
-        std::tie(X_test, y_test) = Dataset::spiral_data(NB_POINT, NB_LABEL_CATEGORICAL);
+        Data d_test = Dataset::spiral_data(NB_POINT, NB_LABEL_CATEGORICAL);
 
         // Forward.
-        dense1.forward(X_test);
+        dense1.forward(d_test.X);
         activation1.forward(dense1.getOutput());
         dense2.forward(activation1.getOutput());
 
-        double loss_val_test = loss_activation.forward(dense2.getOutput(), y_test);
-        double accuracy_test = Loss::accuracy(loss_activation.getOutput(), y_test);
+        double loss_val_test = loss_activation.forward(dense2.getOutput(), d_test.y);
+        double accuracy_test = accuracy_function.calculate(loss_activation.getOutput(), d_test.y);
         std::cout << "Itérations n° " << i; 
         std::cout << ", loss: " << loss_val_test;
         std::cout << ", acc: " << accuracy_test << std::endl;

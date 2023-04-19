@@ -19,7 +19,7 @@
 - [X] Add a clipped function.
 - [X] Create a folder for all the main.
 
-- [ ] Add test to all function in the code.
+- [X] Add test to all function in the code.
     - [X] Activation ReLU
     - [X] Activation Softmax
     - [X] Activation Sigmoid
@@ -41,10 +41,12 @@
 - [X] Refacto Loss (Ajouter des assert dans le forward et le backward)
 
 - [ ] Faire la classe model
-- [ ] Supprimer les méthodes accuracy dans les classes Loss
+- [X] Supprimer les méthodes accuracy dans les classes Loss
 - [ ] Refaire des mains d'exemple avec la nouvelle base
 - [ ] Améliorer le système d'affichage de graph
 - [ ] Changer la structure des paquets
+- [ ] Repasser sur tous les test unitaires et voir s'il n'y a pas de fonctions sans test
+- [ ] Repasser sur tout le code et ajouter des commentaires sur les opérations
 
 ## Todo Clean code
 

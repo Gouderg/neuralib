@@ -22,9 +22,6 @@ class Loss {
 
         double regularization_loss(const Layer_Dense& layer);
 
-        // Calculate the accuracy
-        static double accuracy(const TensorInline &inputs, const TensorInline &y);
-
         const TensorInline& getDinputs() const { return this->dinputs; }
     
     protected:
