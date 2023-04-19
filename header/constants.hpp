@@ -2,7 +2,7 @@
 #define CONSTANTS_H
 
 // Dataset.
-const int NB_POINT = 500;
+const int NB_POINT = 750;
 const int NB_REGRESSION_POINT = 1000;
 const int NB_LABEL_CATEGORICAL = 3;
 const int NB_LABEL_BINARY = 2;
@@ -10,7 +10,7 @@ const int NB_INPUTS = 2;
 
 // Size of the network.
 const int NB_EPOCH = 10000;
-const int NB_NEURON = 64;
+const int NB_NEURON = 128;
 
 // Uniform distribution parameters.
 const double MEAN = 0.0;
@@ -18,8 +18,8 @@ const double STD_DEVIATION = 1.0;
 const double RANDOM_REGRESSION_FACTOR = 0.1;
 
 // Optimizer.
-const double LEARNING_RATE = 0.005;
-const double DECAY = 1e-3;
+const double LEARNING_RATE = 0.05;
+const double DECAY = 5e-5;
 const double MOMENTUM_EPSILON = 0.0; 
 
 // Regularization Loss.

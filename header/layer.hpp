@@ -14,6 +14,9 @@ class Layer {
         const TensorInline& getOutput() const { return this->output; }
         const TensorInline& getDinputs() const{ return this->dinputs; }
 
+        // Setter.
+        void setDinputs(const TensorInline & dinputs) { this->dinputs = dinputs; }
+
         virtual bool isTrainable() = 0;
 
     protected:

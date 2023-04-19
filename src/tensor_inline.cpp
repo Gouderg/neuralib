@@ -506,13 +506,7 @@ TensorInline TensorInline::clip(const TensorInline & t1, const double range_min,
 
 // Return the sign of the value.
 int TensorInline::sign(const double n) {
-    if (n == 0.0) 
-        return 0;
-    
-    if (n < 0)
-        return -1;
-    
-    return 1;
+    return n == 0.0 ? 0 : (n < 0 ? -1 : 1);
 }
 
 // Standard deviation from a vector.
@@ -549,13 +543,7 @@ TensorInline TensorInline::binomial(const TensorInlineBinomialParameters p) {
 }
 
 double TensorInline::mean(const TensorInline& t) {
-    double mean = 0;
-
-    for (auto &elt : t.tensor) {
-        mean += elt;
-    }
-
-    return mean / t.tensor.size();
+    return std::reduce(t.tensor.begin(), t.tensor.end()) / t.tensor.size();
 }
 
 int TensorInline::round(const double n) {

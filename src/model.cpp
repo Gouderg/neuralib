@@ -10,9 +10,6 @@ Model::Model() {
 
 void Model::add(Layer* layer) {
     this->layers.push_back(layer);
-    if (layer->isTrainable()) {
-        this->trainable_layers.push_back(dynamic_cast<Layer_Dense *>(layer));
-    }
 }
 
 void Model::set(Loss* loss, Optimizer* opti, Accuracy* accuracy) {
@@ -41,6 +38,18 @@ void Model::backward(const TensorInline& output, const TensorInline& y) {
 
     int layer_count = static_cast<int>(this->layers.size());
 
+    if (this->isSoftmaxClassifierOuput) {
+        TensorInline dinputs = Activation_Softmax_Loss_CategoricalCrossentropy::backward(output, y);
+
+        this->layers[layer_count - 1]->setDinputs(dinputs);
+
+        for (int j = layer_count-2; j >= 0; j--) {
+            this->layers[j]->backward(this->layers[j+1]->getDinputs());       
+        }
+
+        return;
+    }
+
     this->loss->backward(output, y);
 
     for (int j = layer_count-1; j >= 0; j--) {
@@ -52,11 +61,28 @@ void Model::backward(const TensorInline& output, const TensorInline& y) {
     }
 }
 
+void Model::finalize() {
+
+    // Find all trainable layer.
+    for (auto layer : this->layers) {
+        if (layer->isTrainable()) {
+            this->trainable_layers.push_back(dynamic_cast<Layer_Dense *>(layer));
+        }
+    }
+
+    // Set the trainable layers in the loss.
+    this->loss->setTrainableLayer(this->trainable_layers);
+
+    // Verify if the last layer is Softmax and the loss is CategoricalCrossEntropy.
+    if (nullptr != dynamic_cast<Activation_Softmax*>(this->layers[this->layers.size() - 1]) && nullptr != dynamic_cast<Loss_CategoricalCrossEntropy*>(this->loss)) {
+        this->isSoftmaxClassifierOuput = true;
+    }
+}
+
 void Model::train(ModelParameters p) {
 
     // Plot the dataset.
     this->plotDatasets(p.plotData, p.data.X, p.data.y);
-
 
     // Get the time to compute the execution time.
     time_t start = std::time(NULL);
@@ -64,20 +90,15 @@ void Model::train(ModelParameters p) {
     // Init accuracy.
     this->accuracy->init(p.data.y, true);
 
-    double loss = 0.0, data_loss = 0.0, regularization_loss = 0.0, accuracy = 0.0;
-    double loss_val = 0.0, accuracy_val = 0.0; 
+    double loss = 0.0, accuracy = 0.0;
     for (int i = 0; i < p.epochs+1; i++) {
 
         // Forward.
         TensorInline output = this->forward(p.data.X, true);
 
         // Loss.
-        data_loss = this->loss->calculate(output, p.data.y);
-        regularization_loss = 0.0;
-        for (auto layer : this->trainable_layers) {
-            regularization_loss += this->loss->regularization_loss(*layer);
-        }
-        loss = data_loss + regularization_loss;
+        LossValues lv = this->loss->calculate(output, p.data.y, true);
+        loss = lv.data_loss + lv.regularization_loss;
 
         // Accuracy.
         accuracy = this->accuracy->calculate(output, p.data.y);
@@ -97,8 +118,8 @@ void Model::train(ModelParameters p) {
             std::cout << "Epoch " << i;
             std::cout << ", acc: " << accuracy;
             std::cout << ", loss: " << loss;
-            std::cout << ", (data_loss: " << data_loss;
-            std::cout << ", regu_loss: " << regularization_loss;
+            std::cout << ", (data_loss: " << lv.data_loss;
+            std::cout << ", regu_loss: " << lv.regularization_loss;
             std::cout << "), lr: " << this->optimizer->getCurrentLr() << std::endl;
         }
         this->stat->update(loss, accuracy, this->optimizer->getCurrentLr());
@@ -107,10 +128,10 @@ void Model::train(ModelParameters p) {
     // Validation data.
     TensorInline output_val = this->forward(p.validatation_data.X, false);
 
-    loss_val = this->loss->calculate(output_val, p.validatation_data.y);
-    accuracy_val = this->accuracy->calculate(output_val, p.validatation_data.y);
+    LossValues lv_val = this->loss->calculate(output_val, p.validatation_data.y, false);
+    double accuracy_val = this->accuracy->calculate(output_val, p.validatation_data.y);
     
-    std::cout << "Validation data, acc: " << accuracy_val << ", loss: " << loss_val << std::endl;
+    std::cout << "Validation data, acc: " << accuracy_val << ", loss: " << lv_val.data_loss << std::endl;
     this->plotDatasets(p.plotData, p.validatation_data.X, output_val);
 
     // Compute execution time.
@@ -135,9 +156,21 @@ void Model::plotDatasets(PlotConfiguration conf, const TensorInline& X, const Te
     
     else if (conf == PlotConfiguration::circle) {
         int color = 0;
-        for (int i = 0; i < X.getHeight() * X.getWidth(); i += 2) {
-            color = TensorInline::round(y.tensor[static_cast<int>(i / 2)]);
-            plt.draw_circle(X.tensor[i], X.tensor[i + 1], Plot::getColor(color));
+
+        if (y.getHeight() == 1 || y.getHeight() != 1 && y.getWidth() == 1) {
+            for (int i = 0; i < X.getHeight() * X.getWidth(); i += NB_INPUTS) {
+                color = TensorInline::round(y.tensor[static_cast<int>(i / 2)]);
+                plt.draw_circle(X.tensor[i], X.tensor[i + 1], Plot::getColor(color));
+            }            
+        } else {
+                // If we have 3 value like this 0.01 0.01 0.98, we take the index of the max
+            int y_index = 0;
+            int y_w = y.getWidth();
+            for (int i = 0; i < X.getHeight() * X.getWidth(); i += NB_INPUTS) {
+                color = std::max_element(y.tensor.begin() + y_index , y.tensor.begin() + y_index + y_w) - (y.tensor.begin() + y_index);
+                plt.draw_circle(X.tensor[i], X.tensor[i + 1], Plot::getColor(color));
+                y_index += y_w;
+            }
         }
         plt.show();
     }

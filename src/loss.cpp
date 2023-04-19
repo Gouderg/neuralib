@@ -1,10 +1,19 @@
 #include "../header/loss.hpp"
 
-double Loss::calculate(const TensorInline& output, const TensorInline& y) {
+LossValues Loss::calculate(const TensorInline& output, const TensorInline& y, const bool with_regularization) {
 
-    std::vector<double> samples_losses = forward(output, y);
+    std::vector<double> samples_losses = this->forward(output, y);
     
-    return std::reduce(samples_losses.begin(), samples_losses.end()) / samples_losses.size();
+    double data_loss = std::reduce(samples_losses.begin(), samples_losses.end()) / samples_losses.size();
+
+    double regularization_loss = 0.0;
+    if (with_regularization) {
+        for (auto layer : this->trainable_layers) {
+            regularization_loss += this->regularization_loss(*layer);
+        }
+    }
+
+    return { .data_loss=data_loss, .regularization_loss=regularization_loss } ;
 }
 
 double Loss::regularization_loss(const Layer_Dense& layer) {

@@ -26,6 +26,8 @@ int main_model_regression() {
 
     model.set(&loss_function, &optimizer, &accuracy);
 
+    model.finalize();
+
     model.train({.data=d, 
                  .validatation_data=d_val, 
                  .epochs=NB_EPOCH, 

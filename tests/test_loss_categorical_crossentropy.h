@@ -22,8 +22,8 @@ class TestLossCategoricalCrossEntropy: public CxxTest::TestSuite {
             double result_expected = 0.6314324110771888;
             Loss_CategoricalCrossEntropy loss;
 
-            TS_ASSERT_EQUALS(loss.calculate(inputs, y_true), result_expected);
-            TS_ASSERT_EQUALS(loss.calculate(inputs, y_true_hot_encoded), result_expected);
+            TS_ASSERT_EQUALS(loss.calculate(inputs, y_true).data_loss, result_expected);
+            TS_ASSERT_EQUALS(loss.calculate(inputs, y_true_hot_encoded).data_loss, result_expected);
 
         }
 

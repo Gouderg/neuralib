@@ -5,6 +5,11 @@
 
 #include "../header/layer_dense.hpp"
 
+
+struct LossValues {
+    double data_loss, regularization_loss;
+};
+
 class Loss {
 
     public:
@@ -18,15 +23,17 @@ class Loss {
         virtual void backward(const TensorInline &dvalues, const TensorInline &y_true) = 0;
 
         // Calculates the data and regularization losses given model output and ground truth values.
-        double calculate(const TensorInline& output, const TensorInline& y);
+        LossValues calculate(const TensorInline& output, const TensorInline& y, const bool with_regularization = false);
 
         double regularization_loss(const Layer_Dense& layer);
 
         const TensorInline& getDinputs() const { return this->dinputs; }
+
+        void setTrainableLayer(const std::vector<Layer_Dense*> layers) { this->trainable_layers = layers; }
     
     protected:
         TensorInline dinputs;
-
+        std::vector<Layer_Dense*> trainable_layers;
 
 };
 

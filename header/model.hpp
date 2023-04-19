@@ -15,6 +15,8 @@
 #include "../header/plot.hpp"
 #include "../header/statistic.hpp"
 #include "../header/dataset.hpp"
+#include "../header/activation_softmax.hpp"
+#include "../header/activation_softmax_loss_categoricalcrossentropy.hpp"
 
 enum PlotConfiguration {
     none, line, circle
@@ -36,6 +38,7 @@ class Model {
 
         void add(Layer* layer);
         void set(Loss* loss, Optimizer* opti, Accuracy* accuracy);
+        void finalize();
         void train(ModelParameters p);
         
         TensorInline forward(const TensorInline& X, const bool training);
@@ -51,6 +54,7 @@ class Model {
         Accuracy* accuracy;
 
         Statistic* stat;
+        bool isSoftmaxClassifierOuput = false;
 };
 
 #endif

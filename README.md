@@ -40,9 +40,9 @@
 - [X] Add struct parameters for layer_dense class
 - [X] Refacto Loss (Ajouter des assert dans le forward et le backward)
 
-- [ ] Faire la classe model
+- [X] Faire la classe model
 - [X] Supprimer les méthodes accuracy dans les classes Loss
-- [ ] Refaire des mains d'exemple avec la nouvelle base
+- [X] Refaire des mains d'exemple avec la nouvelle base
 - [ ] Améliorer le système d'affichage de graph
 - [ ] Changer la structure des paquets
 - [ ] Repasser sur tous les test unitaires et voir s'il n'y a pas de fonctions sans test

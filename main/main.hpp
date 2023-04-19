@@ -19,11 +19,8 @@
 
 #include <ctime>
 
-int main_binary_crossentropy();
-int main_categorical_crossentropy();
-int main_regression();
-int main_debug();
 int main_model_regression();
 int main_model_binary_cross_entropy();
+int main_model_categorical_cross_entropy();
 
 #endif
