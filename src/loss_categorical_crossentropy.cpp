@@ -45,6 +45,7 @@ void Loss_CategoricalCrossEntropy::backward(const TensorInline &dvalues, const T
         y_flat_diag = y_true;
     }
 
+    // Calculate and normalize gradient.
     for (int i = 0; i < samples * labels; i++) {
         this->dinputs.tensor[i] = (-1 * y_flat_diag.tensor[i] / dvalues.tensor[i] / samples);
     }

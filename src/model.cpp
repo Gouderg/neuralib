@@ -163,7 +163,7 @@ void Model::plotDatasets(PlotConfiguration conf, const TensorInline& X, const Te
                 plt.draw_circle(X.tensor[i], X.tensor[i + 1], Plot::getColor(color));
             }            
         } else {
-                // If we have 3 value like this 0.01 0.01 0.98, we take the index of the max
+            // If we have 3 value like this 0.01 0.01 0.98, we take the index of the max.
             int y_index = 0;
             int y_w = y.getWidth();
             for (int i = 0; i < X.getHeight() * X.getWidth(); i += NB_INPUTS) {

@@ -23,6 +23,8 @@ void Optimizer::post_update_params() {
 void Optimizer_SGD::update_params(Layer_Dense &layer) {
     
     TensorInline w, b;
+
+    // If we use momemtum..
     if (this->mom_ep) {
         w = layer.getWeightMomentum() * this->mom_ep - layer.getDweights() * this->current_lr;
         layer.setWeightMomentum(w);
@@ -30,7 +32,7 @@ void Optimizer_SGD::update_params(Layer_Dense &layer) {
         b = layer.getBiasMomentum() * this->mom_ep - layer.getDbiases() * this->current_lr;
         layer.setBiasMomentum(b);
 
-    } else {
+    } else {    // Vanilla.
         w = layer.getDweights() * -this->current_lr;
         b = layer.getDbiases() * -this->current_lr;
     }

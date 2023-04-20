@@ -2,7 +2,6 @@
 #define DATASET_H
 
 #include <iostream>
-#include <tuple>
 #include <random>
 #include <cmath>
 

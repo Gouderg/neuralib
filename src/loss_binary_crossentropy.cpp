@@ -32,9 +32,11 @@ void Loss_BinaryCrossentropy::backward(const TensorInline &dvalues, const Tensor
     TensorInline clipped_dvalues = TensorInline::clip(dvalues, 1e-7, 1 - 1e-7);
     this->dinputs = dvalues;
 
+    // Calculate gradient.
     for (int i = 0; i < clipped_dvalues.getHeight() * clipped_dvalues.getWidth(); i++) {        
         this->dinputs.tensor[i] =  -(y_true.tensor[i] / clipped_dvalues.tensor[i] - (1.0 - y_true.tensor[i]) / (1.0 - clipped_dvalues.tensor[i])) / outputs;
     }
 
+    // Normalize gradient.
     this->dinputs /= samples;
 }

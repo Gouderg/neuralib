@@ -13,6 +13,7 @@ void Activation_ReLU::forward(const TensorInline &inputs, const bool training) {
 void Activation_ReLU::backward(const TensorInline &dvalues) {
     this->dinputs = dvalues;
 
+    // Zero gradient where input value is negative.
     for (int i = 0; i < this->dinputs.getHeight() * this->dinputs.getWidth(); i++) {
         if (this->inputs.tensor[i] <= 0) {
             this->dinputs.tensor[i] = 0.0;

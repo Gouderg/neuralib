@@ -25,7 +25,7 @@ class Loss {
         // Calculates the data and regularization losses given model output and ground truth values.
         LossValues calculate(const TensorInline& output, const TensorInline& y, const bool with_regularization = false);
 
-        double regularization_loss(const Layer_Dense& layer);
+        double regularization_loss();
 
         const TensorInline& getDinputs() const { return this->dinputs; }
 

@@ -6,7 +6,7 @@
 #include <string>
 #include <boost/tuple/tuple.hpp>
 
-#include "gnuplot-iostream.h"
+#include "../libs/gnuplot-iostream.h"
 
 const double PI = 3.14159265;
 

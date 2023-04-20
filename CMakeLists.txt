@@ -18,6 +18,8 @@ list(APPEND SOURCES ${SOURCES_MAIN})
 file(GLOB HEADERS header/*)
 file(GLOB HEADERS_MAIN main/main.hpp)
 list(APPEND HEADERS ${HEADERS_MAIN})
+file(GLOB LIBS libs/*)
+list(APPEND HEADERS ${LIBS})
 
 add_executable(neuralib main.cpp)
 target_link_libraries(neuralib ${SOURCES} ${HEADERS} ${Boost_LIBRARIES})
