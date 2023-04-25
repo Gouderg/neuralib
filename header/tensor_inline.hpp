@@ -115,6 +115,7 @@ class TensorInline {
 
         // Sum all terms of the tensor.
         static double sum(TensorInline const &t);
+        static double sum(std::vector<double> const &t);
 
         // Exponential of all term.
         static TensorInline exp(const TensorInline & t1);

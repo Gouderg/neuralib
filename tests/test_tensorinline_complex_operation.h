@@ -27,6 +27,10 @@ class TensorInlineComplexeOperation: public CxxTest::TestSuite {
             TensorInline v3({3, 2, false, -4.0});
             TensorInline v4({2, 2, false, -0.5});
 
+            std::vector<double> v1bis = {0.5, 0.5, 0.5, 0.5};
+            std::vector<double> v4bis = {-0.5, -0.5, -0.5, -0.5};
+
+
             double res1 = 2;
             double res2 = 24;
             double res3 = -24;
@@ -36,6 +40,9 @@ class TensorInlineComplexeOperation: public CxxTest::TestSuite {
             TS_ASSERT_EQUALS(TensorInline::sum(v2), res2);
             TS_ASSERT_EQUALS(TensorInline::sum(v3), res3);
             TS_ASSERT_EQUALS(TensorInline::sum(v4), res4);
+            TS_ASSERT_EQUALS(TensorInline::sum(v1bis), res1);
+            TS_ASSERT_EQUALS(TensorInline::sum(v4bis), res4);
+
         }
 
         void testSqrt(void) {

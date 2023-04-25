@@ -478,6 +478,10 @@ double TensorInline::sum(TensorInline const &t) {
     return std::accumulate(t.tensor.begin(), t.tensor.end(), 0.0);
 }
 
+double TensorInline::sum(std::vector<double> const &t) {
+    return std::accumulate(t.begin(), t.end(), 0.0);
+};
+
 // Exponential.
 TensorInline TensorInline::exp(const TensorInline & t1) {
     TensorInline t = t1;

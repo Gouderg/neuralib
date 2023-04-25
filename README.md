@@ -43,10 +43,10 @@
 - [X] Faire la classe model
 - [X] Supprimer les méthodes accuracy dans les classes Loss
 - [X] Refaire des mains d'exemple avec la nouvelle base
+- [X] Repasser sur tous les test unitaires et voir s'il n'y a pas de fonctions sans test
+- [X] Repasser sur tout le code et ajouter des commentaires sur les opérations
 - [ ] Améliorer le système d'affichage de graph
-- [ ] Changer la structure des paquets
-- [ ] Repasser sur tous les test unitaires et voir s'il n'y a pas de fonctions sans test
-- [ ] Repasser sur tout le code et ajouter des commentaires sur les opérations
+- [ ] Test unitaire sur dataset et sur tools
 
 ## Todo Clean code
 
@@ -84,3 +84,5 @@ To build all unit test, just write make at the source of the project
 - https://cxxtest.com/
 - http://cxxtest.com/guide.html
 - https://johnnysswlab.com/make-your-programs-run-faster-by-better-using-the-data-cache/
+- https://helloacm.com/how-to-find-out-whether-a-machine-is-big-endian-or-little-endian-in-cc/
+- https://www.eecs.umich.edu/courses/eecs380/HANDOUTS/cppBinaryFileIO-2.html

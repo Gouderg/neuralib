@@ -28,7 +28,7 @@ x & \text{si } x > 0 \\
 \end{cases}
 $$
 
-![Courbe de la fonction ReLU](img/relu_curve.png)
+![Courbe de la fonction ReLU](assets/relu_curve.png)
 
 
 </details>
@@ -43,7 +43,7 @@ $$\large f_i(x) = \frac{e^{x_i}}{\sum^{k}_{j = 1} e^{x_j}} $$
 
 On l'utilise généralement pour un problème de classification.
 
-![Courbe de la fonction Softmax](img/softmax_curve.png)
+![Courbe de la fonction Softmax](assets/softmax_curve.png)
 
 </details>
 
@@ -59,7 +59,7 @@ Backward pass:
 $$\large \frac{d}{dz_{i,j}} = \sigma_{i, j} * (1 - \sigma_{i, j}) $$
 
 
-![Courbe de la Sigmoïde](img/sigmoid_curve.png)
+![Courbe de la Sigmoïde](assets/sigmoid_curve.png)
 
 </details>
 
@@ -154,7 +154,7 @@ Voici quelques interprétations courantes pour une courbe de perte :
 
 L'interprétation de la courbe de perte dépend de la fonction de coût utilisée pour entraîner le modèle, il est donc important de s'assurer que la fonction de coût est appropriée pour la tâche d'apprentissage. La courbe de perte n'est qu'une partie de l'évaluation de la performance d'un modèle, il est nécessaire d'utiliser d'autres métriques, comme la précision, pour évaluer complètement un modèle.
 
-![Learning rate courbe](img/Learning_rate.png)
+![Learning rate courbe](assets/Learning_rate.png)
 </details>
 
 <details>
@@ -213,6 +213,12 @@ Si on reste bloquer à un point, on peut changer le coefficient de valeur aléat
 
 Voir l'initialisation des poids avec le [glorot uniform](https://cs230.stanford.edu/section/4/#xavier-initialization).
 
+</details>
+
+<details>
+    <summary>Batch</summary>
+
+On peut voir l'accuracy augmenter ainsi que des hausses de performances pour la loss si on augmente la taille du batch (2, 8, 16)
 </details>
 
 

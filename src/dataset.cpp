@@ -47,3 +47,73 @@ Data Dataset::sine_data(const int samples) {
 
     return {.X=X, .y=y};
 }
+
+
+TensorInline Dataset::read_idx_file(const std::string path, const FileType fileType) {
+
+    // Tcheck if the processor is big endian or little endian cause the file was encode in big endian.
+    bool isLittleEndian = tcheckByteOrder();
+    
+    std::ifstream file(path, std::ios::binary | std::ios::in);
+
+    // If error in opening;
+    if (!file) { 
+        std::cerr << "Error: can't open the file." << std::endl; 
+        exit(0);
+    }
+
+    // First we read the magic number and tcheck if its valid.
+    int32_t magic;
+    file.read((char*) &magic, sizeof(magic));
+    if (isLittleEndian) {
+        magic = reverseInt(magic);
+    }
+    
+    if (magic != fileType) {
+        std::cerr << "Error: file is corrupted, magic number doesn't match." << std::endl; 
+        exit(0);
+    }
+    
+    // After, we read the number of images or labels 
+    int32_t numberElement;
+    file.read((char*) &numberElement, sizeof(numberElement));
+    if (isLittleEndian) {
+        numberElement = reverseInt(numberElement);
+    }
+
+    
+    // If the file is for image we need to have the width and the height
+    int32_t height = 1.0, width = 1.0;
+
+    if (fileType == FileType::images) {
+        file.read((char*) &height, sizeof(height));
+        if (isLittleEndian) {
+            height = reverseInt(height);
+        }
+
+        file.read((char*) &width, sizeof(width));
+        if (isLittleEndian) {
+            width = reverseInt(width);
+        }
+    }
+
+
+    TensorInline labelsOrImage({numberElement, width * height, false, 0.0});
+
+    unsigned char temp = 0;
+    for (int i = 0; i < numberElement * width * height; i++) {
+        file.read((char*)&temp,sizeof(temp));
+        labelsOrImage.tensor[i] = temp;
+    }
+
+    return labelsOrImage;    
+}
+
+void Dataset::scale_pixels_values(TensorInline& X, ScaleFormat scale) {
+    if (scale == ScaleFormat::between0And1) {
+        X /= 255.0;
+    } else if (scale == ScaleFormat::betweenMinus1And1) {
+        X -= 127.5;
+        X /= 127.5;
+    }
+}

@@ -8,6 +8,20 @@ LossValues Loss::calculate(const TensorInline& output, const TensorInline& y, co
 
     double regularization_loss = with_regularization ? this->regularization_loss() : 0.0;
 
+    // Add accumulated sum of losses and sample count. 
+    this->accumulated_count += samples_losses.size();
+    this->accumulated_sum += TensorInline::sum(samples_losses);
+
+    return { .data_loss=data_loss, .regularization_loss=regularization_loss } ;
+}
+
+LossValues Loss::calculate_accumulated(const bool with_regularization) {
+
+    // Calculate mean loss.
+    double data_loss = this->accumulated_sum / this->accumulated_count;
+    
+    double regularization_loss = with_regularization ? this->regularization_loss() : 0.0;
+    
     return { .data_loss=data_loss, .regularization_loss=regularization_loss } ;
 }
 
@@ -45,4 +59,9 @@ double Loss::regularization_loss() {
 std::vector<double> Loss::forward(const TensorInline &y_pred, const TensorInline& y_true) {
     std::vector<double> a(y_true.getHeight(), 0.0);
     return a;
+}
+
+void Loss::new_pass() {
+    this->accumulated_count = 0;
+    this->accumulated_sum = 0;
 }
