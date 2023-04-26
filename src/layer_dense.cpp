@@ -1,7 +1,7 @@
 #include "../header/layer_dense.hpp"
 
 // Constructor.
-Layer_Dense::Layer_Dense(LayerDenseParameters p) {
+Layer_Dense::Layer_Dense(LayerDenseOptions p) {
     
     // Init layers.
     this->weights = TensorInline({.height=p.n_inputs, 
@@ -71,4 +71,9 @@ void Layer_Dense::backward(const TensorInline &dvalues) {
 
     // Gradients on values.
     this->dinputs = TensorInline::dot(dvalues, this->weights.transposate());
+}
+
+void Layer_Dense::setParameters(LayerDenseParameters params) {
+    this->weights = params.weights;
+    this->biases = params.biases;
 }

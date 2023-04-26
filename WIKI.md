@@ -221,6 +221,14 @@ Voir l'initialisation des poids avec le [glorot uniform](https://cs230.stanford.
 On peut voir l'accuracy augmenter ainsi que des hausses de performances pour la loss si on augmente la taille du batch (2, 8, 16)
 </details>
 
+<details>
+    <summary>Autres informations</summary>
+
+Si on charge des paramètres depuis un fichier et qu'on entraine le modèle sur un dataset similiare c'est du **Transfer learning**.
+
+Si on utilise des poids venants de différents modèles, cela devient du **reinforcement learning**
+</details>
+
 
 ## **<div align="center">Descente de gradient</div>**
 

@@ -46,7 +46,11 @@
 - [X] Repasser sur tous les test unitaires et voir s'il n'y a pas de fonctions sans test
 - [X] Repasser sur tout le code et ajouter des commentaires sur les opérations
 - [ ] Améliorer le système d'affichage de graph
+- [ ] Changer les anciens parameters en option
 - [ ] Test unitaire sur dataset et sur tools
+- [ ] Trouver un moyen de shuffle
+- [ ] Fonction qui resize les images
+- [ ] Faire les prédictions sur les fonctions d'activation
 
 ## Todo Clean code
 

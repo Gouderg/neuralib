@@ -4,7 +4,7 @@
 #include "../header/tensor_inline.hpp"
 #include "../header/layer.hpp"
 
-struct LayerDenseParameters {
+struct LayerDenseOptions {
     const int n_inputs;
     const int n_neurons;
     const double weight_reg_L1 = 0.0;
@@ -14,13 +14,17 @@ struct LayerDenseParameters {
     const double randomFactor = 0.01;
 };
 
+struct LayerDenseParameters {
+    TensorInline weights, biases;
+};
+
 class Layer_Dense : public Layer {
 
     public:
 
         // Constructor.
         Layer_Dense(){};
-        Layer_Dense(LayerDenseParameters p);
+        Layer_Dense(LayerDenseOptions p);
         
         // Getter.
         const TensorInline& getWeights() const { return this->weights; }
@@ -69,6 +73,11 @@ class Layer_Dense : public Layer {
 
         bool isTrainable() { return true; }
 
+        // Returns the weight and bias.
+        LayerDenseParameters getParameters() { return {.weights=this->weights, .biases=this->biases }; }
+
+        // Set the weights and bias.
+        void setParameters(LayerDenseParameters params);
 
     private:
         TensorInline inputs, weights, biases;
