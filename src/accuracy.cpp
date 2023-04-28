@@ -1,5 +1,20 @@
 #include "../header/accuracy.hpp"
 
+
+Accuracy::Accuracy() {
+    this->accumulated_count = 0;
+    this->accumulated_sum = 0;
+}
+
+void Accuracy::new_pass() {
+    this->accumulated_count = 0;
+    this->accumulated_sum = 0;
+}
+
+double Accuracy::calculate_accumulated() {
+    return this->accumulated_sum / this->accumulated_count;
+}
+
 double Accuracy_Categorical::calculate(const TensorInline& predictions, const TensorInline& y) {
     
     // Get the indice of the best score.
@@ -22,9 +37,11 @@ double Accuracy_Categorical::calculate(const TensorInline& predictions, const Te
     double somme = 0.0;
     for (int i = 0; i < static_cast<int>(pred.size()); i++) {
         if (pred[i] == y_flat[i]) {
+            this->accumulated_sum += 1;
             somme += 1.0;
         }
     }
+    this->accumulated_count += pred.size();
 
     return somme / pred.size();
 }
@@ -32,12 +49,15 @@ double Accuracy_Categorical::calculate(const TensorInline& predictions, const Te
 double Accuracy_Regression::calculate(const TensorInline& predictions, const TensorInline& y) {
 
     double accuracy = 0.0;
+    double size = predictions.getHeight() * predictions.getWidth();
 
-    for (int i = 0; i < predictions.getHeight() * predictions.getWidth(); i++) {
+    for (int i = 0; i < size; i++) {
         accuracy += (std::abs(predictions.tensor[i] - y.tensor[i]) < this->precision) ? 1.0 : 0.0;
     }
-    
-    return accuracy / (predictions.getHeight() * predictions.getWidth());
+
+    this->accumulated_sum += accuracy;
+    this->accumulated_count += size; 
+    return accuracy / size;
 }
 
 void Accuracy_Regression::init(const TensorInline& y, const bool reinit) {
@@ -57,8 +77,11 @@ double Accuracy_Binary::calculate(const TensorInline& predictions, const TensorI
 
         // Compare with y_true.
         if (predOne == y.tensor[i]) {
+            this->accumulated_sum += 1;
             accuracy += 1.0;
         }
     }
+
+    this->accumulated_count += tensorSize;
     return accuracy / tensorSize;
 }

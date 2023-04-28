@@ -58,7 +58,7 @@ TensorInline Dataset::read_idx_file(const std::string path, const FileType fileT
 
     // If error in opening;
     if (!file) { 
-        std::cerr << "Error: can't open the file." << std::endl; 
+        std::cerr << "Error: can't open the file: " << path << std::endl; 
         exit(0);
     }
 

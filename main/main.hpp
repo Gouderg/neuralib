@@ -22,5 +22,7 @@
 int main_model_regression();
 int main_model_binary_cross_entropy();
 int main_model_categorical_cross_entropy();
+int main_model_mnist();
+int test();
 
 #endif

@@ -22,11 +22,12 @@ enum PlotConfiguration {
     none, line, circle
 };
 
-struct ModelParameters {
+struct ModelOptions {
     Data data;
     Data validatation_data;
     const int epochs = 1;
     const int print_every = 1;
+    const int batch_size = 32;
     const bool printStatistic = true;
     const PlotConfiguration plotData = PlotConfiguration::line;
 };
@@ -39,7 +40,7 @@ class Model {
         void add(Layer* layer);
         void set(Loss* loss, Optimizer* opti, Accuracy* accuracy);
         void finalize();
-        void train(ModelParameters p);
+        void train(ModelOptions p);
         
         TensorInline forward(const TensorInline& X, const bool training);
         void backward(const TensorInline& output, const TensorInline& y);

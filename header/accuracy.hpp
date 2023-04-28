@@ -6,18 +6,27 @@
 class Accuracy {
 
     public:
+
+        Accuracy();
+
         virtual double calculate(const TensorInline& predictions, const TensorInline& y) = 0;
         
         virtual void init(const TensorInline& y, const bool reinit = false) = 0;
 
         virtual ~Accuracy(){};
+
+        void new_pass();
+        double calculate_accumulated();
+    
+    protected:
+        double accumulated_sum, accumulated_count;
 };
 
 
 class Accuracy_Categorical : public Accuracy {
 
     public:
-        Accuracy_Categorical(const bool binary_init): binary(binary_init) {}
+        Accuracy_Categorical(const bool binary_init): Accuracy(), binary(binary_init) {}
 
         double calculate(const TensorInline& predictions, const TensorInline& y);
 
@@ -31,7 +40,7 @@ class Accuracy_Categorical : public Accuracy {
 class Accuracy_Regression : public Accuracy {
     
     public: 
-        Accuracy_Regression(const double precision_init): precision(precision_init) {}
+        Accuracy_Regression(const double precision_init): Accuracy(), precision(precision_init) {}
 
         void init(const TensorInline& y, const bool reinit = false);
 
@@ -44,6 +53,8 @@ class Accuracy_Regression : public Accuracy {
 class Accuracy_Binary : public Accuracy {
     
     public: 
+
+        Accuracy_Binary(): Accuracy() {}
 
         void init(const TensorInline& y, const bool reinit = false) {};
 
