@@ -105,7 +105,7 @@ void Model::train(ModelOptions p) {
 
     
     TensorInline batch_X({p.batch_size, p.data.X.getWidth()});
-    TensorInline batch_y({p.batch_size, p.data.y.getWidth()});
+    TensorInline batch_y({1, p.batch_size});
 
     double loss = 0.0, accuracy = 0.0, epoch_loss = 0.0, epoch_accuracy = 0.0, validation_loss = 0.0, validation_accuracy = 0.0;
     for (int epoch = 0; epoch < p.epochs+1; epoch++) {
@@ -118,19 +118,19 @@ void Model::train(ModelOptions p) {
         this->accuracy->new_pass();
 
         batch_X.setHeight(p.batch_size);
-        batch_y.setHeight(p.batch_size);
+        batch_y.setWidth(p.batch_size);
         
         for (int step = 0; step < train_steps; step++) {
 
             if ((step+1) * p.batch_size > p.data.X.getHeight()) {
                 batch_X.tensor.assign(p.data.X.tensor.begin() + p.data.X.getWidth() * p.batch_size * step, p.data.X.tensor.end());
-                batch_y.tensor.assign(p.data.y.tensor.begin() + p.data.y.getWidth() * p.batch_size * step, p.data.y.tensor.end());
+                batch_y.tensor.assign(p.data.y.tensor.begin() + p.batch_size * step, p.data.y.tensor.end());
                 batch_X.setHeight((step+1) * p.batch_size - p.data.X.getHeight());
-                batch_y.setHeight((step+1) * p.batch_size - p.data.y.getHeight());
+                batch_y.setWidth((step+1) * p.batch_size - p.data.y.getWidth());
 
             } else {
                 batch_X.tensor.assign(p.data.X.tensor.begin() + p.data.X.getWidth() * p.batch_size * step, p.data.X.tensor.begin() + p.data.X.getWidth() * p.batch_size * (step + 1));
-                batch_y.tensor.assign(p.data.y.tensor.begin() + p.data.y.getWidth() * p.batch_size * step, p.data.y.tensor.begin() + p.data.y.getWidth() * p.batch_size * (step + 1));
+                batch_y.tensor.assign(p.data.y.tensor.begin() + p.batch_size * step, p.data.y.tensor.begin() + p.batch_size * (step + 1));
             }
 
             // Forward.
@@ -183,17 +183,17 @@ void Model::train(ModelOptions p) {
         this->loss->new_pass();
         this->accuracy->new_pass();
         batch_X.setHeight(p.batch_size);
-        batch_y.setHeight(p.batch_size);
+        batch_y.setWidth(p.batch_size);
         for (int step = 0; step < validation_steps; step++) {
             if ((step+1) * p.batch_size > p.validatation_data.X.getHeight()) {
                 batch_X.tensor.assign(p.validatation_data.X.tensor.begin() + p.validatation_data.X.getWidth() * p.batch_size * step, p.validatation_data.X.tensor.end());
-                batch_y.tensor.assign(p.validatation_data.y.tensor.begin() + p.validatation_data.y.getWidth() * p.batch_size * step, p.validatation_data.y.tensor.end());
+                batch_y.tensor.assign(p.validatation_data.y.tensor.begin() + p.batch_size * step, p.validatation_data.y.tensor.end());
                 batch_X.setHeight((step+1) * p.batch_size - p.data.X.getHeight());
-                batch_y.setHeight((step+1) * p.batch_size - p.data.y.getHeight());
+                batch_y.setWidth((step+1) * p.batch_size - p.data.y.getWidth());
 
             } else {
                 batch_X.tensor.assign(p.validatation_data.X.tensor.begin() + p.validatation_data.X.getWidth() * p.batch_size * step, p.validatation_data.X.tensor.begin() + p.validatation_data.X.getWidth() * p.batch_size * (step + 1));
-                batch_y.tensor.assign(p.validatation_data.y.tensor.begin() + p.validatation_data.y.getWidth() * p.batch_size * step, p.validatation_data.y.tensor.begin() + p.validatation_data.y.getWidth() * p.batch_size * (step + 1));
+                batch_y.tensor.assign(p.validatation_data.y.tensor.begin() + p.batch_size * step, p.validatation_data.y.tensor.begin() + p.batch_size * (step + 1));
             }
             // Validation data.
             TensorInline output_val = this->forward(batch_X, false);

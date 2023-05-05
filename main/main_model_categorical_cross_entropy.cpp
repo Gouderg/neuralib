@@ -29,8 +29,9 @@ int main_model_categorical_cross_entropy() {
 
     model.train({.data=d, 
                  .validatation_data=d_val, 
-                 .epochs=NB_EPOCH, 
-                 .print_every=100,
+                 .epochs=10, 
+                 .print_every=10,
+                 .batch_size=16,
                  .plotData=PlotConfiguration::circle});
 
     return 0;

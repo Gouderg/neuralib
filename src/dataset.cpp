@@ -98,7 +98,7 @@ TensorInline Dataset::read_idx_file(const std::string path, const FileType fileT
     }
 
 
-    TensorInline labelsOrImage({numberElement, width * height, false, 0.0});
+    TensorInline labelsOrImage = fileType == FileType::images ? TensorInline({numberElement, width * height, false, 0.0}) : TensorInline({1, numberElement, false, 0.0});
 
     unsigned char temp = 0;
     for (int i = 0; i < numberElement * width * height; i++) {
