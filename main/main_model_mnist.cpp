@@ -36,8 +36,8 @@ int main_model_mnist() {
 
     model.train({.data={.X=X, .y=y}, 
                  .validatation_data={.X=X_val, .y=y_val}, 
-                 .epochs=1, 
-                 .print_every=100,
+                 .epochs=20, 
+                 .print_every=1,
                  .batch_size=128,
                  .plotData=PlotConfiguration::none});
 
