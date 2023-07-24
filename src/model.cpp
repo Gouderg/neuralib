@@ -90,56 +90,98 @@ void Model::train(ModelOptions p) {
     // Init accuracy.
     this->accuracy->init(p.data.y, true);
 
-    this->accuracy->new_pass();
-    this->loss->new_pass();
+    // Calculate number of step.
+    int train_steps = p.data.X.getHeight() / p.batch_size;
+    int validation_steps = p.validatation_data.X.getHeight() / p.batch_size;
 
-    double loss = 0.0, accuracy = 0.0;
-    for (int i = 0; i < p.epochs+1; i++) {
+  
+    TensorInline batch_X({p.batch_size, p.data.X.getWidth()});
+    TensorInline batch_y({1, p.batch_size});
 
-        // Forward.
-        TensorInline output = this->forward(p.data.X, true);
+    double loss = 0.0, accuracy = 0.0, epoch_loss = 0.0, epoch_accuracy = 0.0, validation_loss = 0.0, validation_accuracy = 0.0;
+    for (int epoch = 0; epoch < p.epochs+1; epoch++) {
 
-        // Loss.
-        LossValues lv = this->loss->calculate(output, p.data.y, true);
-        loss = lv.data_loss + lv.regularization_loss;
+        // Epochs.
+        std::cout << "epoch: " << epoch << std::endl;
 
-        // Accuracy.
-        accuracy = this->accuracy->calculate(output, p.data.y);
+        // Reset accumulated value in loss and accuracy.
+        this->loss->new_pass();
+        this->accuracy->new_pass();
+        
+        for (int step = 0; step < train_steps; step++) {
 
-        // Backward.
-        this->backward(output, p.data.y);
+            batch_X.tensor.assign(p.data.X.tensor.begin() + p.data.X.getWidth() * p.batch_size * step, p.data.X.tensor.begin() + p.data.X.getWidth() * p.batch_size * (step + 1));
+            batch_y.tensor.assign(p.data.y.tensor.begin() + p.batch_size * step, p.data.y.tensor.begin() + p.batch_size * (step + 1));
 
-        // Optimization.
-        this->optimizer->pre_update_params();
-        for (auto layer : this->trainable_layers) {
-            this->optimizer->update_params(*layer);
+            // Forward.
+            TensorInline output = this->forward(batch_X, true);
+
+            // Loss.
+            LossValues lv = this->loss->calculate(output, batch_y, true);
+            loss = lv.data_loss + lv.regularization_loss;
+
+            // Accuracy.
+            accuracy = this->accuracy->calculate(output, batch_y);
+
+            // Backward.
+            this->backward(output, batch_y);
+
+            // Optimization.
+            this->optimizer->pre_update_params();
+            for (auto layer : this->trainable_layers) {
+                this->optimizer->update_params(*layer);
+            }
+            this->optimizer->post_update_params();
+
+            // Informations.
+            if (step % p.print_every == 0 || step == train_steps - 1) {
+                std::cout << "step: " << step;
+                std::cout << ", acc: " << accuracy;
+                std::cout << ", loss: " << loss;
+                std::cout << ", (data_loss: " << lv.data_loss;
+                std::cout << ", regu_loss: " << lv.regularization_loss;
+                std::cout << "), lr: " << this->optimizer->getCurrentLr() << std::endl;
+            }
+            
+            this->stat->update(loss, accuracy, this->optimizer->getCurrentLr());
+
         }
-        this->optimizer->post_update_params();
+
+        // Get and print epoch loss and accuracy
+        LossValues elv = this->loss->calculate_accumulated(true);
+        epoch_loss = elv.data_loss + elv.regularization_loss;
+        epoch_accuracy = this->accuracy->calculate_accumulated();
 
         // Informations.
-        if (i % p.print_every == 0) {
-            std::cout << "Epoch " << i;
-            std::cout << ", acc: " << accuracy;
-            std::cout << ", loss: " << loss;
-            std::cout << ", (data_loss: " << lv.data_loss;
-            std::cout << ", regu_loss: " << lv.regularization_loss;
-            std::cout << "), lr: " << this->optimizer->getCurrentLr() << std::endl;
+        std::cout << ", acc: " << epoch_accuracy;
+        std::cout << ", loss: " << epoch_loss;
+        std::cout << ", (data_loss: " << elv.data_loss;
+        std::cout << ", regu_loss: " << elv.regularization_loss;
+        std::cout << "), lr: " << this->optimizer->getCurrentLr() << std::endl;
+
+
+        // Reset accumulated value in loss and accuracy.
+        this->loss->new_pass();
+        this->accuracy->new_pass();
+
+        for (int step = 0; step < validation_steps; step++) {
+
+            batch_X.tensor.assign(p.validatation_data.X.tensor.begin() + p.validatation_data.X.getWidth() * p.batch_size * step, p.validatation_data.X.tensor.begin() + p.validatation_data.X.getWidth() * p.batch_size * (step + 1));
+            batch_y.tensor.assign(p.validatation_data.y.tensor.begin() + p.batch_size * step, p.validatation_data.y.tensor.begin() + p.batch_size * (step + 1));
+        
+            // Validation data.
+            TensorInline output_val = this->forward(batch_X, false);
+
+            LossValues lv_val = this->loss->calculate(output_val, batch_y, false);
+            accuracy = this->accuracy->calculate(output_val, batch_y);
+
         }
-        this->stat->update(loss, accuracy, this->optimizer->getCurrentLr());
+        validation_accuracy = this->accuracy->calculate_accumulated();
+        LossValues lv_val = this->loss->calculate_accumulated();
+        validation_loss = lv_val.data_loss + lv_val.regularization_loss;
+        std::cout << "Validation data, acc: " << validation_accuracy << ", loss: " << validation_loss << std::endl;
     }
 
-    LossValues lv_som = this->loss->calculate_accumulated();
-    double acc_accu = this->accuracy->calculate_accumulated();
-    std::cout << "Loss: " << lv_som.data_loss << ", acc: " << acc_accu << std::endl;
-
-    // Validation data.
-    TensorInline output_val = this->forward(p.validatation_data.X, false);
-
-    LossValues lv_val = this->loss->calculate(output_val, p.validatation_data.y, false);
-    double accuracy_val = this->accuracy->calculate(output_val, p.validatation_data.y);
-    
-    std::cout << "Validation data, acc: " << accuracy_val << ", loss: " << lv_val.data_loss << std::endl;
-    this->plotDatasets(p.plotData, p.validatation_data.X, output_val);
 
     // Compute execution time.
     time_t end = std::time(NULL);
@@ -180,5 +222,16 @@ void Model::plotDatasets(PlotConfiguration conf, const TensorInline& X, const Te
             }
         }
         plt.show();
+    }
+
+    else if (conf == PlotConfiguration::image) {
+        Graphics graphics;
+
+        // Get only the first one
+        const int size = 28; 
+        TensorInline img({size, size, false, 0.0});
+        img.tensor.assign(X.tensor.begin(), X.tensor.begin() + size * size);
+
+        graphics.show(img, y.tensor[0]);
     }
 }

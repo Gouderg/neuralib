@@ -1,7 +1,7 @@
 #include "../header/tools.hpp"
 
 // If True its little endian else is big endian.
-bool tcheckByteOrder() {
+bool checkByteOrder() {
     short int word = 0x0001;
     char* b = (char *)&word;
     return b[0] == 1;

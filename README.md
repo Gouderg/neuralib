@@ -90,3 +90,4 @@ To build all unit test, just write make at the source of the project
 - https://johnnysswlab.com/make-your-programs-run-faster-by-better-using-the-data-cache/
 - https://helloacm.com/how-to-find-out-whether-a-machine-is-big-endian-or-little-endian-in-cc/
 - https://www.eecs.umich.edu/courses/eecs380/HANDOUTS/cppBinaryFileIO-2.html
+- https://dane-bulat.medium.com/cmake-building-sfml-and-game-projects-on-linux-3947b3ba6e8

@@ -51,8 +51,8 @@ Data Dataset::sine_data(const int samples) {
 
 TensorInline Dataset::read_idx_file(const std::string path, const FileType fileType) {
 
-    // Tcheck if the processor is big endian or little endian cause the file was encode in big endian.
-    bool isLittleEndian = tcheckByteOrder();
+    // Check if the processor is big endian or little endian cause the file was encode in big endian.
+    bool isLittleEndian = checkByteOrder();
     
     std::ifstream file(path, std::ios::binary | std::ios::in);
 
@@ -62,7 +62,7 @@ TensorInline Dataset::read_idx_file(const std::string path, const FileType fileT
         exit(0);
     }
 
-    // First we read the magic number and tcheck if its valid.
+    // First we read the magic number and check if its valid.
     int32_t magic;
     file.read((char*) &magic, sizeof(magic));
     if (isLittleEndian) {

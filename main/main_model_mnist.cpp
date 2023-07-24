@@ -4,10 +4,10 @@
 int main_model_mnist() {
 
     // Load image
-    TensorInline X = Dataset::read_idx_file("../datasets/fashionMNIST/train-images-idx3-ubyte", FileType::images);
-    TensorInline y = Dataset::read_idx_file("../datasets/fashionMNIST/train-labels-idx1-ubyte", FileType::labels);
-    TensorInline X_val = Dataset::read_idx_file("../datasets/fashionMNIST/t10k-images-idx3-ubyte", FileType::images);
-    TensorInline y_val = Dataset::read_idx_file("../datasets/fashionMNIST/t10k-labels-idx1-ubyte", FileType::labels);
+    TensorInline X = Dataset::read_idx_file("../datasets/handWrittenMNIST/train-images.idx3-ubyte", FileType::images);
+    TensorInline y = Dataset::read_idx_file("../datasets/handWrittenMNIST/train-labels.idx1-ubyte", FileType::labels);
+    TensorInline X_val = Dataset::read_idx_file("../datasets/handWrittenMNIST/t10k-images.idx3-ubyte", FileType::images);
+    TensorInline y_val = Dataset::read_idx_file("../datasets/handWrittenMNIST/t10k-labels.idx1-ubyte", FileType::labels);
 
     // Scale image.
     Dataset::scale_pixels_values(X, ScaleFormat::betweenMinus1And1);
@@ -36,10 +36,10 @@ int main_model_mnist() {
 
     model.train({.data={.X=X, .y=y}, 
                  .validatation_data={.X=X_val, .y=y_val}, 
-                 .epochs=20, 
-                 .print_every=1,
+                 .epochs=5, 
+                 .print_every=100,
                  .batch_size=128,
-                 .plotData=PlotConfiguration::none});
+                 .plotData=PlotConfiguration::image});
 
     return 0;
 }

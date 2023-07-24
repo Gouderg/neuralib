@@ -141,6 +141,12 @@ class TensorInline {
         // Cout.
         friend std::ostream& operator <<(std::ostream&, const TensorInline&);
 
+        // Slice tensor.
+        TensorInline slice(const TensorInline& t, const int step, const int batchSize);
+
+        // Shuffle tensor inplace and apply on labels.
+        void shuffle(TensorInline& X, TensorInline& y);
+
 
     private:
         int width, height;              // Width is number of parameters in one sample and height is the number of samples.

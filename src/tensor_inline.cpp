@@ -566,3 +566,23 @@ std::ostream& operator<<(std::ostream& out, const TensorInline& t) {
     }
     return out;
 }
+
+// Slice.
+TensorInline TensorInline::slice(const TensorInline& t, const int step, const int batchSize) {
+    TensorInline subTensor({batchSize, t.getWidth()});
+    
+    int start = step * batchSize * t.getWidth();
+    int finish = (step+1) * batchSize * t.getWidth();
+
+    // Cannot slice more than exist. 
+    assert(finish > t.tensor.size() && "Cannot slice");
+
+    subTensor.tensor.assign(t.tensor.begin() + start, t.tensor.begin() + finish);
+
+    return subTensor;
+}
+
+// Shuffle.
+void TensorInline::shuffle(TensorInline& X, TensorInline& y) {
+
+}

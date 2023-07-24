@@ -8,12 +8,16 @@ int test() {
     TensorInline X({11, 5, false, 2});
     TensorInline y({1, 11, false, 1});
 
+    std::cout << X << std::endl;
+    std::cout  << std::endl;
+    std::cout << y << std::endl;
+
     int batch_size = 2;
 
     int train_steps = X.getHeight() / batch_size;
-    if (batch_size * train_steps < X.getHeight()) {
-        train_steps += 1;
-    }
+    // if (batch_size * train_steps < X.getHeight()) {
+    //     train_steps += 1;
+    // }
 
     TensorInline batch_X({batch_size, X.getWidth()});
     TensorInline batch_y({1, batch_size});

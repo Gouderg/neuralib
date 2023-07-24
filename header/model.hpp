@@ -17,9 +17,10 @@
 #include "../header/dataset.hpp"
 #include "../header/activation_softmax.hpp"
 #include "../header/activation_softmax_loss_categoricalcrossentropy.hpp"
+#include "../header/graphics.hpp"
 
 enum PlotConfiguration {
-    none, line, circle
+    none, line, circle, image
 };
 
 struct ModelOptions {

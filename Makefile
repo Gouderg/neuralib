@@ -3,7 +3,7 @@ test: unitApp clean
 
 
 TESTS_H = $(wildcard tests/*.h)
-SRC = $(filter-out src/plot.cpp src/statistic.cpp src/model.cpp, $(wildcard src/*.cpp))
+SRC = $(filter-out src/plot.cpp src/statistic.cpp src/model.cpp src/graphics.cpp, $(wildcard src/*.cpp))
 
 # A rule that runs the unit tests
 unitApp: runner

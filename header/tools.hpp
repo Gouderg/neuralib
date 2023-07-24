@@ -1,7 +1,7 @@
 #ifndef TOOLS_H
 #define TOOLS_H
 
-bool tcheckByteOrder();
+bool checkByteOrder();
 int reverseInt (int i);
 
 #endif

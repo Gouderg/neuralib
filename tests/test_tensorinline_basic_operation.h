@@ -5,7 +5,7 @@
 class TensorInlineBasicOperation : public CxxTest::TestSuite {
     public:
         void testSetupComparison(void) {
-            TS_TRACE("Starting basic comparison tcheck");
+            TS_TRACE("Starting basic comparison check");
             TensorInline a({2, 2});
             TensorInline b({2, 2});
             TensorInline c({3, 2, false, 1});
@@ -27,7 +27,7 @@ class TensorInlineBasicOperation : public CxxTest::TestSuite {
             double n = 4.0;
 
             // res = v1 + v2.
-            TS_ASSERT_EQUALS(v1+v2, v2+v1);  // Tcheck commutative addition.
+            TS_ASSERT_EQUALS(v1+v2, v2+v1);  // Check commutative addition.
             TS_ASSERT(v2 != v2+c);           // vectors have same width and second vector is height 1. 
 
             // res = v1 + n
@@ -50,7 +50,7 @@ class TensorInlineBasicOperation : public CxxTest::TestSuite {
         }
 
         void testSubstration(void) {
-            TS_TRACE("Starting substraction tcheck");
+            TS_TRACE("Starting substraction check");
 
             TensorInline v1({2, 2, false, 2});
             TensorInline v2({2, 2, false, 2});
@@ -58,7 +58,7 @@ class TensorInlineBasicOperation : public CxxTest::TestSuite {
             double n = 4.0;
 
             // res = v1 - v2.
-            TS_ASSERT_EQUALS(v1-v2, v2-v1);  // Tcheck commutative substraction.
+            TS_ASSERT_EQUALS(v1-v2, v2-v1);  // Check commutative substraction.
             TS_ASSERT(v2 != v2-c);           // vectors have same width and second vector is height 1. 
 
             // res = v1 - n
@@ -81,7 +81,7 @@ class TensorInlineBasicOperation : public CxxTest::TestSuite {
         }
 
         void testMultiplication(void) {
-            TS_TRACE("Starting multiplication tcheck");
+            TS_TRACE("Starting multiplication check");
 
             TensorInline v1({2, 2, false, 2});
             TensorInline v2({2, 2, false, 2});
@@ -89,7 +89,7 @@ class TensorInlineBasicOperation : public CxxTest::TestSuite {
             double n = 4.0;
 
             // res = v1 * v2.
-            TS_ASSERT_EQUALS(v1*v2, v2*v1);  // Tcheck commutative multiplication.
+            TS_ASSERT_EQUALS(v1*v2, v2*v1);  // Check commutative multiplication.
             TS_ASSERT(v2 != v2*c);           // vectors have same width and second vector is height 1. 
 
             // res = v1 * n
@@ -111,7 +111,7 @@ class TensorInlineBasicOperation : public CxxTest::TestSuite {
         }
 
         void testDivision(void) {
-            TS_TRACE("Starting division tcheck");
+            TS_TRACE("Starting division check");
 
             TensorInline v1({2, 2, false, 2});
             TensorInline v2({2, 2, false, 2});
