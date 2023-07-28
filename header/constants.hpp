@@ -10,7 +10,7 @@ const int NB_INPUTS = 2;
 
 // Size of the network.
 const int NB_EPOCH = 10000;
-const int NB_NEURON = 256;
+const int NB_NEURON = 128;
 
 // Uniform distribution parameters.
 const double MEAN = 0.0;
